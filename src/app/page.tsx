@@ -32,18 +32,64 @@ export default function HomePage() {
         "@type": "WebSite",
         name: "VideoReduce.com",
         url: "https://videoreduce.com",
-        description: "100% Client-Side WebAssembly Video Compressor & Media Suite on VideoReduce.com",
+        description:
+          "Free online video compressor to reduce video size and file size without losing quality. 100% private WebAssembly MP4 video compressor.",
       },
       {
         "@type": "SoftwareApplication",
-        name: "VideoReduce",
+        name: "VideoReduce - Free Online Video Compressor",
         applicationCategory: "MultimediaApplication",
-        operatingSystem: "All (Modern Web Browsers)",
+        operatingSystem: "All (iOS, Android, Windows, Mac, Linux)",
         offers: {
           "@type": "Offer",
           price: "0",
           priceCurrency: "USD",
         },
+      },
+      {
+        "@type": "FAQPage",
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: "How to reduce video file size without losing quality?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Use VideoReduce.com's smart video compressor. It utilizes Constant Rate Factor (CRF) and dynamic bitrate ceilings to reduce file size up to 90% while keeping visual details sharp.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "How to reduce video size on iPhone or Android phone?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Open VideoReduce.com in Safari or Chrome on your mobile phone, select your video from Photos/Gallery, choose a compression preset (e.g. 70% reduction or 1080p), and click Compress. It processes directly in mobile RAM without installing any app.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "How to compress a video for Discord (8MB & 25MB limits)?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Select the Discord preset or set the Custom Target Size to 8MB or 24MB. The video compressor strictly caps the bitrate so the video embeds and plays smoothly in Discord chat.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Does Dropbox reduce video quality?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Dropbox does not modify original downloaded files, but its browser streaming preview heavily compresses video playback. Pre-compressing with VideoReduce ensures your video stays lightweight and crisp across any platform.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "How does VideoReduce compare to HandBrake, Veed, or FreeConvert?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Unlike HandBrake, VideoReduce works immediately in your browser without software installs. Unlike Veed or FreeConvert, VideoReduce is 100% free with no file size limits, zero watermarks, and 100% private client-side processing.",
+            },
+          },
+        ],
       },
     ],
   };
@@ -88,13 +134,13 @@ export default function HomePage() {
           {/* Main Headline */}
           <div className="space-y-4 max-w-4xl mx-auto">
             <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl leading-[1.1]">
-              Instant Video Compression on{" "}
+              Free Video Compressor &{" "}
               <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-violet-400 bg-clip-text text-transparent">
-                VideoReduce.com
+                Reduce Video File Size
               </span>
             </h1>
             <p className="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-              Reduce video file sizes up to 90% without quality loss. 18 powerful video, audio, and privacy tools running 100% in your browser RAM with WebAssembly.
+              Reduce video size online for free without losing quality. 18 powerful tools for MP4 compression, Discord (8MB/10MB), iPhone, GIF conversion, and audio editing — 100% private in your browser.
             </p>
           </div>
 
@@ -304,20 +350,36 @@ export default function HomePage() {
           <div className="space-y-4">
             {[
               {
-                q: "How does VideoReduce.com compress videos in the browser?",
-                a: "We compile the industry-standard FFmpeg engine into WebAssembly (Wasm). When you compress or convert, the browser executes this binary locally inside a Web Worker, manipulating file streams in virtual RAM without touching any external server.",
+                q: "How to reduce video file size without losing quality?",
+                a: "To reduce video file size without losing quality, VideoReduce.com uses smart Constant Rate Factor (CRF) encoding and dynamic bitrate ceilings. This reduces redundant pixel data while preserving sharp details on faces, text, and fast motion scenes.",
               },
               {
-                q: "Are my files really 100% private on VideoReduce.com?",
-                a: "Yes! You can inspect your browser's Network tab while compressing or converting — 0 bytes of media are ever transmitted over the network. Your sensitive recordings stay strictly on your device.",
+                q: "How to reduce video size on iPhone or my mobile phone?",
+                a: "Open VideoReduce.com in Safari or Chrome on your iPhone or Android phone. Select any video from your camera roll, choose your desired reduction preset (e.g. 50% Smaller, 70% Smaller, or 1080p), and tap Compress. It runs directly on your phone's processor with zero data upload.",
               },
               {
-                q: "Can I install VideoReduce as a mobile app?",
-                a: "Yes. VideoReduce.com is built as an installable Progressive Web App (PWA). You can install it on iOS Safari or Android Chrome and use it like a native mobile app.",
+                q: "How do I reduce video resolution or storage size?",
+                a: "In the Smart Video Compressor, select an optimized resolution preset such as 1080p, 720p, or 480p. Downscaling high-bitrate 4K footage to 1080p cuts file size by up to 75% while looking crystal clear on mobile and laptop screens.",
               },
               {
-                q: "Is VideoReduce.com completely free?",
-                a: "Yes. Because media processing is handled by your device's CPU rather than costly cloud servers, we don't have massive infrastructure hosting costs, allowing us to keep this service free and without watermarks.",
+                q: "Does Dropbox reduce video quality when sharing?",
+                a: "Dropbox does not alter your original downloaded file, but its web video player heavily compresses previews to 480p/720p with low bitrates. To ensure recipients see crisp video without buffering, compress your video with VideoReduce before sharing.",
+              },
+              {
+                q: "How do I compress video for Discord (8MB & 10MB limits)?",
+                a: "Discord limits free uploads to 8MB or 25MB. VideoReduce.com includes dedicated 8MB, 10MB, and 24MB presets that calculate the exact bitrate ceiling and inject faststart web flags so your clip plays directly in Discord chat channels.",
+              },
+              {
+                q: "Why is VideoReduce better than HandBrake, Veed, or FreeConvert?",
+                a: "Unlike HandBrake, VideoReduce requires no software downloads and works instantly on all devices. Unlike Veed or FreeConvert, VideoReduce is 100% free with no file size limits, zero watermarks, and 100% private client-side WebAssembly processing.",
+              },
+              {
+                q: "Are my video files uploaded to any remote server?",
+                a: "No! All video compression and conversion runs 100% locally in your web browser RAM using WebAssembly. Your personal files never leave your device.",
+              },
+              {
+                q: "Can I convert video to GIF in high quality?",
+                a: "Yes! Use our Video to GIF converter. It uses two-pass color palette generation (palettegen + paletteuse) to create smooth, high-definition animated GIFs from MP4, iPhone MOV, YouTube, and Twitter clips.",
               },
             ].map((faq, idx) => (
               <div
