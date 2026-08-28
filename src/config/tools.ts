@@ -592,8 +592,9 @@ export const TOOLS: ToolMetadata[] = [
     slug: "gif-to-video",
     name: "GIF to MP4 Video Converter",
     shortName: "GIF to MP4",
-    tagline: "Convert heavy animated GIFs into 95% smaller looping MP4 videos",
-    description: "Transform bulky, slow-loading GIFs into super-lightweight, high-performance MP4 videos that load instantly on all websites.",
+    tagline: "Convert heavy animated GIFs into 95% smaller looping MP4 videos online free",
+    description:
+      "Convert animated GIF to MP4 video online for free. Transform heavy .gif files from Twitter, Photoshop, Mac, or PC into ultra-lightweight, looping H.264 MP4 videos directly in your browser with zero server uploads.",
     category: "Conversion",
     iconName: "Film",
     badge: "95% Smaller",
@@ -601,21 +602,98 @@ export const TOOLS: ToolMetadata[] = [
     acceptedExtensions: [".gif"],
     outputExtension: "mp4",
     outputMimeType: "video/mp4",
-    estimatedSpeed: "Fast",
-    seoTitle: "GIF to MP4 Converter Online Free - Reduce GIF Size by 95%",
-    seoDescription: "Convert heavy GIF animations into lightweight looping MP4 videos with WebAssembly in browser.",
-    seoKeywords: ["gif to mp4", "convert gif to video", "reduce gif file size", "gif to mp4 converter online"],
+    estimatedSpeed: "Fast (Wasm SIMD)",
+    seoTitle: "Free GIF to MP4 Converter Online - Convert Animated GIF to Video (Loop)",
+    seoDescription:
+      "Convert GIF to MP4 online free in high quality. Fast animated .gif to MP4 converter with seamless looping and 95% file size reduction for Twitter, Mac, Photoshop, and PC. Best free alternative to Ezgif.",
+    seoKeywords: [
+      "gif to mp4",
+      "convert gif to mp4",
+      "gif to mp4 converter",
+      "ezgif gif to mp4",
+      "how to convert gif to mp4",
+      "twitter gif to mp4",
+      "gif to mp4 converter free",
+      "convert gif to mp4 free",
+      ".gif to mp4",
+      "convert gif to mp4 photoshop",
+      "how to convert a gif to mp4",
+      "convert animated gif to mp4",
+      "gif to mp4 loop",
+      "change gif to mp4",
+      "converting gif to mp4",
+      "convert gif to mp4 online free",
+      "turn gif to mp4",
+      "gif to mp4 online",
+      "convert gif to mp4 mac",
+      "animated gif to mp4",
+    ],
     features: [
-      { title: "95% File Size Reduction", description: "Turns a 30MB GIF into an ultra-lean 1.5MB MP4.", icon: "Minimize2" },
-      { title: "Seamless Web Playback", description: "HTML5 video plays smoothly with hardware GPU acceleration.", icon: "Zap" },
-      { title: "YUV420p Compatibility", description: "Ensures playback across every browser and mobile device.", icon: "CheckCircle" },
+      {
+        title: "95% File Size Reduction",
+        description: "Shrink a bulky 30MB animated GIF into an ultra-lightweight 1.5MB MP4 video with identical visual smoothness.",
+        icon: "Minimize2",
+      },
+      {
+        title: "Seamless Looping MP4 Playback",
+        description: "Encodes with standard YUV420p and HTML5 video looping flags for instant, stutter-free autoplay.",
+        icon: "RefreshCw",
+      },
+      {
+        title: "100% Free & Private (No Uploads)",
+        description: "Convert .gif to MP4 directly inside your browser memory via WebAssembly without cloud queues or privacy risks.",
+        icon: "ShieldCheck",
+      },
+      {
+        title: "Universal Mac, PC & Mobile Support",
+        description: "Easily turn Photoshop, Twitter, or Discord GIFs into universally compatible MP4 videos on Mac, Windows, iOS, and Android.",
+        icon: "CheckCircle",
+      },
     ],
     steps: [
-      { step: 1, title: "Upload GIF", description: "Select any animated GIF file." },
-      { step: 2, title: "Configure Quality", description: "Select standard or high-fidelity CRF." },
-      { step: 3, title: "Download MP4", description: "Save your ultra-lightweight looping video." },
+      {
+        step: 1,
+        title: "Upload Animated GIF",
+        description: "Select any .gif file from your computer, Mac, or phone.",
+      },
+      {
+        step: 2,
+        title: "Choose Compression Preset",
+        description: "Pick High Quality (CRF 20) or Maximum Compression (CRF 26) with standard H.264 encoding.",
+      },
+      {
+        step: 3,
+        title: "Convert to MP4 & Download",
+        description: "Click 'Convert to MP4' and download your ultra-lean looping video in seconds.",
+      },
     ],
-    faqs: [{ question: "Why is MP4 so much smaller than GIF?", answer: "GIF is a 1987 uncompressed frame format, whereas MP4 uses modern inter-frame H.264 compression." }],
+    faqs: [
+      {
+        question: "How to convert animated GIF to MP4 online for free?",
+        answer:
+          "Simply drag and drop your .gif file into VideoReduce.com's GIF to MP4 converter and click Convert. The WebAssembly engine decodes each GIF frame and encodes it into standard H.264 MP4 right in your browser.",
+      },
+      {
+        question: "Why is MP4 so much smaller than animated GIF?",
+        answer:
+          "GIF is an outdated 1987 format that stores every frame as a full uncompressed image. MP4 uses advanced inter-frame video compression (H.264), storing only the differences between frames. This results in up to 95% smaller file sizes with better frame rates.",
+      },
+      {
+        question: "How do I convert Twitter GIFs to MP4?",
+        answer:
+          "Twitter actually serves its GIFs as video streams. If you have saved a Twitter .gif file, drop it into VideoReduce.com to convert and clean it into a standalone MP4 video that can be shared or embedded anywhere.",
+      },
+      {
+        question: "Can I convert GIF to MP4 on Mac without Photoshop?",
+        answer:
+          "Yes! Instead of using heavy desktop software like Adobe Photoshop, VideoReduce.com runs entirely in your Mac browser (Safari, Chrome, Firefox) without needing any software installations or subscriptions.",
+      },
+      {
+        question: "How does VideoReduce compare to Ezgif GIF to MP4?",
+        answer:
+          "Ezgif uploads your file to their remote web server with upload queues and file size restrictions. VideoReduce processes your GIF locally in your browser memory via WebAssembly — offering faster processing, zero file caps, and complete data privacy.",
+      },
+    ],
   },
 
   // 15. Volume Booster & Normalizer
