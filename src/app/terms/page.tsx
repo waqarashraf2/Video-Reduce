@@ -3,7 +3,29 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
-  description: "Terms and conditions for using VideoReduce.com.",
+  description:
+    "Terms and conditions for using VideoReduce.com — a free, client-side video compressor and media suite.",
+  alternates: {
+    canonical: "https://videoreduce.com/terms",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: "Terms of Service — VideoReduce.com",
+    description:
+      "Terms and conditions for using VideoReduce.com — a free, client-side video compressor and media suite.",
+    type: "website",
+    siteName: "VideoReduce.com",
+    url: "https://videoreduce.com/terms",
+  },
+  twitter: {
+    card: "summary",
+    title: "Terms of Service | VideoReduce.com",
+    description:
+      "Terms and conditions for using VideoReduce.com.",
+  },
 };
 
 export default function TermsPage() {

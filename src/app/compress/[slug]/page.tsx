@@ -51,18 +51,34 @@ export async function generateMetadata({ params }: UseCasePageProps): Promise<Me
   return {
     title: useCase.title,
     description: useCase.seoDescription,
-    keywords: useCase.keywords,
+    keywords: useCase.keywords.slice(0, 8),
+    alternates: {
+      canonical: `https://videoreduce.com/compress/${useCase.slug}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
     openGraph: {
-      title: `${useCase.title} - VideoReduce.com by Verse Next`,
+      title: `${useCase.title} — VideoReduce.com`,
       description: useCase.seoDescription,
       type: "website",
       siteName: "VideoReduce.com",
       url: `https://videoreduce.com/compress/${useCase.slug}`,
+      images: [
+        {
+          url: "/logo.png",
+          width: 1024,
+          height: 1024,
+          alt: `${useCase.title} — VideoReduce.com`,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: useCase.title,
       description: useCase.seoDescription,
+      images: ["/logo.png"],
     },
   };
 }
@@ -81,7 +97,8 @@ export default function UseCasePage({ params }: UseCasePageProps) {
     "@graph": [
       {
         "@type": "SoftwareApplication",
-        name: `${useCase.title} - VideoReduce.com`,
+        name: `${useCase.title} — VideoReduce.com`,
+        url: `https://videoreduce.com/compress/${useCase.slug}`,
         applicationCategory: "MultimediaApplication",
         operatingSystem: "All (Browser-Based)",
         offers: {
@@ -90,6 +107,29 @@ export default function UseCasePage({ params }: UseCasePageProps) {
           priceCurrency: "USD",
         },
         description: useCase.seoDescription,
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: "https://videoreduce.com",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Compress",
+            item: "https://videoreduce.com/#tools-grid",
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: useCase.title,
+            item: `https://videoreduce.com/compress/${useCase.slug}`,
+          },
+        ],
       },
       {
         "@type": "HowTo",

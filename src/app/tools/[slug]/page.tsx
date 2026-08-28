@@ -47,20 +47,36 @@ export async function generateMetadata({ params }: ToolPageProps): Promise<Metad
   }
 
   return {
-    title: tool.name,
+    title: tool.seoTitle,
     description: tool.seoDescription,
-    keywords: tool.seoKeywords,
+    keywords: tool.seoKeywords.slice(0, 8),
+    alternates: {
+      canonical: `https://videoreduce.com/tools/${tool.slug}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
     openGraph: {
-      title: `${tool.name} - 100% Free Client-Side Tool`,
+      title: `${tool.seoTitle} — VideoReduce.com`,
       description: tool.seoDescription,
       type: "website",
       siteName: "VideoReduce.com",
       url: `https://videoreduce.com/tools/${tool.slug}`,
+      images: [
+        {
+          url: "/logo.png",
+          width: 1024,
+          height: 1024,
+          alt: `${tool.name} — Free Online Tool by VideoReduce.com`,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${tool.name} | VideoReduce.com`,
+      title: `${tool.seoTitle} | VideoReduce.com`,
       description: tool.seoDescription,
+      images: ["/logo.png"],
     },
   };
 }
@@ -79,7 +95,7 @@ export default function ToolPage({ params }: ToolPageProps) {
 
       <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb Navigation */}
-        <nav className="mb-6 flex items-center gap-2 text-xs font-medium text-slate-400">
+        <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-xs font-medium text-slate-400">
           <Link href="/" className="hover:text-blue-400 transition-colors">
             Home
           </Link>

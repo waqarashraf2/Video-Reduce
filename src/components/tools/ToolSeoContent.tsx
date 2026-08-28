@@ -26,15 +26,39 @@ export const ToolSeoContent: React.FC<ToolSeoContentProps> = ({ tool }) => {
     "@graph": [
       {
         "@type": "SoftwareApplication",
-        name: `${tool.name} - VideoReduce.com`,
+        name: `${tool.name} — VideoReduce.com`,
+        url: `https://videoreduce.com/tools/${tool.slug}`,
         applicationCategory: "MultimediaApplication",
-        operatingSystem: "All (Browser-Based)",
+        operatingSystem: "All (Browser-Based: Windows, Mac, iOS, Android, Linux)",
         offers: {
           "@type": "Offer",
           price: "0",
           priceCurrency: "USD",
         },
         description: tool.seoDescription,
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: "https://videoreduce.com",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Tools",
+            item: "https://videoreduce.com/#tools-grid",
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: tool.name,
+            item: `https://videoreduce.com/tools/${tool.slug}`,
+          },
+        ],
       },
       {
         "@type": "FAQPage",
@@ -51,6 +75,7 @@ export const ToolSeoContent: React.FC<ToolSeoContentProps> = ({ tool }) => {
         "@type": "HowTo",
         name: `How to use ${tool.name} on VideoReduce.com`,
         description: tool.description,
+        totalTime: "PT2M",
         step: tool.steps.map((s) => ({
           "@type": "HowToStep",
           position: s.step,

@@ -7,16 +7,20 @@
     RewriteEngine On
     RewriteBase /
 
-    # If the file or directory exists, serve directly
+    # Serve existing files/directories directly
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
-    # Handle clean URLs
-    RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
-    RewriteRule ^(.*)/?$ $1/index.html [L]
+    # Clean URL rewrite: /about -> /about.html or /tools/video-compressor -> /tools/video-compressor.html
+    RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+    RewriteRule ^(.*)$ $1.html [L]
 
-    # Fallback to 404
+    # Clean URL rewrite for folders: /tools/video-compressor/ -> /tools/video-compressor/index.html
+    RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
+    RewriteRule ^(.*)$ $1/index.html [L]
+
+    # Fallback to 404.html
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^ 404.html [L]

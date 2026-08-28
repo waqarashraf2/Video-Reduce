@@ -53,16 +53,23 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
   }
 
   return {
-    title: article.title,
+    title: article.seoTitle,
     description: article.seoDescription,
-    keywords: article.targetKeywords,
+    keywords: article.targetKeywords.slice(0, 8),
+    alternates: {
+      canonical: `https://videoreduce.com/articles/${article.slug}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
     openGraph: {
-      title: `${article.title} - VideoReduce.com`,
+      title: `${article.seoTitle} — VideoReduce.com`,
       description: article.seoDescription,
       type: "article",
       publishedTime: article.publishedDate,
       authors: [article.author.name],
-      siteName: "VideoReduce.com by Verse Next",
+      siteName: "VideoReduce.com",
       url: `https://videoreduce.com/articles/${article.slug}`,
       images: [
         {
@@ -75,7 +82,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
     },
     twitter: {
       card: "summary_large_image",
-      title: article.title,
+      title: article.seoTitle,
       description: article.seoDescription,
       images: ["/logo.png"],
     },
@@ -100,7 +107,11 @@ export default function ArticleDetailPage({ params }: ArticlePageProps) {
         description: article.seoDescription,
         datePublished: article.publishedDate,
         dateModified: article.publishedDate,
-        mainEntityOfPage: `https://videoreduce.com/articles/${article.slug}`,
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": `https://videoreduce.com/articles/${article.slug}`,
+        },
+        image: "https://videoreduce.com/logo.png",
         author: {
           "@type": "Organization",
           name: article.author.name,
@@ -108,13 +119,36 @@ export default function ArticleDetailPage({ params }: ArticlePageProps) {
         },
         publisher: {
           "@type": "Organization",
-          name: "VideoReduce.com by Verse Next",
+          name: "VideoReduce.com",
           logo: {
             "@type": "ImageObject",
             url: "https://videoreduce.com/logo.png",
           },
         },
         keywords: article.targetKeywords.join(", "),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: "https://videoreduce.com",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Articles",
+            item: "https://videoreduce.com/articles",
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: article.title,
+            item: `https://videoreduce.com/articles/${article.slug}`,
+          },
+        ],
       },
       {
         "@type": "FAQPage",

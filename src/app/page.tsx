@@ -34,10 +34,28 @@ export default function HomePage() {
         url: "https://videoreduce.com",
         description:
           "Free online video compressor to reduce video size and file size without losing quality. 100% private WebAssembly MP4 video compressor.",
+        potentialAction: {
+          "@type": "SearchAction",
+          target: "https://videoreduce.com/?q={search_term_string}",
+          "query-input": "required name=search_term_string",
+        },
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://videoreduce.com/#webpage",
+        url: "https://videoreduce.com",
+        name: "VideoReduce.com — Free Online Video Compressor & Media Suite",
+        description:
+          "Reduce video file size online for free without losing quality. 18 powerful tools for video compression, GIF conversion, and audio editing — 100% private in your browser.",
+        isPartOf: { "@id": "https://videoreduce.com/#website" },
+        primaryImageOfPage: {
+          "@type": "ImageObject",
+          url: "https://videoreduce.com/logo.png",
+        },
       },
       {
         "@type": "SoftwareApplication",
-        name: "VideoReduce - Free Online Video Compressor",
+        name: "VideoReduce — Free Online Video Compressor",
         applicationCategory: "MultimediaApplication",
         operatingSystem: "All (iOS, Android, Windows, Mac, Linux)",
         offers: {
@@ -45,6 +63,17 @@ export default function HomePage() {
           price: "0",
           priceCurrency: "USD",
         },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: "https://videoreduce.com",
+          },
+        ],
       },
       {
         "@type": "FAQPage",
@@ -116,7 +145,7 @@ export default function HomePage() {
             <div className="relative inline-flex items-center justify-center rounded-3xl bg-gradient-to-tr from-blue-600/30 via-indigo-500/20 to-cyan-500/30 p-2 shadow-2xl shadow-blue-500/30 ring-1 ring-white/20 backdrop-blur-2xl">
               <Image
                 src="/logo.png"
-                alt="VideoReduce.com Official Logo"
+                alt="VideoReduce.com — Free Online Video Compressor"
                 width={84}
                 height={84}
                 className="rounded-2xl object-cover shadow-inner"

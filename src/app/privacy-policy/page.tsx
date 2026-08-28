@@ -5,7 +5,28 @@ import { ShieldCheck, Lock, CheckCircle2 } from "lucide-react";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "VideoReduce.com privacy policy: 100% client-side WebAssembly processing with zero server uploads.",
+    "VideoReduce.com privacy policy: 100% client-side WebAssembly processing with zero server uploads. Your files never leave your device.",
+  alternates: {
+    canonical: "https://videoreduce.com/privacy-policy",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: "Privacy Policy — VideoReduce.com",
+    description:
+      "100% client-side WebAssembly processing with zero server uploads. Your files never leave your device.",
+    type: "website",
+    siteName: "VideoReduce.com",
+    url: "https://videoreduce.com/privacy-policy",
+  },
+  twitter: {
+    card: "summary",
+    title: "Privacy Policy | VideoReduce.com",
+    description:
+      "100% client-side WebAssembly processing with zero server uploads.",
+  },
 };
 
 export default function PrivacyPolicyPage() {

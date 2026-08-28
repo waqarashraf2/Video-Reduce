@@ -3,9 +3,39 @@ import { Metadata } from "next";
 import { ShieldCheck, Cpu, Zap, Lock, Globe, HardDrive } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "How It Works & WebAssembly Architecture",
+  title: "How It Works — WebAssembly Architecture",
   description:
     "Learn how VideoReduce.com processes large video and audio files entirely inside your browser using WebAssembly and Web Workers without any server uploads.",
+  alternates: {
+    canonical: "https://videoreduce.com/about",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: "How VideoReduce.com Works — WebAssembly Architecture",
+    description:
+      "Discover the client-side WebAssembly engine that powers VideoReduce.com's 18 free video and audio tools.",
+    type: "website",
+    siteName: "VideoReduce.com",
+    url: "https://videoreduce.com/about",
+    images: [
+      {
+        url: "/logo.png",
+        width: 1024,
+        height: 1024,
+        alt: "VideoReduce.com WebAssembly Architecture",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "How VideoReduce.com Works — WebAssembly Architecture",
+    description:
+      "Client-side WebAssembly FFmpeg engine processes videos in browser memory with zero server uploads.",
+    images: ["/logo.png"],
+  },
 };
 
 export default function AboutPage() {

@@ -13,9 +13,9 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Master FAQ & Knowledge Base | VideoReduce.com",
+  title: "FAQ & Knowledge Base",
   description:
-    "Find answers to all frequently asked questions about client-side WebAssembly video compression, format conversions, privacy security, browser support, and WhatsApp limits.",
+    "Find answers to frequently asked questions about VideoReduce.com — client-side WebAssembly video compression, format conversions, privacy, and browser support.",
   keywords: [
     "videoreduce faq",
     "video compression questions",
@@ -23,6 +23,36 @@ export const metadata: Metadata = {
     "is online video compression free",
     "videoreduce help center",
   ],
+  alternates: {
+    canonical: "https://videoreduce.com/faq",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: "FAQ & Knowledge Base — VideoReduce.com",
+    description:
+      "Answers to all frequently asked questions about client-side video compression, format conversions, and privacy.",
+    type: "website",
+    siteName: "VideoReduce.com",
+    url: "https://videoreduce.com/faq",
+    images: [
+      {
+        url: "/logo.png",
+        width: 1024,
+        height: 1024,
+        alt: "VideoReduce.com FAQ & Knowledge Base",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "FAQ & Knowledge Base | VideoReduce.com",
+    description:
+      "Answers to all frequently asked questions about VideoReduce.com and WebAssembly video processing.",
+    images: ["/logo.png"],
+  },
 };
 
 export default function FAQPage() {

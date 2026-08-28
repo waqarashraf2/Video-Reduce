@@ -52,18 +52,34 @@ export async function generateMetadata({ params }: FormatPageProps): Promise<Met
   return {
     title: formatPair.title,
     description: formatPair.seoDescription,
-    keywords: formatPair.keywords,
+    keywords: formatPair.keywords.slice(0, 8),
+    alternates: {
+      canonical: `https://videoreduce.com/convert/${formatPair.slug}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
     openGraph: {
-      title: `${formatPair.title} - VideoReduce.com by Verse Next`,
+      title: `${formatPair.title} — VideoReduce.com`,
       description: formatPair.seoDescription,
       type: "website",
       siteName: "VideoReduce.com",
       url: `https://videoreduce.com/convert/${formatPair.slug}`,
+      images: [
+        {
+          url: "/logo.png",
+          width: 1024,
+          height: 1024,
+          alt: `${formatPair.title} — VideoReduce.com`,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: formatPair.title,
       description: formatPair.seoDescription,
+      images: ["/logo.png"],
     },
   };
 }
@@ -82,7 +98,8 @@ export default function FormatConverterPage({ params }: FormatPageProps) {
     "@graph": [
       {
         "@type": "SoftwareApplication",
-        name: `${formatPair.title} - VideoReduce.com`,
+        name: `${formatPair.title} — VideoReduce.com`,
+        url: `https://videoreduce.com/convert/${formatPair.slug}`,
         applicationCategory: "MultimediaApplication",
         operatingSystem: "All (Browser-Based)",
         offers: {
@@ -91,6 +108,29 @@ export default function FormatConverterPage({ params }: FormatPageProps) {
           priceCurrency: "USD",
         },
         description: formatPair.seoDescription,
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: "https://videoreduce.com",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Convert",
+            item: "https://videoreduce.com/#tools-grid",
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: formatPair.title,
+            item: `https://videoreduce.com/convert/${formatPair.slug}`,
+          },
+        ],
       },
       {
         "@type": "HowTo",

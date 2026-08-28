@@ -16,7 +16,7 @@ import {
 export const metadata: Metadata = {
   title: "Video Engineering & Privacy Guides | VideoReduce.com",
   description:
-    "Explore in-depth technical guides on video compression, privacy-first media processing, format conversion, and social media optimization by VideoReduce.com (Verse Next Media Lab).",
+    "Explore in-depth technical guides on video compression, privacy-first media processing, format conversion, and social media optimization by VideoReduce.com.",
   keywords: [
     "video compression guide",
     "how to compress videos",
@@ -24,6 +24,36 @@ export const metadata: Metadata = {
     "private video converter guide",
     "videoreduce articles",
   ],
+  alternates: {
+    canonical: "https://videoreduce.com/articles",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: "Video Engineering & Privacy Guides — VideoReduce.com",
+    description:
+      "Expert guides on video compression, WebAssembly processing, GIF conversion, and privacy-first media editing.",
+    type: "website",
+    siteName: "VideoReduce.com",
+    url: "https://videoreduce.com/articles",
+    images: [
+      {
+        url: "/logo.png",
+        width: 1024,
+        height: 1024,
+        alt: "VideoReduce.com Knowledge Hub",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Video Engineering & Privacy Guides | VideoReduce.com",
+    description:
+      "Expert guides on video compression, WebAssembly processing, and privacy-first media editing.",
+    images: ["/logo.png"],
+  },
 };
 
 export default function ArticlesDirectoryPage() {
