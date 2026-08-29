@@ -33,9 +33,13 @@ export const metadata: Metadata = {
   ],
   manifest: "/manifest.json",
   icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/logo.png", sizes: "512x512", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/icons/icon-192.png",
   },
   verification: {
     google: "TCRQ56_gY9x_4Ll3Mt96Ztuw2wACORXDA3BuBIjGw4U",
@@ -101,6 +105,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`dark ${inter.variable}`} suppressHydrationWarning>
       <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
+        <link rel="apple-touch-icon" href="/icons/icon-192.png" />
         <meta name="google-site-verification" content="TCRQ56_gY9x_4Ll3Mt96Ztuw2wACORXDA3BuBIjGw4U" />
         <script
           type="application/ld+json"
