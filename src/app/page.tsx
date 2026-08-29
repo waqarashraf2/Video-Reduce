@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { TOOLS } from "@/config/tools";
 import { ToolIcon } from "@/components/ui/ToolIcon";
+import { SocialShareBar } from "@/components/ui/SocialShareBar";
 import {
   ShieldCheck,
   Cpu,
@@ -13,6 +14,11 @@ import {
   ArrowRight,
   XCircle,
   Zap,
+  Layers,
+  FileCheck,
+  Smartphone,
+  Server,
+  Lock,
 } from "lucide-react";
 
 export default function HomePage() {
@@ -137,7 +143,7 @@ export default function HomePage() {
       <div className="pointer-events-none absolute left-0 top-2/3 h-96 w-96 rounded-full bg-blue-500/10 blur-[120px]" />
 
       {/* Hero Section */}
-      <section className="relative pt-12 pb-20 sm:pt-20 sm:pb-28">
+      <section className="relative pt-12 pb-16 sm:pt-20 sm:pb-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center space-y-8">
           
           {/* Main Logo & Badge Showcase */}
@@ -168,8 +174,8 @@ export default function HomePage() {
                 Reduce Video File Size
               </span>
             </h1>
-            <p className="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-              Reduce video size online for free without losing quality. 18 powerful tools to compress any video size (10MB to 1GB+), platform presets (Discord, WhatsApp), iPhone, GIF conversion, and audio editing — 100% private in your browser.
+            <p className="text-base sm:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+              Reduce video file size online for free without losing quality. 18 powerful tools to compress any video size (10MB to 1GB+), social media presets (Discord, WhatsApp, Email), iPhone clips, GIF conversion, and audio editing — 100% private in your browser.
             </p>
           </div>
 
@@ -192,8 +198,13 @@ export default function HomePage() {
             </Link>
           </div>
 
+          {/* Social Share Bar */}
+          <div className="max-w-xl mx-auto pt-2">
+            <SocialShareBar />
+          </div>
+
           {/* Key Value Statistics */}
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 max-w-4xl mx-auto pt-10">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 max-w-4xl mx-auto pt-4">
             <div className="rounded-2xl border border-white/10 bg-slate-900/60 p-4 backdrop-blur-xl">
               <div className="text-2xl sm:text-3xl font-extrabold text-blue-400 font-mono">0 Bytes</div>
               <div className="text-xs text-slate-400 font-medium mt-1">Uploaded to Server</div>
@@ -225,8 +236,8 @@ export default function HomePage() {
             <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
               Powerful Tools for Video Reduction & Editing
             </h2>
-            <p className="text-sm sm:text-base text-slate-400 max-w-xl mx-auto">
-              Every tool executes 100% locally with high-fidelity algorithms, custom presets, and real-time previews.
+            <p className="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto">
+              Every tool executes 100% locally with high-fidelity algorithms, custom presets, and real-time previews. Choose a utility below to start processing immediately without software installation.
             </p>
           </div>
 
@@ -247,7 +258,7 @@ export default function HomePage() {
             ))}
           </div>
 
-          {/* Tool Cards Grid */}
+          {/* Tool Cards Grid (Semantic divs for ideal heading proportions) */}
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filteredTools.map((tool) => (
               <Link
@@ -267,9 +278,9 @@ export default function HomePage() {
                     )}
                   </div>
 
-                  <h3 className="text-sm font-bold text-white group-hover:text-blue-300 transition-colors">
+                  <div className="text-sm font-bold text-white group-hover:text-blue-300 transition-colors">
                     {tool.name}
-                  </h3>
+                  </div>
                   <p className="mt-1.5 text-xs leading-relaxed text-slate-400 line-clamp-2">
                     {tool.description}
                   </p>
@@ -281,6 +292,123 @@ export default function HomePage() {
                 </div>
               </Link>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Rich Educational Section: How WebAssembly Video Compression Works */}
+      <section className="relative py-16 sm:py-24 border-t border-white/[0.08]">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="text-center space-y-3 max-w-3xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+              How In-Browser Video Compression Works
+            </h2>
+            <p className="text-sm sm:text-base text-slate-400 leading-relaxed">
+              Traditional online converters require you to upload private videos to remote cloud servers. VideoReduce.com runs a full FFmpeg C/C++ engine compiled directly into WebAssembly (Wasm), executing binary operations directly inside your browser memory.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-6 space-y-3 backdrop-blur-md">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/20 text-blue-400">
+                <Lock className="h-5 w-5" />
+              </div>
+              <div className="text-base font-bold text-white">100% Zero Server Uploads</div>
+              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                When you drag a file into VideoReduce, JavaScript creates an in-memory virtual filesystem blob. The video never travels across the internet, protecting personal memories, medical footage, and confidential recordings.
+              </p>
+            </div>
+
+            <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-6 space-y-3 backdrop-blur-md">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-400">
+                <Cpu className="h-5 w-5" />
+              </div>
+              <div className="text-base font-bold text-white">Multi-Threaded Hardware Encoding</div>
+              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                Using SharedArrayBuffer and Web Workers, compression tasks are distributed across your CPU cores. This achieves blazing-fast encoding speeds on modern laptops, desktops, iPhones, and Android smartphones.
+              </p>
+            </div>
+
+            <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-6 space-y-3 backdrop-blur-md">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-500/20 text-cyan-400">
+                <Zap className="h-5 w-5" />
+              </div>
+              <div className="text-base font-bold text-white">Smart CRF & Bitrate Optimization</div>
+              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                Our dynamic algorithms use Constant Rate Factor (CRF 23-28) and H.264/AAC transcoding to strip invisible redundancy without degrading human-perceived visual quality, reducing file size by up to 90%.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Codec & Format Compatibility Table */}
+      <section className="relative py-16 sm:py-24 border-t border-white/[0.08] bg-[#070b12]">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 space-y-8">
+          <div className="text-center space-y-3">
+            <h2 className="text-3xl font-extrabold text-white tracking-tight sm:text-4xl">
+              Supported Video Codecs & Formats
+            </h2>
+            <p className="text-sm text-slate-400 max-w-2xl mx-auto">
+              VideoReduce supports industry-standard video containers, audio tracks, and compression standards.
+            </p>
+          </div>
+
+          <div className="overflow-hidden rounded-2xl border border-white/10 bg-slate-900/80 backdrop-blur-md shadow-2xl">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs sm:text-sm text-slate-300">
+                <thead className="border-b border-white/10 bg-slate-950/80 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                  <tr>
+                    <th scope="col" className="px-6 py-4">Format / Container</th>
+                    <th scope="col" className="px-6 py-4">Video Codecs</th>
+                    <th scope="col" className="px-6 py-4">Audio Codecs</th>
+                    <th scope="col" className="px-6 py-4">Best Used For</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5">
+                  <tr className="hover:bg-white/5 transition-colors">
+                    <td className="px-6 py-4 font-bold text-white flex items-center gap-2">
+                      <span className="rounded bg-blue-500/20 px-2 py-0.5 text-blue-400 font-mono text-xs">MP4</span>
+                    </td>
+                    <td className="px-6 py-4">H.264 (AVC), H.265 (HEVC), AV1</td>
+                    <td className="px-6 py-4">AAC, MP3, Opus</td>
+                    <td className="px-6 py-4 text-slate-400">Web, Discord, WhatsApp, YouTube, Instagram</td>
+                  </tr>
+                  <tr className="hover:bg-white/5 transition-colors">
+                    <td className="px-6 py-4 font-bold text-white flex items-center gap-2">
+                      <span className="rounded bg-indigo-500/20 px-2 py-0.5 text-indigo-400 font-mono text-xs">MOV</span>
+                    </td>
+                    <td className="px-6 py-4">Apple ProRes, H.264, HEVC</td>
+                    <td className="px-6 py-4">PCM, AAC</td>
+                    <td className="px-6 py-4 text-slate-400">iPhone recordings, Final Cut Pro, QuickTime</td>
+                  </tr>
+                  <tr className="hover:bg-white/5 transition-colors">
+                    <td className="px-6 py-4 font-bold text-white flex items-center gap-2">
+                      <span className="rounded bg-emerald-500/20 px-2 py-0.5 text-emerald-400 font-mono text-xs">WebM</span>
+                    </td>
+                    <td className="px-6 py-4">VP8, VP9, AV1</td>
+                    <td className="px-6 py-4">Opus, Vorbis</td>
+                    <td className="px-6 py-4 text-slate-400">High-efficiency web playback & HTML5 video</td>
+                  </tr>
+                  <tr className="hover:bg-white/5 transition-colors">
+                    <td className="px-6 py-4 font-bold text-white flex items-center gap-2">
+                      <span className="rounded bg-cyan-500/20 px-2 py-0.5 text-cyan-400 font-mono text-xs">MKV</span>
+                    </td>
+                    <td className="px-6 py-4">H.264, HEVC, VP9, MPEG-4</td>
+                    <td className="px-6 py-4">AAC, FLAC, AC3</td>
+                    <td className="px-6 py-4 text-slate-400">Lossless archiving, multi-track audio & subtitles</td>
+                  </tr>
+                  <tr className="hover:bg-white/5 transition-colors">
+                    <td className="px-6 py-4 font-bold text-white flex items-center gap-2">
+                      <span className="rounded bg-violet-500/20 px-2 py-0.5 text-violet-400 font-mono text-xs">GIF</span>
+                    </td>
+                    <td className="px-6 py-4">8-Bit Indexed Color (256 colors)</td>
+                    <td className="px-6 py-4">None (Silent)</td>
+                    <td className="px-6 py-4 text-slate-400">Memes, email newsletters, Twitter/Discord reactions</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </section>
@@ -304,7 +432,7 @@ export default function HomePage() {
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-500/20 text-rose-400">
                   <XCircle className="h-6 w-6" />
                 </div>
-                <h3 className="text-lg font-bold text-white">Traditional Cloud Converters</h3>
+                <div className="text-lg font-bold text-white">Traditional Cloud Converters</div>
               </div>
 
               <ul className="space-y-3.5 text-xs sm:text-sm text-slate-400">
@@ -334,7 +462,7 @@ export default function HomePage() {
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-400">
                     <CheckCircle2 className="h-6 w-6" />
                   </div>
-                  <h3 className="text-lg font-bold text-white">VideoReduce.com (Wasm)</h3>
+                  <div className="text-lg font-bold text-white">VideoReduce.com (Wasm)</div>
                 </div>
                 <span className="rounded-full bg-emerald-500/20 px-3 py-1 text-[11px] font-bold text-emerald-400 ring-1 ring-emerald-500/30">
                   100% Private
@@ -415,9 +543,9 @@ export default function HomePage() {
                 key={idx}
                 className="rounded-2xl border border-white/10 bg-slate-900/60 p-6 space-y-2"
               >
-                <h3 className="text-base font-semibold text-white">
+                <div className="text-base font-semibold text-white">
                   {faq.q}
-                </h3>
+                </div>
                 <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
                   {faq.a}
                 </p>

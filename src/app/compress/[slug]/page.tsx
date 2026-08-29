@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { USE_CASES, getUseCaseBySlug } from "@/config/use-cases";
 import { getToolBySlug } from "@/config/tools";
+import { SocialShareBar } from "@/components/ui/SocialShareBar";
 import dynamic from "next/dynamic";
 
 const ToolRunner = dynamic(
@@ -168,7 +169,7 @@ export default function UseCasePage({ params }: UseCasePageProps) {
 
       <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 space-y-10">
         {/* Breadcrumb Navigation */}
-        <nav className="flex items-center gap-2 text-xs font-medium text-slate-400">
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-medium text-slate-400">
           <Link href="/" className="hover:text-blue-400 transition-colors">
             Home
           </Link>
@@ -223,23 +224,30 @@ export default function UseCasePage({ params }: UseCasePageProps) {
           <ToolRunner tool={tool} />
         </main>
 
+        {/* Social Share Bar */}
+        <SocialShareBar
+          title={`${useCase.title} | VideoReduce.com`}
+          url={`https://videoreduce.com/compress/${useCase.slug}`}
+          description={useCase.seoDescription}
+        />
+
         {/* Why It Matters & Best Settings Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-6 sm:p-8 space-y-3">
-            <h3 className="text-lg font-bold text-white flex items-center gap-2">
+            <h2 className="text-lg font-bold text-white flex items-center gap-2">
               <Zap className="h-5 w-5 text-blue-400" />
               Why Pre-Compressing Matters
-            </h3>
+            </h2>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
               {useCase.whyItMatters}
             </p>
           </div>
 
           <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-6 sm:p-8 space-y-3">
-            <h3 className="text-lg font-bold text-white flex items-center gap-2">
+            <h2 className="text-lg font-bold text-white flex items-center gap-2">
               <CheckCircle2 className="h-5 w-5 text-emerald-400" />
               Optimal Technical Specifications
-            </h3>
+            </h2>
             <div className="space-y-2.5 pt-1">
               {useCase.bestSettings.map((s, idx) => (
                 <div key={idx} className="flex justify-between border-b border-white/5 pb-1.5 text-xs">
@@ -266,7 +274,7 @@ export default function UseCasePage({ params }: UseCasePageProps) {
                 <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600/20 font-mono text-xs font-bold text-blue-400">
                   0{s.step}
                 </div>
-                <h4 className="text-sm font-bold text-white">{s.title}</h4>
+                <div className="text-sm font-bold text-white">{s.title}</div>
                 <p className="text-xs text-slate-400 leading-relaxed">{s.desc}</p>
               </div>
             ))}
@@ -283,7 +291,7 @@ export default function UseCasePage({ params }: UseCasePageProps) {
             <div className="grid grid-cols-1 gap-3">
               {useCase.faqs.map((f, idx) => (
                 <div key={idx} className="rounded-2xl border border-white/10 bg-slate-900/60 p-5 space-y-1.5">
-                  <h4 className="text-sm font-semibold text-white">{f.q}</h4>
+                  <div className="text-sm font-semibold text-white">{f.q}</div>
                   <p className="text-xs text-slate-300 leading-relaxed">{f.a}</p>
                 </div>
               ))}

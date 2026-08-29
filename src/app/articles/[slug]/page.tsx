@@ -7,6 +7,7 @@ import { ARTICLES, getArticleBySlug } from "@/config/articles";
 import { getToolBySlug } from "@/config/tools";
 import dynamic from "next/dynamic";
 import { parseArticleMarkdown } from "@/lib/markdown";
+import { SocialShareBar } from "@/components/ui/SocialShareBar";
 
 const ToolRunner = dynamic(
   () => import("@/components/tools/ToolRunner").then((m) => m.ToolRunner),
@@ -265,6 +266,13 @@ export default function ArticleDetailPage({ params }: ArticlePageProps) {
 
           <ToolRunner tool={recommendedTool} />
         </section>
+
+        {/* Social Share Bar */}
+        <SocialShareBar
+          title={`${article.title} | VideoReduce.com`}
+          url={`https://videoreduce.com/articles/${article.slug}`}
+          description={article.seoDescription}
+        />
 
         {/* Long-Form Humanized Editorial Body */}
         <article className="prose prose-invert max-w-none rounded-3xl border border-white/10 bg-slate-900/40 p-8 sm:p-10 backdrop-blur-xl">

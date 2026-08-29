@@ -4,6 +4,7 @@ import { ToolMetadata } from "@/lib/ffmpeg/types";
 import { ARTICLES } from "@/config/articles";
 import { USE_CASES } from "@/config/use-cases";
 import { FORMAT_PAIRS } from "@/config/formats";
+import { SocialShareBar } from "@/components/ui/SocialShareBar";
 import {
   ShieldCheck,
   HelpCircle,
@@ -87,11 +88,18 @@ export const ToolSeoContent: React.FC<ToolSeoContentProps> = ({ tool }) => {
   };
 
   return (
-    <div className="mt-16 space-y-16 border-t border-white/[0.08] pt-14">
+    <div className="mt-14 space-y-16 border-t border-white/[0.08] pt-12">
       {/* Dynamic JSON-LD Structured Data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
+      {/* Social Sharing Bar */}
+      <SocialShareBar
+        title={`${tool.name} — Free Online Tool | VideoReduce.com`}
+        url={`https://videoreduce.com/tools/${tool.slug}`}
+        description={tool.seoDescription}
       />
 
       {/* How To Step-by-Step Guide */}
@@ -154,7 +162,7 @@ export const ToolSeoContent: React.FC<ToolSeoContentProps> = ({ tool }) => {
             >
               <div className="flex items-center gap-2">
                 <div className="h-2 w-2 rounded-full bg-blue-400" />
-                <h3 className="text-sm font-bold text-white">{feature.title}</h3>
+                <div className="text-sm font-bold text-white">{feature.title}</div>
               </div>
               <p className="text-xs text-slate-400 leading-relaxed">
                 {feature.description}
@@ -164,14 +172,14 @@ export const ToolSeoContent: React.FC<ToolSeoContentProps> = ({ tool }) => {
         </div>
       </section>
 
-      {/* Internal Linking: Platform Solution Hubs & Use-Cases */}
+      {/* Internal Linking: Platform Solution Hubs & Presets */}
       <section className="space-y-6 rounded-3xl border border-blue-500/20 bg-[#0c1322] p-6 sm:p-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
           <div className="space-y-1">
-            <h3 className="text-lg font-bold text-white flex items-center gap-2">
+            <div className="text-lg font-bold text-white flex items-center gap-2">
               <Zap className="h-5 w-5 text-blue-400" />
               <span>Platform Solution Hubs & Presets</span>
-            </h3>
+            </div>
             <p className="text-xs text-slate-400">
               One-click optimized presets for specific social media and communication platforms.
             </p>
@@ -198,9 +206,9 @@ export const ToolSeoContent: React.FC<ToolSeoContentProps> = ({ tool }) => {
                 </span>
                 <ArrowRight className="h-3.5 w-3.5 text-slate-500 group-hover:text-blue-400 group-hover:translate-x-0.5 transition-transform" />
               </div>
-              <h4 className="text-xs font-bold text-white group-hover:text-blue-300 transition-colors">
+              <div className="text-xs font-bold text-white group-hover:text-blue-300 transition-colors">
                 {uc.title}
-              </h4>
+              </div>
               <p className="text-[11px] text-slate-400 line-clamp-2 mt-1">
                 {uc.tagline}
               </p>
@@ -213,12 +221,12 @@ export const ToolSeoContent: React.FC<ToolSeoContentProps> = ({ tool }) => {
       <section className="space-y-6">
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <div className="space-y-1">
-            <h3 className="text-lg font-bold text-white flex items-center gap-2">
+            <div className="text-lg font-bold text-white flex items-center gap-2">
               <BookOpen className="h-5 w-5 text-indigo-400" />
               <span>Related Engineering & Privacy Guides</span>
-            </h3>
+            </div>
             <p className="text-xs text-slate-400">
-              In-depth research by the Verse Next Media Lab.
+              In-depth research by the VideoReduce Media Lab.
             </p>
           </div>
           <Link
@@ -240,9 +248,9 @@ export const ToolSeoContent: React.FC<ToolSeoContentProps> = ({ tool }) => {
               <span className="rounded bg-indigo-500/15 px-2 py-0.5 text-[10px] font-bold text-indigo-300">
                 {art.category}
               </span>
-              <h4 className="text-xs font-bold text-white group-hover:text-indigo-300 transition-colors mt-2 leading-snug">
+              <div className="text-xs font-bold text-white group-hover:text-indigo-300 transition-colors mt-2 leading-snug">
                 {art.title}
-              </h4>
+              </div>
               <p className="text-[11px] text-slate-400 line-clamp-2 mt-1.5">
                 {art.summary}
               </p>
@@ -269,9 +277,9 @@ export const ToolSeoContent: React.FC<ToolSeoContentProps> = ({ tool }) => {
               key={idx}
               className="rounded-2xl border border-white/10 bg-slate-900/60 p-6 space-y-2"
             >
-              <h3 className="text-base font-semibold text-white">
+              <div className="text-base font-semibold text-white">
                 {faq.question}
-              </h3>
+              </div>
               <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
                 {faq.answer}
               </p>
