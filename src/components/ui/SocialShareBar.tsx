@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Share2, Check, Copy } from "lucide-react";
 
 interface SocialShareBarProps {
@@ -15,33 +15,25 @@ export const SocialShareBar: React.FC<SocialShareBarProps> = ({
   description = "Reduce video file size online for free without losing quality. 100% private in-browser WebAssembly compression.",
 }) => {
   const [copied, setCopied] = useState(false);
+  const [shareUrl, setShareUrl] = useState<string>(url || "https://videoreduce.com");
 
-  const shareUrl = typeof window !== "undefined" ? url || window.location.href : "https://videoreduce.com";
+  useEffect(() => {
+    if (!url && typeof window !== "undefined") {
+      setShareUrl(window.location.href);
+    }
+  }, [url]);
+
   const encodedUrl = encodeURIComponent(shareUrl);
   const encodedTitle = encodeURIComponent(title);
-  const encodedDesc = encodeURIComponent(description);
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(shareUrl);
+      const targetUrl = url || (typeof window !== "undefined" ? window.location.href : "https://videoreduce.com");
+      await navigator.clipboard.writeText(targetUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     } catch (err) {
       console.error("Failed to copy URL:", err);
-    }
-  };
-
-  const handleNativeShare = async () => {
-    if (typeof navigator !== "undefined" && navigator.share) {
-      try {
-        await navigator.share({
-          title,
-          text: description,
-          url: shareUrl,
-        });
-      } catch (err) {
-        // User cancelled or share failed
-      }
     }
   };
 
