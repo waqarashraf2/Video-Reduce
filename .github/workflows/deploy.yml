@@ -28,12 +28,12 @@ jobs:
 
       - name: Deploy to Hostinger via SSH/Rsync
         uses: easingthemes/ssh-deploy@v5.1.0
-        with:
+        env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.SSH_HOST }}
           REMOTE_USER: ${{ secrets.SSH_USER }}
           REMOTE_PORT: ${{ secrets.SSH_PORT || '65002' }}
           SOURCE: "out/"
           TARGET: ${{ secrets.REMOTE_TARGET || 'public_html/' }}
-          EXCLUDES: '/.git* /node_modules/'
-          ARGS: "-avz --delete"
+          EXCLUDES: "/.git* /node_modules/"
+          ARGS: "-rlgoDzvc -i"
