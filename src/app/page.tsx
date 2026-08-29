@@ -96,10 +96,10 @@ export default function HomePage() {
           },
           {
             "@type": "Question",
-            name: "How to compress a video for Discord (8MB & 25MB limits)?",
+            name: "Can I compress videos of any size or target Discord/WhatsApp limits?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "Select the Discord preset or set the Custom Target Size to 8MB or 24MB. The video compressor strictly caps the bitrate so the video embeds and plays smoothly in Discord chat.",
+              text: "Yes! VideoReduce compresses videos of any size (from 10MB phone clips to large 1GB+ 4K videos). You can also choose dedicated presets for Discord (8MB/25MB) or WhatsApp (16MB).",
             },
           },
           {
@@ -169,7 +169,7 @@ export default function HomePage() {
               </span>
             </h1>
             <p className="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-              Reduce video size online for free without losing quality. 18 powerful tools for MP4 compression, Discord (8MB/10MB), iPhone, GIF conversion, and audio editing — 100% private in your browser.
+              Reduce video size online for free without losing quality. 18 powerful tools to compress any video size (10MB to 1GB+), platform presets (Discord, WhatsApp), iPhone, GIF conversion, and audio editing — 100% private in your browser.
             </p>
           </div>
 
@@ -395,8 +395,8 @@ export default function HomePage() {
                 a: "Dropbox does not alter your original downloaded file, but its web video player heavily compresses previews to 480p/720p with low bitrates. To ensure recipients see crisp video without buffering, compress your video with VideoReduce before sharing.",
               },
               {
-                q: "How do I compress video for Discord (8MB & 10MB limits)?",
-                a: "Discord limits free uploads to 8MB or 25MB. VideoReduce.com includes dedicated 8MB, 10MB, and 24MB presets that calculate the exact bitrate ceiling and inject faststart web flags so your clip plays directly in Discord chat channels.",
+                q: "Can I compress videos of any size, or only for Discord & WhatsApp limits?",
+                a: "You can compress videos of any file size — from small 20MB phone clips to large 1GB+ 4K videos. You can also pick exact target size limits like Discord (8MB/25MB), WhatsApp (16MB), or Email (25MB) that automatically calculate the optimal bitrate.",
               },
               {
                 q: "Why is VideoReduce better than HandBrake, Veed, or FreeConvert?",

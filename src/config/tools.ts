@@ -7,9 +7,9 @@ export const TOOLS: ToolMetadata[] = [
     slug: "video-compressor",
     name: "Smart Video Compressor",
     shortName: "Compress Video",
-    tagline: "Reduce video file size up to 90% without losing quality online for free",
+    tagline: "Reduce any video file size up to 90% without losing quality online for free",
     description:
-      "Reduce video size and compress MP4, MOV, MKV, and WebM videos directly in your browser. Free video compressor for Discord (8MB & 10MB presets), iPhone, and PC with CRF bitrate ceilings and zero server uploads.",
+      "Reduce video size and compress MP4, MOV, MKV, and WebM videos of any size directly in your browser. Free video compressor for any file (10MB to 1GB+) with presets for Discord, WhatsApp, iPhone, and PC with zero server uploads.",
     category: "Optimization",
     iconName: "Minimize2",
     badge: "Most Popular",
@@ -18,9 +18,9 @@ export const TOOLS: ToolMetadata[] = [
     outputExtension: "mp4",
     outputMimeType: "video/mp4",
     estimatedSpeed: "Ultra-Fast (Wasm SIMD)",
-    seoTitle: "Free Video Compressor Online - Reduce Video Size Without Losing Quality",
+    seoTitle: "Free Video Compressor Online — Reduce Any Video Size",
     seoDescription:
-      "Reduce video file size online for free with our powerful video compressor. Best free online video compressor for Discord (8MB/10MB), iPhone, Android, and PC. Fast, private WebAssembly MP4 compressor alternative to Handbrake and Veed.",
+      "Reduce video file size online free for any video (10MB to 1GB+). Fast, private WebAssembly video compressor for Discord, WhatsApp, iPhone, and PC.",
     seoKeywords: [
       "reduce video size",
       "reduce video file size",
@@ -70,8 +70,8 @@ export const TOOLS: ToolMetadata[] = [
         icon: "Sliders",
       },
       {
-        title: "Discord 8MB & 10MB Compression Presets",
-        description: "One-click compression under Discord 8MB, 10MB, and 25MB limits with faststart web streaming playback.",
+        title: "Compress Any Size Video (MB to GB)",
+        description: "Compress large 4K or 1GB+ videos easily, or use one-click target presets for Discord (8MB/25MB), WhatsApp (16MB), and Email.",
         icon: "Maximize",
       },
       {
@@ -86,8 +86,8 @@ export const TOOLS: ToolMetadata[] = [
       },
     ],
     steps: [
-      { step: 1, title: "Select Video File", description: "Pick any MP4, MOV, or WebM video from your phone or PC." },
-      { step: 2, title: "Choose Target Reduction", description: "Select 50% Smaller, 70% Smaller, 8MB Discord preset, or set custom target MB." },
+      { step: 1, title: "Select Video File", description: "Pick any MP4, MOV, or WebM video of any size from your phone or PC." },
+      { step: 2, title: "Choose Target Reduction", description: "Select 50% Smaller, 70% Smaller, platform presets (Discord/WhatsApp), or set custom target MB." },
       { step: 3, title: "Compress & Download", description: "Click 'Start Compress' and download your optimized lightweight video." },
     ],
     faqs: [
@@ -102,9 +102,9 @@ export const TOOLS: ToolMetadata[] = [
           "Open Safari or Chrome on your iPhone or Android phone, navigate to VideoReduce.com, and select your video from your gallery. Choose a target compression preset (such as 70% reduction or 1080p downscaling) and hit compress. It processes right in your mobile browser without installing any app.",
       },
       {
-        question: "How do I compress a video for Discord (8MB & 25MB)?",
+        question: "Can I compress videos of any size, including large 1GB+ files?",
         answer:
-          "Select the Discord preset or set the Custom Target Size to 8MB (or 24MB for nitro/standard limits). The video compressor enforces an exact bitrate ceiling so the output file attaches smoothly in Discord chat.",
+          "Yes! You are not restricted to small files. VideoReduce.com compresses videos of any size — whether 20MB, 500MB, or 1GB+ 4K recordings. You can also pick exact target size limits like Discord (8MB/25MB), WhatsApp (16MB), or custom MB values.",
       },
       {
         question: "Does Dropbox or cloud storage reduce video quality?",

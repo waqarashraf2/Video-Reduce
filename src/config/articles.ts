@@ -28,7 +28,7 @@ export const ARTICLES: Article[] = [
     title: "How to Reduce Video File Size Without Losing Quality (Complete 2026 Guide)",
     seoTitle: "How to Reduce Video File Size Without Losing Quality Online Free",
     seoDescription:
-      "Learn how to reduce video file size without losing quality for free. The ultimate guide for iPhone, Android, Discord (8MB/10MB), and PC using modern CRF rate control.",
+      "Learn how to reduce video file size without losing quality for free. The ultimate guide for iPhone, Android, any video size, Discord, and PC using modern CRF rate control.",
     publishedDate: "2026-08-29",
     readTime: "7 min read",
     category: "Compression",
