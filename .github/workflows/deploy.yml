@@ -26,14 +26,23 @@ jobs:
       - name: Build Next.js Static Export
         run: npm run build
 
-      - name: Deploy to Hostinger via SSH/Rsync
-        uses: easingthemes/ssh-deploy@v5.1.0
+      - name: Deploy to Hostinger via Rsync
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST: ${{ secrets.SSH_HOST }}
-          REMOTE_USER: ${{ secrets.SSH_USER }}
-          REMOTE_PORT: ${{ secrets.SSH_PORT || '65002' }}
-          SOURCE: "out/"
-          TARGET: ${{ secrets.REMOTE_TARGET || 'public_html/' }}
-          EXCLUDES: "/.git* /node_modules/"
-          ARGS: "-rlgoDzvc -i"
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          REMOTE_TARGET: ${{ secrets.REMOTE_TARGET }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          
+          PORT="${SSH_PORT:-65002}"
+          TARGET_DIR="${REMOTE_TARGET:-domains/videoreduce.com/public_html/}"
+          
+          echo "Connecting to Hostinger ${SSH_HOST} on port ${PORT}..."
+          
+          rsync -avz --delete \
+            -e "ssh -p ${PORT} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+            out/ "${SSH_USER}@${SSH_HOST}:${TARGET_DIR}"
