@@ -37,6 +37,9 @@ export const metadata: Metadata = {
     shortcut: "/logo.png",
     apple: "/logo.png",
   },
+  verification: {
+    google: "TCRQ56_gY9x_4Ll3Mt96Ztuw2wACORXDA3BuBIjGw4U",
+  },
   alternates: {
     canonical: "https://videoreduce.com",
   },
@@ -98,6 +101,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`dark ${inter.variable}`} suppressHydrationWarning>
       <head>
+        <meta name="google-site-verification" content="TCRQ56_gY9x_4Ll3Mt96Ztuw2wACORXDA3BuBIjGw4U" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
