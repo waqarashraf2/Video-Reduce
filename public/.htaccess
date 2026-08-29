@@ -3,16 +3,27 @@
     Header set Cross-Origin-Embedder-Policy "require-corp"
 </IfModule>
 
+# Force UTF-8 charset
+AddDefaultCharset UTF-8
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
+
+    # Force www to non-www redirect (canonical domain)
+    RewriteCond %{HTTP_HOST} ^www\.videoreduce\.com [NC]
+    RewriteRule ^(.*)$ https://videoreduce.com/$1 [R=301,L]
+
+    # Force HTTPS
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
     # Serve existing files/directories directly
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
-    # Clean URL rewrite: /about -> /about.html or /tools/video-compressor -> /tools/video-compressor.html
+    # Clean URL rewrite: /about -> /about.html
     RewriteCond %{DOCUMENT_ROOT}/$1.html -f
     RewriteRule ^(.*)$ $1.html [L]
 

@@ -496,8 +496,9 @@ export const TOOLS: ToolMetadata[] = [
     slug: "video-reverse",
     name: "Video Reverse & Rewind Maker",
     shortName: "Reverse Video",
-    tagline: "Play videos and audio backwards for magic rewind effects",
-    description: "Create mind-bending reverse videos for TikTok and YouTube Shorts with reverse video frames and synchronized reverse audio.",
+    tagline: "Reverse any video online free — play video backwards with audio for rewind effects",
+    description:
+      "Free online video reverse tool to play any video backwards. Create viral rewind effects for TikTok, YouTube Shorts, and Instagram Reels. Works with any size video — no file limits, 100% private in your browser.",
     category: "Video",
     iconName: "Rewind",
     badge: "Rewind FX",
@@ -505,21 +506,96 @@ export const TOOLS: ToolMetadata[] = [
     acceptedExtensions: [".mp4", ".mov", ".mkv", ".webm"],
     outputExtension: "mp4",
     outputMimeType: "video/mp4",
-    estimatedSpeed: "Fast",
-    seoTitle: "Reverse Video Online - Play Video Backwards (Rewind Maker)",
-    seoDescription: "Reverse video clips and audio online for free. Create rewind effects for TikTok and Reels in browser.",
-    seoKeywords: ["reverse video online", "play video backwards", "video rewind maker", "reverse mp4 video"],
+    estimatedSpeed: "Fast (Wasm)",
+    seoTitle: "Free Video Reverse Online — Play Video Backwards & Rewind Maker",
+    seoDescription:
+      "Reverse video online for free. Play any video backwards with reversed or muted audio. Create viral rewind effects, loop videos in reverse, and edit reversed clips — no app install needed.",
+    seoKeywords: [
+      "video reverse",
+      "video reverse online",
+      "video reverse search",
+      "video reverse search engine",
+      "how to make a video reverse",
+      "video reverse app",
+      "video reverse image search",
+      "google video reverse search",
+      "how to make video reverse",
+      "search by video reverse",
+      "video reverse lookup",
+      "search video reverse",
+      "loop video reverse",
+      "video reverse tool",
+      "edit video reverse",
+      "video reverse editor",
+      "video reverse prompt generator",
+      "how to play video reverse",
+    ],
     features: [
-      { title: "Reverse Video Frames", description: "Renders motion from end to beginning seamlessly.", icon: "Rewind" },
-      { title: "Reverse Audio FX", description: "Reverses soundtrack or mutes audio.", icon: "Volume2" },
-      { title: "Perfect for Reels", description: "Create viral magic tricks and rewind videos.", icon: "Sparkles" },
+      {
+        title: "Reverse Any Size Video",
+        description: "Unlike other tools limited to 8MB or 10MB, VideoReduce reverses videos of any file size — 100MB, 1GB, or even 4K footage — directly in your browser.",
+        icon: "Rewind",
+      },
+      {
+        title: "Reverse Audio or Mute",
+        description: "Choose to reverse the audio soundtrack for a true rewind effect, or mute audio entirely for clean silent reverse clips.",
+        icon: "Volume2",
+      },
+      {
+        title: "Loop Video in Reverse",
+        description: "Create seamless forward-then-reverse loop effects for mesmerizing boomerang-style social media content.",
+        icon: "RefreshCw",
+      },
+      {
+        title: "100% Free & Private",
+        description: "No app install, no file upload to servers. Edit and reverse videos entirely inside your browser RAM via WebAssembly.",
+        icon: "ShieldCheck",
+      },
     ],
     steps: [
-      { step: 1, title: "Upload Clip", description: "Select a video clip (short clips recommended)." },
-      { step: 2, title: "Choose Audio Option", description: "Select reverse audio or silent mute." },
-      { step: 3, title: "Generate Rewind", description: "Download your reversed video clip." },
+      {
+        step: 1,
+        title: "Upload Any Video",
+        description: "Select any MP4, MOV, MKV, or WebM video file of any size from your device.",
+      },
+      {
+        step: 2,
+        title: "Choose Reverse Options",
+        description: "Select reverse audio, mute audio, or loop video reverse playback mode.",
+      },
+      {
+        step: 3,
+        title: "Download Reversed Video",
+        description: "Click Reverse and download your backwards-playing video in seconds.",
+      },
     ],
-    faqs: [{ question: "Is this suitable for long videos?", answer: "For memory efficiency in browser, clips under 45 seconds work fastest." }],
+    faqs: [
+      {
+        question: "How to make a video reverse online for free?",
+        answer:
+          "Upload your video to VideoReduce.com's Video Reverse tool, select whether to reverse audio or mute it, and click Reverse. The WebAssembly engine processes the video entirely in your browser — no server upload, no file size limits, completely free.",
+      },
+      {
+        question: "Can I reverse any size video, not just 8MB or 10MB?",
+        answer:
+          "Yes! Unlike Discord compressors or other tools that cap files at 8MB or 10MB, VideoReduce.com processes videos of any size — even 1GB+ 4K footage — directly in your browser's memory with zero file restrictions.",
+      },
+      {
+        question: "How to play a video in reverse with audio?",
+        answer:
+          "Select 'Reverse Audio' mode in VideoReduce's reverse tool. The engine will reverse both the video frames and the audio track, creating a genuine rewind effect where speech and music play backwards.",
+      },
+      {
+        question: "Can I loop a video in reverse (boomerang effect)?",
+        answer:
+          "Yes! Use the loop reverse option to create a forward-then-backward seamless loop. This is perfect for boomerang-style effects on Instagram, TikTok, and YouTube Shorts.",
+      },
+      {
+        question: "Is this video reverse tool better than a phone app?",
+        answer:
+          "VideoReduce.com works instantly in any browser (Safari, Chrome, Edge) without installing apps, creating accounts, or dealing with ads and watermarks. It also handles much larger files than most mobile reverse video apps.",
+      },
+    ],
   },
 
   // 12. Video Frame Extractor
