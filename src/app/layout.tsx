@@ -35,11 +35,16 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
+      { url: "/icons/icon-48.png", sizes: "48x48", type: "image/png" },
+      { url: "/icons/icon-96.png", sizes: "96x96", type: "image/png" },
       { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
-      { url: "/logo.png", sizes: "512x512", type: "image/png" },
+      { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
     ],
     shortcut: "/favicon.ico",
-    apple: "/icons/icon-192.png",
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
   },
   verification: {
     google: "TCRQ56_gY9x_4Ll3Mt96Ztuw2wACORXDA3BuBIjGw4U",
@@ -52,24 +57,25 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://videoreduce.com",
     siteName: "VideoReduce.com",
-    title: "VideoReduce.com — Free Private Video Compressor & Media Suite",
+    title: "VideoReduce — High-Fidelity Video Compressor & Media Suite",
     description:
-      "Compress and edit videos locally in your browser with WebAssembly. 18 free tools, zero server uploads, unlimited file sizes.",
+      "Reduce video file sizes up to 90% with zero quality loss. 100% private in-browser WebAssembly with 18 tools, 10MB to 10GB+ unlimited file sizes.",
     images: [
       {
-        url: "/logo.png",
-        width: 1024,
-        height: 1024,
-        alt: "VideoReduce.com — Free Online Video Compressor Logo",
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "VideoReduce — High-Fidelity Video Compressor & Media Suite",
+        type: "image/jpeg",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "VideoReduce.com — Free Online Video Compressor",
+    title: "VideoReduce — High-Fidelity Video Compressor & Media Suite",
     description:
-      "Reduce video size online for free without losing quality. 100% private WebAssembly media suite with 18 tools.",
-    images: ["/logo.png"],
+      "Reduce video file sizes up to 90% with zero quality loss. 100% private in-browser WebAssembly with 18 tools.",
+    images: ["/og-image.jpg"],
   },
   robots: {
     index: true,
@@ -106,8 +112,10 @@ export default function RootLayout({
     <html lang="en" className={`dark ${inter.variable}`} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" type="image/png" sizes="48x48" href="/icons/icon-48.png" />
+        <link rel="icon" type="image/png" sizes="96x96" href="/icons/icon-96.png" />
         <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
-        <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <meta name="google-site-verification" content="TCRQ56_gY9x_4Ll3Mt96Ztuw2wACORXDA3BuBIjGw4U" />
         <script
           type="application/ld+json"

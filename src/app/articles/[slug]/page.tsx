@@ -74,9 +74,9 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       url: `https://videoreduce.com/articles/${article.slug}`,
       images: [
         {
-          url: "/logo.png",
-          width: 1024,
-          height: 1024,
+          url: "/og-image.jpg",
+          width: 1200,
+          height: 630,
           alt: article.title,
         },
       ],
@@ -85,7 +85,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       card: "summary_large_image",
       title: article.seoTitle,
       description: article.seoDescription,
-      images: ["/logo.png"],
+      images: ["/og-image.jpg"],
     },
   };
 }

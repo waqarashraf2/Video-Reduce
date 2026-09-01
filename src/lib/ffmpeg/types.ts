@@ -138,6 +138,10 @@ export interface AudioDenoiserOptions {
 
 export interface MetadataStripperOptions {
   cleanAll: boolean;
+  stripGps?: boolean;
+  stripDevice?: boolean;
+  stripTimestamps?: boolean;
+  stripSoftware?: boolean;
 }
 
 export interface FFmpegTerminalOptions {

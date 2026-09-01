@@ -40,19 +40,19 @@ export const metadata: Metadata = {
     url: "https://videoreduce.com/articles",
     images: [
       {
-        url: "/logo.png",
-        width: 1024,
-        height: 1024,
-        alt: "VideoReduce.com Knowledge Hub",
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "VideoReduce Knowledge Hub",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Video Engineering & Privacy Guides | VideoReduce.com",
+    title: "Video Engineering & Privacy Guides | VideoReduce",
     description:
       "Expert guides on video compression, WebAssembly processing, and privacy-first media editing.",
-    images: ["/logo.png"],
+    images: ["/og-image.jpg"],
   },
 };
 

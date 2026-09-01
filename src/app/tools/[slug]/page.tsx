@@ -65,18 +65,18 @@ export async function generateMetadata({ params }: ToolPageProps): Promise<Metad
       url: `https://videoreduce.com/tools/${tool.slug}`,
       images: [
         {
-          url: "/logo.png",
-          width: 1024,
-          height: 1024,
-          alt: `${tool.name} — Free Online Tool by VideoReduce.com`,
+          url: "/og-image.jpg",
+          width: 1200,
+          height: 630,
+          alt: `${tool.name} — Free Online Tool by VideoReduce`,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${tool.seoTitle} | VideoReduce.com`,
+      title: `${tool.seoTitle} | VideoReduce`,
       description: tool.seoDescription,
-      images: ["/logo.png"],
+      images: ["/og-image.jpg"],
     },
   };
 }

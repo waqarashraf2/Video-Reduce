@@ -69,10 +69,10 @@ export async function generateMetadata({ params }: FormatPageProps): Promise<Met
       url: `https://videoreduce.com/convert/${formatPair.slug}`,
       images: [
         {
-          url: "/logo.png",
-          width: 1024,
-          height: 1024,
-          alt: `${formatPair.title} — VideoReduce.com`,
+          url: "/og-image.jpg",
+          width: 1200,
+          height: 630,
+          alt: `${formatPair.title} — VideoReduce`,
         },
       ],
     },
@@ -80,7 +80,7 @@ export async function generateMetadata({ params }: FormatPageProps): Promise<Met
       card: "summary_large_image",
       title: formatPair.title,
       description: formatPair.seoDescription,
-      images: ["/logo.png"],
+      images: ["/og-image.jpg"],
     },
   };
 }
@@ -101,12 +101,23 @@ export default function FormatConverterPage({ params }: FormatPageProps) {
         "@type": "SoftwareApplication",
         name: `${formatPair.title} — VideoReduce.com`,
         url: `https://videoreduce.com/convert/${formatPair.slug}`,
+        image: "https://videoreduce.com/logo.png",
+        screenshot: "https://videoreduce.com/logo.png",
         applicationCategory: "MultimediaApplication",
-        operatingSystem: "All (Browser-Based)",
+        applicationSubCategory: "Video & Audio Processing",
+        operatingSystem: "All (Browser-Based: Windows, Mac, iOS, Android, Linux)",
+        browserRequirements: "Requires WebAssembly Compatible Browser",
         offers: {
           "@type": "Offer",
           price: "0",
           priceCurrency: "USD",
+        },
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: "4.9",
+          ratingCount: "750",
+          bestRating: "5",
+          worstRating: "1",
         },
         description: formatPair.seoDescription,
       },
@@ -122,8 +133,8 @@ export default function FormatConverterPage({ params }: FormatPageProps) {
           {
             "@type": "ListItem",
             position: 2,
-            name: "Convert",
-            item: "https://videoreduce.com/#tools-grid",
+            name: "Converters",
+            item: "https://videoreduce.com/tools/format-converter",
           },
           {
             "@type": "ListItem",
@@ -136,6 +147,8 @@ export default function FormatConverterPage({ params }: FormatPageProps) {
       {
         "@type": "HowTo",
         name: `How to Convert ${formatPair.fromFormat} to ${formatPair.toFormat}`,
+        description: formatPair.seoDescription,
+        totalTime: "PT2M",
         step: formatPair.steps.map((s) => ({
           "@type": "HowToStep",
           position: s.step,

@@ -1,0 +1,54 @@
+# VideoReduce.com
+
+> Free, private, browser-based video compression and media editing suite powered by WebAssembly.
+
+## Overview
+VideoReduce.com provides 100% client-side video and audio processing utilities. All media operations execute locally inside the user's web browser using FFmpeg compiled to WebAssembly (Wasm) with SIMD multi-threading. Zero bytes of media data are ever transmitted or uploaded to remote cloud servers.
+
+## Core Capabilities
+- **Video Compression**: Reduce video file size up to 90% without visible quality loss using Constant Rate Factor (CRF) and dynamic bitrate ceilings.
+- **Platform Presets**: One-click target size presets for Discord (8MB / 25MB), WhatsApp (16MB), and Email attachments.
+- **Format Conversion**: Transcode between MP4, MOV, WebM, MKV, and AVI.
+- **Audio Extraction**: Extract audio tracks from video files as MP3, AAC, and WAV.
+- **GIF Generation**: High-quality two-pass GIF conversion with palettegen/paletteuse.
+- **Privacy Shield**: Strip sensitive Exif, GPS, device, and metadata from videos before sharing.
+
+## Available Tools
+- [Smart Video Compressor](https://videoreduce.com/tools/video-compressor): Reduce any video file size online free with CRF optimization.
+- [Video to GIF Converter](https://videoreduce.com/tools/video-to-gif): Create animated GIFs from MP4 and MOV videos.
+- [Audio Extractor](https://videoreduce.com/tools/audio-extractor): Extract audio from videos to MP3 or AAC.
+- [Video Trimmer](https://videoreduce.com/tools/video-trimmer): Cut and trim video clips in browser.
+- [Speed Controller](https://videoreduce.com/tools/speed-controller): Fast motion and slow motion video maker.
+- [Video Mute](https://videoreduce.com/tools/video-mute): Remove audio track from video files instantly.
+- [Format Converter](https://videoreduce.com/tools/format-converter): Convert video files across formats.
+- [Aspect Ratio Resizer](https://videoreduce.com/tools/aspect-ratio-resizer): Crop and pad video for 9:16, 16:9, 1:1, 4:5 social dimensions.
+- [Video Watermark](https://videoreduce.com/tools/video-watermark): Add custom logo or text watermark overlay.
+- [Video Rotate & Flip](https://videoreduce.com/tools/video-rotate): Rotate video 90°, 180°, 270° or mirror flip.
+- [Video Reverse](https://videoreduce.com/tools/video-reverse): Play video backwards in reverse.
+- [Frame Extractor](https://videoreduce.com/tools/frame-extractor): Extract high-resolution image frames (PNG/JPG).
+- [Video Filters & Grading](https://videoreduce.com/tools/video-filters): Apply grayscale, vintage, brightness, contrast filters.
+- [GIF to Video Converter](https://videoreduce.com/tools/gif-to-video): Convert animated GIFs to lightweight MP4 videos.
+- [Volume Booster](https://videoreduce.com/tools/volume-booster): Boost quiet video audio up to 300%.
+- [Audio Denoiser](https://videoreduce.com/tools/audio-denoiser): Remove background hiss and noise from audio.
+- [Metadata Stripper](https://videoreduce.com/tools/metadata-stripper): Strip GPS coordinates, device info, and creation tags.
+- [FFmpeg Web Terminal](https://videoreduce.com/tools/ffmpeg-terminal): Execute raw custom FFmpeg commands in browser.
+
+## Solution Hubs
+- [WhatsApp Video Compressor](https://videoreduce.com/compress/whatsapp-video): Compress video for WhatsApp 16MB limit.
+- [Discord Video Compressor](https://videoreduce.com/compress/discord-video): Compress video for Discord 8MB and 25MB free limit.
+- [Email Video Compressor](https://videoreduce.com/compress/email-attachment): Compress video for email attachments under 25MB.
+- [4K to 1080p Downscaler](https://videoreduce.com/compress/4k-to-1080p): Downscale 4K UHD video to crisp 1080p Full HD.
+- [MOV to MP4 Converter](https://videoreduce.com/convert/mov-to-mp4): Convert iPhone Apple MOV to universal MP4 format.
+- [MKV to MP4 Converter](https://videoreduce.com/convert/mkv-to-mp4): Convert MKV containers to MP4.
+- [WebM to MP4 Converter](https://videoreduce.com/convert/webm-to-mp4): Convert WebM video files to MP4.
+- [AVI to MP4 Converter](https://videoreduce.com/convert/avi-to-mp4): Convert legacy AVI video to MP4.
+
+## Educational Articles & Engineering Guides
+- [How to Reduce Video File Size Without Losing Quality](https://videoreduce.com/articles/how-to-compress-video-without-losing-quality)
+- [Why Online Video Converters Are a Privacy Risk](https://videoreduce.com/articles/why-online-video-converters-are-a-privacy-risk)
+- [How to Compress Videos for WhatsApp, Discord & Email](https://videoreduce.com/articles/how-to-compress-videos-for-whatsapp-discord-email)
+- [How to Convert iPhone MOV to MP4 Online](https://videoreduce.com/articles/how-to-convert-iphone-mov-to-mp4-online)
+- [How to Watermark Videos for Social Media](https://videoreduce.com/articles/how-to-watermark-videos-for-social-media)
+- [How to Extract High-Quality Audio from Video](https://videoreduce.com/articles/how-to-extract-high-quality-audio-from-video)
+- [How to Convert Video to High-Quality GIF](https://videoreduce.com/articles/how-to-convert-video-to-gif-high-quality)
+- [How to Convert GIF to MP4 Video](https://videoreduce.com/articles/how-to-convert-gif-to-mp4-video)

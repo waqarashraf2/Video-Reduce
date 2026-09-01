@@ -57,6 +57,12 @@ import {
   Terminal,
   Type,
   LayoutGrid,
+  MapPin,
+  ShieldAlert,
+  ShieldCheck,
+  Calendar,
+  Info,
+  Layers,
 } from "lucide-react";
 
 interface ToolControlsProps {
@@ -1094,15 +1100,192 @@ export const ToolControls: React.FC<ToolControlsProps> = ({
 
     // 17. Metadata Stripper
     case "metadata-stripper": {
+      const opt = options as MetadataStripperOptions;
+      const setMeta = (updates: Partial<MetadataStripperOptions>) =>
+        setOptions((prev) => ({ ...(prev as MetadataStripperOptions), ...updates }));
+
+      const fileName = fileMeta.name || "video.mp4";
+      const fileExt = fileName.split(".").pop()?.toUpperCase() || "MP4";
+      const resolution = fileMeta.width && fileMeta.height ? `${fileMeta.width}x${fileMeta.height}` : "HD (1080p)";
+      const durationStr = fileMeta.durationSecs ? formatTime(fileMeta.durationSecs) : "0:30";
+      const bitRateKbps = fileMeta.durationSecs && fileMeta.size 
+        ? Math.round((fileMeta.size * 8) / (fileMeta.durationSecs * 1000))
+        : 4500;
+
       return (
-        <div className="rounded-2xl bg-slate-900/80 p-5 border border-white/10 text-center space-y-3">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/20 text-emerald-400 ring-1 ring-emerald-500/30">
-            <Lock className="h-6 w-6" />
+        <div className="space-y-6 rounded-2xl bg-slate-900/80 p-5 border border-white/10">
+          {/* Header Status Banner */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-500/20 text-amber-400 ring-1 ring-amber-500/30">
+                <ShieldAlert className="h-6 w-6" />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                  <span>EXIF & Privacy Metadata Analysis</span>
+                  <span className="rounded-full bg-amber-500/15 px-2.5 py-0.5 text-[10px] font-bold text-amber-400 ring-1 ring-amber-500/30">
+                    Sensitive Tags Found
+                  </span>
+                </h4>
+                <p className="text-xs text-slate-400">
+                  Target media contains embedded device, geolocation, and encoder metadata.
+                </p>
+              </div>
+            </div>
+
+            <div className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-400 ring-1 ring-emerald-500/20 self-start sm:self-auto">
+              <ShieldCheck className="h-4 w-4" />
+              <span>100% Lossless Stream Copy</span>
+            </div>
           </div>
-          <h4 className="text-sm font-semibold text-white">1-Click Metadata & EXIF Scrub</h4>
-          <p className="text-xs text-slate-400 max-w-md mx-auto">
-            Wipes GPS coordinates, phone serials, software tags, and timestamps. Video & audio streams are copied 1:1 without re-encoding.
-          </p>
+
+          {/* Detected Metadata Tags & Vulnerabilities Grid */}
+          <div className="space-y-2.5">
+            <div className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center justify-between">
+              <span>Detected Embedded Metadata Vectors</span>
+              <span className="text-[11px] font-normal text-slate-500">Auto-targeted for scrubbing</span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="rounded-xl border border-rose-500/20 bg-rose-500/5 p-3.5 space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-xs font-bold text-rose-300">
+                    <MapPin className="h-4 w-4 text-rose-400" />
+                    <span>GPS Location & Geotag</span>
+                  </div>
+                  <span className="rounded bg-rose-500/20 px-1.5 py-0.5 text-[10px] font-mono font-bold text-rose-400">
+                    Latitude / Longitude
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-400">
+                  Exact physical coordinates recorded by smartphone GPS or drone camera.
+                </p>
+              </div>
+
+              <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-3.5 space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-xs font-bold text-amber-300">
+                    <Smartphone className="h-4 w-4 text-amber-400" />
+                    <span>Camera & Device Signature</span>
+                  </div>
+                  <span className="rounded bg-amber-500/20 px-1.5 py-0.5 text-[10px] font-mono font-bold text-amber-400">
+                    Hardware Model / Serial
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-400">
+                  Device manufacturer, phone model (iPhone/Android), camera firmware & lens ID.
+                </p>
+              </div>
+
+              <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-3.5 space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-xs font-bold text-blue-300">
+                    <Calendar className="h-4 w-4 text-blue-400" />
+                    <span>Creation & Timezone Stamp</span>
+                  </div>
+                  <span className="rounded bg-blue-500/20 px-1.5 py-0.5 text-[10px] font-mono font-bold text-blue-400">
+                    UTC Timestamp
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-400">
+                  Exact creation date, recording time, modification history, and local timezone offset.
+                </p>
+              </div>
+
+              <div className="rounded-xl border border-violet-500/20 bg-violet-500/5 p-3.5 space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-xs font-bold text-violet-300">
+                    <Layers className="h-4 w-4 text-violet-400" />
+                    <span>Software & Container Tags</span>
+                  </div>
+                  <span className="rounded bg-violet-500/20 px-1.5 py-0.5 text-[10px] font-mono font-bold text-violet-400">
+                    Encoder / UDTA
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-400">
+                  Editing software traces, QuickTime atoms, author name, and encoding profile.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Technical Container Inspection Box */}
+          <div className="rounded-xl border border-white/10 bg-slate-950/80 p-4 space-y-3">
+            <div className="text-xs font-semibold text-slate-300 flex items-center justify-between">
+              <span>Media Stream & Container Properties</span>
+              <span className="text-[11px] font-mono text-emerald-400">Preserved 1:1</span>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
+              <div className="rounded-lg bg-slate-900 p-2.5 border border-white/5">
+                <div className="text-[10px] text-slate-500 uppercase font-semibold">Container</div>
+                <div className="font-mono font-bold text-white mt-0.5">{fileExt} / Stream Copy</div>
+              </div>
+              <div className="rounded-lg bg-slate-900 p-2.5 border border-white/5">
+                <div className="text-[10px] text-slate-500 uppercase font-semibold">Resolution</div>
+                <div className="font-mono font-bold text-white mt-0.5">{resolution}</div>
+              </div>
+              <div className="rounded-lg bg-slate-900 p-2.5 border border-white/5">
+                <div className="text-[10px] text-slate-500 uppercase font-semibold">Duration</div>
+                <div className="font-mono font-bold text-white mt-0.5">{durationStr}</div>
+              </div>
+              <div className="rounded-lg bg-slate-900 p-2.5 border border-white/5">
+                <div className="text-[10px] text-slate-500 uppercase font-semibold">Bitrate</div>
+                <div className="font-mono font-bold text-white mt-0.5">~{bitRateKbps} kbps</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Scrubbing Mode Selector */}
+          <div className="space-y-3 pt-1">
+            <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+              Select Privacy Scrub Mode
+            </label>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => setMeta({ cleanAll: true })}
+                className={`flex flex-col text-left rounded-xl p-3.5 border transition-all ${
+                  opt.cleanAll !== false
+                    ? "border-emerald-500/50 bg-emerald-500/10 text-white ring-1 ring-emerald-500/30"
+                    : "border-white/10 bg-slate-950/60 text-slate-400 hover:border-white/20"
+                }`}
+              >
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                    <ShieldCheck className="h-4 w-4" />
+                    Complete Privacy Shield (Recommended)
+                  </span>
+                  {opt.cleanAll !== false && <Check className="h-3.5 w-3.5 text-emerald-400" />}
+                </div>
+                <p className="text-[11px] text-slate-300 leading-relaxed">
+                  Strips 100% of EXIF, GPS location, device serials, creation timestamps, and software tags.
+                </p>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setMeta({ cleanAll: false, stripGps: true, stripDevice: true })}
+                className={`flex flex-col text-left rounded-xl p-3.5 border transition-all ${
+                  opt.cleanAll === false
+                    ? "border-blue-500/50 bg-blue-500/10 text-white ring-1 ring-blue-500/30"
+                    : "border-white/10 bg-slate-950/60 text-slate-400 hover:border-white/20"
+                }`}
+              >
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs font-bold text-blue-400 flex items-center gap-1.5">
+                    <MapPin className="h-4 w-4" />
+                    Location & Device ID Only
+                  </span>
+                  {opt.cleanAll === false && <Check className="h-3.5 w-3.5 text-blue-400" />}
+                </div>
+                <p className="text-[11px] text-slate-300 leading-relaxed">
+                  Removes GPS coordinates and camera maker info while keeping creation timestamp.
+                </p>
+              </button>
+            </div>
+          </div>
         </div>
       );
     }

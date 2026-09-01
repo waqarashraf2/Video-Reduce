@@ -39,19 +39,19 @@ export const metadata: Metadata = {
     url: "https://videoreduce.com/faq",
     images: [
       {
-        url: "/logo.png",
-        width: 1024,
-        height: 1024,
-        alt: "VideoReduce.com FAQ & Knowledge Base",
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "VideoReduce FAQ & Knowledge Base",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "FAQ & Knowledge Base | VideoReduce.com",
+    title: "FAQ & Knowledge Base | VideoReduce",
     description:
-      "Answers to all frequently asked questions about VideoReduce.com and WebAssembly video processing.",
-    images: ["/logo.png"],
+      "Answers to all frequently asked questions about VideoReduce and WebAssembly video processing.",
+    images: ["/og-image.jpg"],
   },
 };
 

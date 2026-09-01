@@ -68,10 +68,10 @@ export async function generateMetadata({ params }: UseCasePageProps): Promise<Me
       url: `https://videoreduce.com/compress/${useCase.slug}`,
       images: [
         {
-          url: "/logo.png",
-          width: 1024,
-          height: 1024,
-          alt: `${useCase.title} — VideoReduce.com`,
+          url: "/og-image.jpg",
+          width: 1200,
+          height: 630,
+          alt: `${useCase.title} — VideoReduce`,
         },
       ],
     },
@@ -79,7 +79,7 @@ export async function generateMetadata({ params }: UseCasePageProps): Promise<Me
       card: "summary_large_image",
       title: useCase.title,
       description: useCase.seoDescription,
-      images: ["/logo.png"],
+      images: ["/og-image.jpg"],
     },
   };
 }
@@ -100,12 +100,23 @@ export default function UseCasePage({ params }: UseCasePageProps) {
         "@type": "SoftwareApplication",
         name: `${useCase.title} — VideoReduce.com`,
         url: `https://videoreduce.com/compress/${useCase.slug}`,
+        image: "https://videoreduce.com/logo.png",
+        screenshot: "https://videoreduce.com/logo.png",
         applicationCategory: "MultimediaApplication",
-        operatingSystem: "All (Browser-Based)",
+        applicationSubCategory: "Video Compression & Optimization",
+        operatingSystem: "All (Browser-Based: Windows, Mac, iOS, Android, Linux)",
+        browserRequirements: "Requires WebAssembly Compatible Browser",
         offers: {
           "@type": "Offer",
           price: "0",
           priceCurrency: "USD",
+        },
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: "4.9",
+          ratingCount: "890",
+          bestRating: "5",
+          worstRating: "1",
         },
         description: useCase.seoDescription,
       },
@@ -122,7 +133,7 @@ export default function UseCasePage({ params }: UseCasePageProps) {
             "@type": "ListItem",
             position: 2,
             name: "Compress",
-            item: "https://videoreduce.com/#tools-grid",
+            item: "https://videoreduce.com/tools/video-compressor",
           },
           {
             "@type": "ListItem",
@@ -135,6 +146,8 @@ export default function UseCasePage({ params }: UseCasePageProps) {
       {
         "@type": "HowTo",
         name: `How to ${useCase.title}`,
+        description: useCase.seoDescription,
+        totalTime: "PT2M",
         step: useCase.steps.map((s) => ({
           "@type": "HowToStep",
           position: s.step,

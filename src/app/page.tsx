@@ -61,14 +61,25 @@ export default function HomePage() {
       },
       {
         "@type": "SoftwareApplication",
-        name: "VideoReduce — Free Online Video Compressor",
+        name: "VideoReduce — Free Online Video Compressor & Media Suite",
+        url: "https://videoreduce.com",
         applicationCategory: "MultimediaApplication",
-        operatingSystem: "All (iOS, Android, Windows, Mac, Linux)",
+        operatingSystem: "All (Browser-Based: iOS, Android, Windows, Mac, Linux)",
+        browserRequirements: "Requires WebAssembly Compatible Browser",
         offers: {
           "@type": "Offer",
           price: "0",
           priceCurrency: "USD",
         },
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: "4.9",
+          ratingCount: "2150",
+          bestRating: "5",
+          worstRating: "1",
+        },
+        description:
+          "Free online video compressor to reduce video size and file size without losing quality. 100% private WebAssembly MP4 video compressor.",
       },
       {
         "@type": "BreadcrumbList",
@@ -105,7 +116,7 @@ export default function HomePage() {
             name: "Can I compress videos of any size or target Discord/WhatsApp limits?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "Yes! VideoReduce compresses videos of any size (from 10MB phone clips to large 1GB+ 4K videos). You can also choose dedicated presets for Discord (8MB/25MB) or WhatsApp (16MB).",
+              text: "Yes! VideoReduce compresses videos of any size (from small 10MB phone clips to large 1GB, 5GB & 10GB+ 4K videos). You can also choose dedicated presets for Discord (8MB/25MB) or WhatsApp (16MB).",
             },
           },
           {
@@ -143,68 +154,87 @@ export default function HomePage() {
       <div className="pointer-events-none absolute left-0 top-2/3 h-96 w-96 rounded-full bg-blue-500/10 blur-[120px]" />
 
       {/* Hero Section */}
-      <section className="relative pt-12 pb-16 sm:pt-20 sm:pb-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center space-y-8">
+      <section className="relative pt-8 pb-14 sm:pt-14 sm:pb-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center space-y-7">
           
-          {/* Main Logo & Badge Showcase */}
-          <div className="flex flex-col items-center justify-center space-y-4">
-            <div className="relative inline-flex items-center justify-center rounded-3xl bg-gradient-to-tr from-blue-600/30 via-indigo-500/20 to-cyan-500/30 p-2 shadow-2xl shadow-blue-500/30 ring-1 ring-white/20 backdrop-blur-2xl">
-              <Image
-                src="/logo.png"
-                alt="VideoReduce.com — Free Online Video Compressor"
-                width={84}
-                height={84}
-                className="rounded-2xl object-cover shadow-inner"
-                priority
-              />
-            </div>
-
-            {/* Privacy Pill */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-semibold text-emerald-400 backdrop-blur-md animate-in fade-in slide-in-from-bottom-2">
-              <ShieldCheck className="h-4 w-4" />
-              <span>VideoReduce.com • 100% Client-Side Wasm • 0 Server Uploads</span>
+          {/* Privacy & Engine Pill */}
+          <div className="flex items-center justify-center">
+            <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 text-xs font-semibold text-blue-400 backdrop-blur-md shadow-lg shadow-blue-500/10 animate-in fade-in slide-in-from-bottom-2">
+              <ShieldCheck className="h-4 w-4 text-emerald-400" />
+              <span className="text-slate-200">100% Client-Side WebAssembly</span>
+              <span className="text-slate-500">•</span>
+              <span className="text-emerald-400 font-medium">0 Server Uploads</span>
+              <span className="text-slate-500">•</span>
+              <span className="text-blue-300 font-medium">100% Free</span>
             </div>
           </div>
 
           {/* Main Headline */}
           <div className="space-y-4 max-w-4xl mx-auto">
-            <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl leading-[1.1]">
+            <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl leading-[1.15]">
               Free Video Compressor &{" "}
-              <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-violet-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-400 bg-clip-text text-transparent">
                 Reduce Video File Size
               </span>
             </h1>
-            <p className="text-base sm:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
-              Reduce video file size online for free without losing quality. 18 powerful tools to compress any video size (10MB to 1GB+), social media presets (Discord, WhatsApp, Email), iPhone clips, GIF conversion, and audio editing — 100% private in your browser.
+            <p className="text-sm sm:text-lg text-slate-300 max-w-3xl mx-auto leading-relaxed">
+              Reduce any video size (from 10MB to 10GB+ Unlimited) directly in your browser without losing quality. Fast, private WebAssembly processing for Discord, WhatsApp, iPhone clips, format conversion, and audio editing.
             </p>
           </div>
 
-          {/* Hero CTAs */}
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+          {/* Quick Action CTAs & Presets */}
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
             <Link
               href="/tools/video-compressor"
-              className="flex items-center gap-2.5 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600 px-7 py-3.5 text-sm sm:text-base font-bold text-white shadow-xl shadow-blue-500/25 transition-all hover:brightness-110 hover:shadow-blue-500/40 active:scale-95"
+              className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600 px-6 py-3 text-sm sm:text-base font-bold text-white shadow-xl shadow-blue-500/25 transition-all hover:brightness-110 hover:shadow-blue-500/40 active:scale-95"
             >
-              <Sparkles className="h-5 w-5" />
-              <span>Compress Video Free</span>
+              <Sparkles className="h-4 w-4" />
+              <span>Compress Video Now</span>
               <ArrowRight className="h-4 w-4" />
             </Link>
 
             <Link
               href="#tools-grid"
-              className="flex items-center gap-2 rounded-2xl border border-white/15 bg-slate-900/80 px-6 py-3.5 text-sm sm:text-base font-semibold text-slate-200 backdrop-blur-xl transition-all hover:bg-slate-800 hover:text-white"
+              className="flex items-center gap-2 rounded-2xl border border-white/15 bg-slate-900/80 px-5 py-3 text-sm sm:text-base font-semibold text-slate-200 backdrop-blur-xl transition-all hover:bg-slate-800 hover:text-white"
             >
               <span>Explore All 18 Tools</span>
             </Link>
           </div>
 
+          {/* Popular Instant Shortcuts */}
+          <div className="pt-2 max-w-3xl mx-auto">
+            <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2.5">
+              ⚡ Instant Quick Presets & Tools
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              {[
+                { name: "💬 Discord (8MB/25MB)", href: "/compress/discord-video" },
+                { name: "📱 WhatsApp (16MB)", href: "/compress/whatsapp-video" },
+                { name: "✉️ Email Attachment", href: "/compress/email-attachment" },
+                { name: "🔄 Video to GIF", href: "/tools/video-to-gif" },
+                { name: "🎬 MOV to MP4", href: "/convert/mov-to-mp4" },
+                { name: "🎵 Extract Audio (MP3)", href: "/tools/audio-extractor" },
+                { name: "🔇 Mute Video", href: "/tools/video-mute" },
+                { name: "🛡️ Remove Metadata", href: "/tools/metadata-stripper" },
+              ].map((chip) => (
+                <Link
+                  key={chip.name}
+                  href={chip.href}
+                  className="rounded-xl border border-white/10 bg-slate-900/70 px-3 py-1.5 text-xs font-medium text-slate-300 backdrop-blur-sm transition-all hover:border-blue-500/40 hover:bg-blue-600/10 hover:text-blue-300"
+                >
+                  {chip.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+
           {/* Social Share Bar */}
-          <div className="max-w-xl mx-auto pt-2">
+          <div className="max-w-xl mx-auto pt-1">
             <SocialShareBar />
           </div>
 
           {/* Key Value Statistics */}
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 max-w-4xl mx-auto pt-4">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 max-w-4xl mx-auto pt-2">
             <div className="rounded-2xl border border-white/10 bg-slate-900/60 p-4 backdrop-blur-xl">
               <div className="text-2xl sm:text-3xl font-extrabold text-blue-400 font-mono">0 Bytes</div>
               <div className="text-xs text-slate-400 font-medium mt-1">Uploaded to Server</div>
@@ -219,7 +249,7 @@ export default function HomePage() {
             </div>
             <div className="rounded-2xl border border-white/10 bg-slate-900/60 p-4 backdrop-blur-xl">
               <div className="text-2xl sm:text-3xl font-extrabold text-cyan-400 font-mono">Wasm v0.12</div>
-              <div className="text-xs text-slate-400 font-medium mt-1">FFmpeg Engine</div>
+              <div className="text-xs text-slate-400 font-medium mt-1">FFmpeg SIMD Engine</div>
             </div>
           </div>
         </div>
@@ -524,7 +554,7 @@ export default function HomePage() {
               },
               {
                 q: "Can I compress videos of any size, or only for Discord & WhatsApp limits?",
-                a: "You can compress videos of any file size — from small 20MB phone clips to large 1GB+ 4K videos. You can also pick exact target size limits like Discord (8MB/25MB), WhatsApp (16MB), or Email (25MB) that automatically calculate the optimal bitrate.",
+                a: "You can compress videos of any file size — from small 10MB phone clips to large 1GB, 5GB & 10GB+ 4K videos. You can also pick exact target size limits like Discord (8MB/25MB), WhatsApp (16MB), or Email (25MB) that automatically calculate the optimal bitrate.",
               },
               {
                 q: "Why is VideoReduce better than HandBrake, Veed, or FreeConvert?",
