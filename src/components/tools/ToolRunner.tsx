@@ -5,6 +5,7 @@ import {
   ToolMetadata,
   ToolId,
   AnyToolOptions,
+  CompressionOptions,
   ProcessProgress,
   ProcessResult,
 } from "@/lib/ffmpeg/types";
@@ -104,11 +105,19 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
     setFileMeta(meta);
 
     if (tool.id === "video-compressor") {
-      setOptions((prev) => ({
-        ...prev,
-        durationSecs: meta.durationSecs,
-        fileSizeBytes: meta.size,
-      }));
+      const isMobile = typeof window !== "undefined" && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const isLarge = meta.size > 200 * 1024 * 1024;
+
+      setOptions((prev) => {
+        const comp = prev as CompressionOptions;
+        return {
+          ...comp,
+          durationSecs: meta.durationSecs,
+          fileSizeBytes: meta.size,
+          preset: "ultrafast",
+          resolution: isMobile || isLarge ? "720p" : comp.resolution || "1080p",
+        };
+      });
     } else if (tool.id === "video-trimmer" && meta.durationSecs) {
       setOptions({
         startTime: 0,

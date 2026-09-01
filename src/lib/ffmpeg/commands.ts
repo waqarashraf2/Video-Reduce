@@ -123,7 +123,7 @@ export function buildFFmpegJob(
         args.push("-c:a", "aac", "-b:a", `${audioBitrateKbps}k`, "-ac", "2");
       }
 
-      args.push("-movflags", "+faststart", outputName);
+      args.push("-pix_fmt", "yuv420p", "-max_muxing_queue_size", "1024", "-movflags", "+faststart", outputName);
 
       return {
         inputName,

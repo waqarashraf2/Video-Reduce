@@ -165,16 +165,23 @@ export const FFmpegProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         // 1. Write input file to in-memory virtual filesystem
         await ffmpeg.writeFile(inputData.name, inputData.buffer);
 
+        // Immediately release JavaScript buffer reference to free host browser memory
+        (inputData as any).buffer = null;
+
         // 2. Execute command
         await ffmpeg.exec(args);
 
-        // 3. Read output file
+        // 3. Delete input file from MEMFS BEFORE reading output to prevent 2x RAM spike
+        try {
+          await ffmpeg.deleteFile(inputData.name);
+        } catch (_) {}
+
+        // 4. Read output file
         const data = await ffmpeg.readFile(outputName);
         const outputBuffer = typeof data === "string" ? new TextEncoder().encode(data) : (data as Uint8Array);
 
-        // 4. Memory cleanup
+        // 5. Delete output file from MEMFS
         try {
-          await ffmpeg.deleteFile(inputData.name);
           await ffmpeg.deleteFile(outputName);
         } catch (cleanupErr) {
           console.warn("Cleanup warning:", cleanupErr);
