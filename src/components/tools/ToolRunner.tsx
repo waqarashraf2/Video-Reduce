@@ -33,7 +33,7 @@ function getDefaultOptions(toolId: ToolId): AnyToolOptions {
         compressionMode: "percentage",
         targetPercent: 50,
         crf: 28,
-        preset: "veryfast",
+        preset: "ultrafast",
         resolution: "original",
         muteAudio: false,
       };

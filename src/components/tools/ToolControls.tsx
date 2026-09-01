@@ -215,6 +215,47 @@ export const ToolControls: React.FC<ToolControlsProps> = ({
             </div>
           </div>
 
+          {/* Compression Speed / Engine Preset */}
+          <div className="space-y-2 pt-2 border-t border-white/5">
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                <Zap className="h-4 w-4 text-amber-400" />
+                Processing Speed & Performance
+              </label>
+              <span className="text-[11px] font-mono text-emerald-400 font-semibold">
+                {opt.preset === "ultrafast" || !opt.preset
+                  ? "⚡ Turbo (5x-10x Fast)"
+                  : opt.preset === "superfast"
+                  ? "⚖️ Balanced"
+                  : "🎯 Maximum Ratio"}
+              </span>
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              {[
+                { id: "ultrafast", label: "⚡ Turbo Fast", desc: "Recommended (Near-instant)" },
+                { id: "superfast", label: "⚖️ Balanced", desc: "Fast multi-core" },
+                { id: "veryfast", label: "🎯 Maximum", desc: "Smaller file (Slower)" },
+              ].map((p) => {
+                const isSelected = (opt.preset || "ultrafast") === p.id;
+                return (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => setComp({ preset: p.id as any })}
+                    className={`rounded-xl p-2.5 text-left transition-all ${
+                      isSelected
+                        ? "bg-amber-500/20 border-2 border-amber-500 text-white shadow-lg shadow-amber-500/10"
+                        : "bg-slate-950/60 border border-white/5 text-slate-300 hover:bg-slate-800"
+                    }`}
+                  >
+                    <div className="text-xs font-bold">{p.label}</div>
+                    <div className="text-[10px] text-slate-400 mt-0.5">{p.desc}</div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           {/* Mute Audio Option */}
           <div className="flex items-center justify-between pt-2">
             <span className="text-xs text-slate-300 flex items-center gap-1.5">
