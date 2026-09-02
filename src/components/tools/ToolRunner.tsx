@@ -22,6 +22,7 @@ import {
   Loader2,
   ArrowRight,
 } from "lucide-react";
+import { formatBytes } from "@/lib/utils";
 
 interface ToolRunnerProps {
   tool: ToolMetadata;
@@ -155,6 +156,9 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
     setErrorMessage(null);
 
     const startTime = Date.now();
+    const isMobile =
+      typeof window !== "undefined" &&
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     try {
       if (!isLoaded) {
@@ -164,7 +168,32 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
         }
       }
 
-      const arrayBuffer = await fileMeta.file.arrayBuffer();
+      // 0. Mobile RAM Ceiling Guard (Prevents OS SIGKILL / "Aw, Snap!" crash on phones)
+      if (isMobile && fileMeta.size > 450 * 1024 * 1024) {
+        throw new Error(
+          `Mobile Browser RAM Limit Reached: This video is ${formatBytes(fileMeta.size)}. Mobile phones (Android & iOS) strictly limit each browser tab to ~500MB of RAM, causing the operating system to force-close the tab ("Aw, Snap!") on 1GB+ files. To compress large 1GB+ videos with full speed and zero crashes, please open VideoReduce on a PC/Laptop browser, or use clips under 400MB on mobile.`
+        );
+      }
+
+      // 1. Release DOM video player resources to free up mobile GPU & decoder memory
+      if (videoPreviewRef.current) {
+        try {
+          videoPreviewRef.current.pause();
+        } catch (_) {}
+      }
+
+      // 2. Safe ArrayBuffer reading with explicit Out-Of-Memory trap
+      let arrayBuffer: ArrayBuffer;
+      try {
+        arrayBuffer = await fileMeta.file.arrayBuffer();
+      } catch (memErr: any) {
+        throw new Error(
+          isMobile
+            ? `Mobile Memory Limit Reached: Your phone browser cannot allocate ${formatBytes(fileMeta.size)} RAM in a single tab. Please compress this file on a PC/Laptop, or use a smaller clip.`
+            : `System Memory Exhausted: Could not allocate memory for this file (${formatBytes(fileMeta.size)}). Please try on a computer with more free RAM.`
+        );
+      }
+
       const inputBuffer = new Uint8Array(arrayBuffer);
 
       const currentOptions: AnyToolOptions = {
@@ -266,6 +295,20 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
               </div>
             </div>
           )}
+
+          {typeof window !== "undefined" &&
+            /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) &&
+            fileMeta.size > 400 * 1024 * 1024 && (
+              <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4 text-xs text-amber-200 flex items-start gap-3">
+                <AlertTriangle className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
+                <div className="space-y-1">
+                  <span className="font-bold text-amber-300">Large 1GB+ File on Mobile Advisory</span>
+                  <p className="text-slate-300 leading-relaxed">
+                    This video is {formatBytes(fileMeta.size)}. Mobile phones (Android/iOS) restrict single-tab RAM to ~500MB and force-close tabs (&quot;Aw, Snap!&quot;) when allocating 1GB+ in browser memory. For large 1GB+ files, we recommend compressing on a <strong>Desktop PC or Mac browser</strong>.
+                  </p>
+                </div>
+              </div>
+            )}
 
           <button
             onClick={handleStartProcessing}

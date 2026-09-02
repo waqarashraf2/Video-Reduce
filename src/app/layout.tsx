@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { FFmpegProvider } from "@/lib/ffmpeg/ffmpeg-provider";
 import { AppShell } from "@/components/layout/AppShell";
@@ -111,6 +112,23 @@ export default function RootLayout({
   return (
     <html lang="en" className={`dark ${inter.variable}`} suppressHydrationWarning>
       <head>
+        {/* Google tag (gtag.js) */}
+        <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-53HYP7X4R4"
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-53HYP7X4R4');
+            `,
+          }}
+        />
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" type="image/png" sizes="48x48" href="/icons/icon-48.png" />
         <link rel="icon" type="image/png" sizes="96x96" href="/icons/icon-96.png" />
