@@ -69,27 +69,25 @@ export function buildFFmpegJob(
       // 3. Resolution scaling & framerate filters for optimal WebAssembly throughput
       const filters: string[] = [];
       if (opt.resolution === "1080p") {
-        filters.push("scale='min(1920,iw)':-2");
+        filters.push("scale=-2:1080");
       } else if (opt.resolution === "720p") {
-        filters.push("scale='min(1280,iw)':-2");
+        filters.push("scale=-2:720");
       } else if (opt.resolution === "480p") {
-        filters.push("scale='min(854,iw)':-2");
+        filters.push("scale=-2:480");
       } else if (opt.resolution === "360p") {
-        filters.push("scale='min(640,iw)':-2");
+        filters.push("scale=-2:360");
       } else if (opt.resolution === "original") {
-        // Auto-optimize 4K to 1080p for high-ratio compressions, or scale down on low bitrates
         if (videoBitrateKbps < 350) {
-          filters.push("scale='min(854,iw)':-2");
+          filters.push("scale=-2:480");
         } else if (videoBitrateKbps < 650) {
-          filters.push("scale='min(1280,iw)':-2");
-        } else {
-          // Cap 4K/UHD at 1080p in browser memory to prevent multi-gigabyte RAM lockups & slow frame times
-          filters.push("scale='min(1920,iw)':-2");
+          filters.push("scale=-2:720");
+        } else if (originalSize > 250 * 1024 * 1024) {
+          filters.push("scale=-2:1080");
         }
       }
 
-      // Cap framerate to 30fps for 2x faster encoding while preserving fluid playback
-      filters.push("fps=fps=min(30\\,fps)");
+      // Smooth 30fps normalization
+      filters.push("fps=30");
 
       if (filters.length > 0) {
         args.push("-vf", filters.join(","));

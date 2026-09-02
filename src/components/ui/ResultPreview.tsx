@@ -47,9 +47,7 @@ export const ResultPreview: React.FC<ResultPreviewProps> = ({
     document.body.removeChild(a);
   };
 
-  const isMetadataTool =
-    toolName.toLowerCase().includes("metadata") ||
-    result.outputFileName.includes("_clean");
+  const isMetadataTool = toolName.toLowerCase().includes("metadata");
 
   const isVideo = result.mimeType.startsWith("video/");
   const isAudio = result.mimeType.startsWith("audio/");

@@ -169,7 +169,11 @@ export const FFmpegProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         (inputData as any).buffer = null;
 
         // 2. Execute command
-        await ffmpeg.exec(args);
+        const exitCode = await ffmpeg.exec(args);
+        if (exitCode !== 0) {
+          const lastLogs = currentLogs.slice(-8).join("\n");
+          throw new Error(`FFmpeg error (code ${exitCode}): ${lastLogs || "Operation failed"}`);
+        }
 
         // 3. Delete input file from MEMFS BEFORE reading output to prevent 2x RAM spike
         try {
@@ -179,6 +183,11 @@ export const FFmpegProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         // 4. Read output file
         const data = await ffmpeg.readFile(outputName);
         const outputBuffer = typeof data === "string" ? new TextEncoder().encode(data) : (data as Uint8Array);
+
+        if (!outputBuffer || outputBuffer.length === 0) {
+          const lastLogs = currentLogs.slice(-8).join("\n");
+          throw new Error(`FFmpeg rendered 0 bytes: ${lastLogs || "Encoding produced empty file"}`);
+        }
 
         // 5. Delete output file from MEMFS
         try {
