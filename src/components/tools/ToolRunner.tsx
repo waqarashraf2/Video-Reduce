@@ -97,10 +97,102 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const videoPreviewRef = useRef<HTMLVideoElement>(null);
+  const wakeLockRef = useRef<any>(null);
+  const audioHeartbeatRef = useRef<AudioContext | null>(null);
 
   React.useEffect(() => {
     setMounted(true);
   }, []);
+
+  // 1. Screen Wake Lock & Background Media Heartbeat (Prevents Screen Sleep & Background Tab Throttling)
+  React.useEffect(() => {
+    let isSubscribed = true;
+
+    const requestWakeLock = async () => {
+      try {
+        if ("wakeLock" in navigator && !wakeLockRef.current) {
+          wakeLockRef.current = await (navigator as any).wakeLock.request("screen");
+        }
+      } catch (_) {}
+    };
+
+    const startAudioHeartbeat = () => {
+      try {
+        const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+        if (AudioCtx && !audioHeartbeatRef.current) {
+          const ctx = new AudioCtx();
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          gain.gain.value = 0.00001; // Silent background audio heartbeat keeps WebAssembly worker prioritized
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          audioHeartbeatRef.current = ctx;
+        }
+      } catch (_) {}
+    };
+
+    const releaseWakeLockAndHeartbeat = () => {
+      if (wakeLockRef.current) {
+        try {
+          wakeLockRef.current.release();
+        } catch (_) {}
+        wakeLockRef.current = null;
+      }
+      if (audioHeartbeatRef.current) {
+        try {
+          audioHeartbeatRef.current.close();
+        } catch (_) {}
+        audioHeartbeatRef.current = null;
+      }
+    };
+
+    if (status === "processing") {
+      requestWakeLock();
+      startAudioHeartbeat();
+    } else {
+      releaseWakeLockAndHeartbeat();
+    }
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible" && status === "processing" && isSubscribed) {
+        requestWakeLock();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      isSubscribed = false;
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      releaseWakeLockAndHeartbeat();
+    };
+  }, [status]);
+
+  // 2. Prevent Accidental Tab Close / Navigation During Encoding
+  React.useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (status === "processing") {
+        e.preventDefault();
+        e.returnValue = "Video processing is currently in progress. Leaving will cancel rendering.";
+        return e.returnValue;
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [status]);
+
+  // 3. Live Tab Title Progress for Background Tabs
+  React.useEffect(() => {
+    if (status === "processing") {
+      document.title = `(${Math.round(progress.percent)}%) Compressing... | VideoReduce`;
+    } else if (status === "completed") {
+      document.title = `(✓ Complete) ${tool.name} | VideoReduce`;
+    } else {
+      document.title = `${tool.name} | VideoReduce`;
+    }
+  }, [status, progress.percent, tool.name]);
 
   const handleFileSelected = (meta: FileMetadata) => {
     setFileMeta(meta);
