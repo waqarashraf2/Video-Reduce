@@ -26,7 +26,12 @@ jobs:
       - name: Build Next.js Static Export
         env:
           NEXT_PUBLIC_API_URL: https://api.videoreduce.com
-        run: npm run build
+        run: |
+          npm run build
+          # Ensure .htaccess is included in static export
+          if [ -f "public/.htaccess" ]; then
+            cp public/.htaccess out/.htaccess
+          fi
 
       - name: Setup SSH
         env:
@@ -41,16 +46,34 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
-          REMOTE_TARGET: ${{ secrets.REMOTE_TARGET }}
         run: |
           PORT="${SSH_PORT:-65002}"
-          TARGET_DIR="${REMOTE_TARGET:-domains/videoreduce.com/public_html/}"
           
-          echo "Deploying Next.js frontend to ${SSH_HOST}:${TARGET_DIR}..."
+          # Detect active document root on Hostinger (domains/videoreduce.com/public_html or public_html)
+          echo "Determining remote web root..."
+          REMOTE_DIR=$(ssh -p ${PORT} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "${SSH_USER}@${SSH_HOST}" '
+            if [ -d "domains/videoreduce.com/public_html" ]; then
+              echo "domains/videoreduce.com/public_html/"
+            else
+              echo "public_html/"
+            fi
+          ')
+          
+          echo "Deploying Next.js frontend to ${SSH_HOST}:${REMOTE_DIR}..."
           
           rsync -avz --delete \
             -e "ssh -p ${PORT} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
-            out/ "${SSH_USER}@${SSH_HOST}:${TARGET_DIR}"
+            out/ "${SSH_USER}@${SSH_HOST}:${REMOTE_DIR}"
+
+          # Fix file permissions to prevent 403 Forbidden
+          echo "Fixing web permissions on ${REMOTE_DIR}..."
+          ssh -p ${PORT} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "${SSH_USER}@${SSH_HOST}" "
+            find ${REMOTE_DIR} -type d -exec chmod 755 {} + 2>/dev/null || true
+            find ${REMOTE_DIR} -type f -exec chmod 644 {} + 2>/dev/null || true
+            if [ -f '${REMOTE_DIR}.htaccess' ]; then
+              chmod 644 '${REMOTE_DIR}.htaccess'
+            fi
+          "
 
       - name: Deploy Backend (Laravel API) to Hostinger Subdomain
         env:
@@ -82,6 +105,8 @@ jobs:
             TARGET_PATH="domains/api.videoreduce.com/public_html"
             if [ -d "$TARGET_PATH" ]; then
               cd "$TARGET_PATH"
+              find . -type d -exec chmod 755 {} + 2>/dev/null || true
+              find . -type f -exec chmod 644 {} + 2>/dev/null || true
               if command -v composer &> /dev/null; then
                 echo "Installing backend dependencies..."
                 composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction
