@@ -73,25 +73,6 @@
     -webkit-text-fill-color: transparent;
   }
 
-  .gradient-border {
-    position: relative;
-    border-radius: 1rem;
-    background: #0f1623;
-  }
-
-  .gradient-border::before {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.5), rgba(139, 92, 246, 0.5));
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-  }
-
   /* Range input customization */
   input[type="range"] {
     -webkit-appearance: none;
@@ -118,16 +99,5 @@
   input[type="range"]::-webkit-slider-thumb:hover {
     transform: scale(1.15);
     box-shadow: 0 0 16px rgba(59, 130, 246, 0.9);
-  }
-
-  input[type="range"]::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: #3b82f6;
-    border: 2px solid #ffffff;
-    box-shadow: 0 0 10px rgba(59, 130, 246, 0.6);
-    cursor: pointer;
-    transition: transform 0.1s ease, box-shadow 0.1s ease;
   }
 }

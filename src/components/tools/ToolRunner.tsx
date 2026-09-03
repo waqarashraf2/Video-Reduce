@@ -97,8 +97,21 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const videoPreviewRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const wakeLockRef = useRef<any>(null);
   const audioHeartbeatRef = useRef<AudioContext | null>(null);
+
+  const scrollToToolContainer = () => {
+    if (typeof window !== "undefined") {
+      if (containerRef.current) {
+        const yOffset = -90;
+        const y = containerRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }
+  };
 
   React.useEffect(() => {
     setMounted(true);
@@ -246,6 +259,7 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
     setStatus("processing");
     setProgress({ ratio: 0, percent: 0, time: 0 });
     setErrorMessage(null);
+    scrollToToolContainer();
 
     const startTime = Date.now();
     const isMobile =
@@ -317,6 +331,7 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
       });
 
       setStatus("completed");
+      scrollToToolContainer();
     } catch (err: any) {
       console.error("Processing failed:", err);
       setErrorMessage(
@@ -327,7 +342,7 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
   };
 
   return (
-    <div className="space-y-6">
+    <div ref={containerRef} className="space-y-6">
       {status === "idle" && (
         <FileDropzone
           acceptedTypes={tool.acceptedTypes}

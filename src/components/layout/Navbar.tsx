@@ -11,7 +11,10 @@ import {
   Menu,
   X,
   Sparkles,
-  Zap,
+  ArrowRight,
+  BookOpen,
+  HelpCircle,
+  Mail,
 } from "lucide-react";
 
 export const Navbar: React.FC = () => {
@@ -32,10 +35,14 @@ export const Navbar: React.FC = () => {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full px-3 py-3 sm:px-6 lg:px-8 pointer-events-none">
-      {/* Floating Curved Pill Header Container (Bradleys Law Inspired) */}
-      <div className="pointer-events-auto mx-auto max-w-7xl rounded-full border border-white/15 bg-[#121a2d]/85 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.37)] transition-all">
-        <div className="flex h-16 items-center justify-between px-4 sm:px-6">
+    <header className="sticky top-0 z-50 w-full px-3 py-2.5 sm:px-6 lg:px-8 sm:pt-4 pointer-events-none transition-all">
+      {/* Floating Curved Pill Header Container (Bradleys Law Style) */}
+      <div
+        className={`pointer-events-auto mx-auto max-w-7xl border border-white/15 bg-[#121a2d]/85 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.37)] ring-1 ring-white/10 transition-all duration-300 ${
+          mobileMenuOpen ? "rounded-3xl" : "rounded-full"
+        }`}
+      >
+        <div className="flex h-14 sm:h-16 items-center justify-between px-4 sm:px-6">
           {/* Left: Brand Logo */}
           <Link
             href="/"
@@ -44,8 +51,8 @@ export const Navbar: React.FC = () => {
             <BrandLogo size="sm" />
           </Link>
 
-          {/* Center: Desktop Navigation */}
-          <nav className="hidden items-center gap-6 md:flex">
+          {/* Center / Right: Desktop Navigation */}
+          <nav className="hidden items-center gap-7 md:flex">
             {/* Tools Dropdown */}
             <div ref={dropdownRef} className="relative">
               <button
@@ -155,20 +162,11 @@ export const Navbar: React.FC = () => {
             </Link>
           </nav>
 
-          {/* Right: Clean CTA Button & Mobile Toggle */}
-          <div className="flex items-center gap-2">
-            <Link
-              href="/tools/video-compressor"
-              className="flex items-center gap-1.5 rounded-full bg-blue-600 hover:bg-blue-500 px-4 py-2 text-xs font-bold text-white shadow-md shadow-blue-500/25 transition-all hover:shadow-blue-500/40 active:scale-95"
-            >
-              <Zap className="h-3.5 w-3.5 fill-current" />
-              <span>Compress Video</span>
-            </Link>
-
-            {/* Mobile Menu Toggle */}
+          {/* Mobile Right Controls: Hamburger */}
+          <div className="flex items-center md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-slate-800 text-slate-300 hover:bg-slate-700 md:hidden"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-slate-800 text-slate-300 hover:bg-slate-700"
               aria-label="Toggle Navigation Menu"
             >
               {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -176,21 +174,22 @@ export const Navbar: React.FC = () => {
           </div>
         </div>
 
-        {/* Mobile Drawer Menu (Curved inside the floating container) */}
+        {/* Mobile Drawer Menu */}
         {mobileMenuOpen && (
-          <div className="border-t border-white/10 px-4 py-5 md:hidden max-h-[75vh] overflow-y-auto rounded-b-[2rem] bg-[#0f172a] animate-in slide-in-from-top-2">
-            <div className="space-y-3">
-              <div className="text-xs font-bold uppercase tracking-wider text-slate-300 px-1">
-                18 Media Tools
+          <div className="border-t border-white/10 px-4 py-5 md:hidden max-h-[75vh] overflow-y-auto rounded-b-3xl bg-[#0f172a] animate-in slide-in-from-top-2">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-slate-300 px-1">
+                <span>18 Media Tools</span>
+                <span className="text-emerald-400 font-mono text-[10px]">100% Wasm</span>
               </div>
 
-              <div className="grid grid-cols-2 gap-1.5">
+              <div className="grid grid-cols-2 gap-2">
                 {TOOLS.map((tool) => (
                   <Link
                     key={tool.id}
                     href={`/tools/${tool.slug}`}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center gap-2 rounded-xl p-2 text-xs font-medium ${
+                    className={`flex items-center gap-2 rounded-xl p-2.5 text-xs font-medium ${
                       pathname === `/tools/${tool.slug}`
                         ? "bg-blue-600 text-white"
                         : "bg-[#182238] text-slate-200 hover:bg-[#1f2c48]"
@@ -202,27 +201,50 @@ export const Navbar: React.FC = () => {
                 ))}
               </div>
 
-              <div className="border-t border-white/10 pt-3 space-y-1 text-sm font-medium">
+              <div className="border-t border-white/10 pt-3 space-y-1.5 text-sm font-medium">
+                <Link
+                  href="/tools/video-compressor"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between rounded-xl bg-blue-600/20 border border-blue-500/30 p-2.5 text-blue-300 hover:bg-blue-600/30"
+                >
+                  <span className="flex items-center gap-2 font-semibold">
+                    <Sparkles className="h-4 w-4 text-blue-400" />
+                    Smart Video Compressor
+                  </span>
+                  <ArrowRight className="h-4 w-4 text-blue-400" />
+                </Link>
                 <Link
                   href="/articles"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block rounded-lg px-3 py-2 text-slate-200 hover:bg-white/5"
+                  className="flex items-center justify-between rounded-xl bg-[#182238] p-2.5 text-slate-200 hover:bg-white/5"
                 >
-                  Guides & Articles
+                  <span className="flex items-center gap-2">
+                    <BookOpen className="h-4 w-4 text-indigo-400" />
+                    Guides & Articles
+                  </span>
+                  <ArrowRight className="h-4 w-4 text-slate-400" />
                 </Link>
                 <Link
                   href="/faq"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block rounded-lg px-3 py-2 text-slate-200 hover:bg-white/5"
+                  className="flex items-center justify-between rounded-xl bg-[#182238] p-2.5 text-slate-200 hover:bg-white/5"
                 >
-                  FAQ & Help Center
+                  <span className="flex items-center gap-2">
+                    <HelpCircle className="h-4 w-4 text-blue-400" />
+                    FAQ & Help Center
+                  </span>
+                  <ArrowRight className="h-4 w-4 text-slate-400" />
                 </Link>
                 <Link
                   href="/contact"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block rounded-lg px-3 py-2 text-slate-200 hover:bg-white/5"
+                  className="flex items-center justify-between rounded-xl bg-[#182238] p-2.5 text-slate-200 hover:bg-white/5"
                 >
-                  Contact & Support
+                  <span className="flex items-center gap-2">
+                    <Mail className="h-4 w-4 text-emerald-400" />
+                    Contact & Support
+                  </span>
+                  <ArrowRight className="h-4 w-4 text-slate-400" />
                 </Link>
               </div>
             </div>
