@@ -15,7 +15,16 @@ export const Footer: React.FC = () => {
           <div className="lg:col-span-2 space-y-4">
             <BrandLogo size="md" />
             <p className="text-sm leading-relaxed text-slate-400 max-w-sm">
-              High-performance, WebAssembly-powered video compressor and media suite on VideoReduce.com. A product of the Verse Next innovation ecosystem.
+              High-performance, WebAssembly-powered video compressor and media suite on VideoReduce.com. A product of the{" "}
+              <a
+                href="https://versenext.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-blue-400 hover:text-blue-300 underline underline-offset-4 decoration-blue-500/40 transition-colors"
+              >
+                Verse Next
+              </a>{" "}
+              innovation ecosystem.
             </p>
             <div className="flex items-center gap-2 rounded-xl bg-slate-900/80 p-3 ring-1 ring-white/10 text-xs text-slate-300">
               <Lock className="h-4 w-4 text-emerald-400 shrink-0" />
@@ -24,12 +33,17 @@ export const Footer: React.FC = () => {
               </span>
             </div>
 
-            <div className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-950/60 to-indigo-950/60 p-3 ring-1 ring-blue-500/20 text-xs text-blue-300">
-              <Sparkles className="h-4 w-4 text-blue-400 shrink-0" />
+            <a
+              href="https://versenext.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-950/60 to-indigo-950/60 p-3 ring-1 ring-blue-500/20 text-xs text-blue-300 hover:ring-blue-400/50 hover:text-white transition-all group"
+            >
+              <Sparkles className="h-4 w-4 text-blue-400 shrink-0 group-hover:scale-110 transition-transform" />
               <span>
-                Verse Next Innovation • 100% Free & Open Web Suite
+                <strong className="text-white">Verse Next Innovation</strong> • 100% Free & Open Web Suite ↗
               </span>
-            </div>
+            </a>
           </div>
 
           {/* Platform Solution Hubs */}
@@ -128,7 +142,18 @@ export const Footer: React.FC = () => {
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/[0.08] pt-8 sm:flex-row text-xs text-slate-400">
-          <p>© {new Date().getFullYear()} VideoReduce.com — An Innovation by Verse Next.</p>
+          <p>
+            © {new Date().getFullYear()} VideoReduce.com — An Innovation by{" "}
+            <a
+              href="https://versenext.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-blue-400 hover:text-blue-300 hover:underline"
+            >
+              Verse Next
+            </a>
+            .
+          </p>
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1 text-slate-400">
               <Globe className="h-3.5 w-3.5 text-blue-400" />

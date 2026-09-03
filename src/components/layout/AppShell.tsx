@@ -15,10 +15,7 @@ export const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) 
 
   return (
     <div className="flex min-h-screen flex-col bg-[#080c14] text-slate-100 selection:bg-blue-500 selection:text-white">
-      <Navbar
-        canInstall={true}
-        onInstallClick={() => setShowInstallModal(true)}
-      />
+      <Navbar />
       <div className="flex-1">{children}</div>
       <Footer />
       <PwaInstallBanner
