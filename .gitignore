@@ -33,3 +33,19 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Laravel Backend (api/)
+/api/vendor/
+/api/node_modules/
+/api/.env
+/api/.env.backup
+/api/.env.production
+/api/storage/*.key
+/api/storage/framework/cache/data/*
+/api/storage/framework/sessions/*
+/api/storage/framework/views/*
+/api/storage/logs/*
+/api/bootstrap/cache/*
+*.sqlite
+*.sqlite-journal
+

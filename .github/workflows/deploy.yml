@@ -1,4 +1,4 @@
-name: Deploy Next.js to Hostinger
+name: Deploy Fullstack (Next.js + Laravel API) to Hostinger
 
 on:
   push:
@@ -20,29 +20,77 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      - name: Install dependencies
+      - name: Install Frontend Dependencies
         run: npm ci || npm install
 
       - name: Build Next.js Static Export
+        env:
+          NEXT_PUBLIC_API_URL: https://api.videoreduce.com
         run: npm run build
 
-      - name: Deploy to Hostinger via Rsync
+      - name: Setup SSH
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Deploy Frontend (Next.js) to Hostinger
+        env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
           REMOTE_TARGET: ${{ secrets.REMOTE_TARGET }}
         run: |
-          mkdir -p ~/.ssh
-          echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          
           PORT="${SSH_PORT:-65002}"
           TARGET_DIR="${REMOTE_TARGET:-domains/videoreduce.com/public_html/}"
           
-          echo "Connecting to Hostinger ${SSH_HOST} on port ${PORT}..."
+          echo "Deploying Next.js frontend to ${SSH_HOST}:${TARGET_DIR}..."
           
           rsync -avz --delete \
             -e "ssh -p ${PORT} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
             out/ "${SSH_USER}@${SSH_HOST}:${TARGET_DIR}"
+
+      - name: Deploy Backend (Laravel API) to Hostinger Subdomain
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          REMOTE_API_TARGET: ${{ secrets.REMOTE_API_TARGET }}
+        run: |
+          PORT="${SSH_PORT:-65002}"
+          API_TARGET_DIR="${REMOTE_API_TARGET:-domains/api.videoreduce.com/public_html/}"
+          
+          echo "Deploying Laravel API to ${SSH_HOST}:${API_TARGET_DIR}..."
+          
+          # 1. Rsync api folder while safely preserving server .env, vendor, and storage
+          rsync -avz \
+            --exclude 'vendor/' \
+            --exclude '.env' \
+            --exclude '.env.*' \
+            --exclude 'database/*.sqlite' \
+            --exclude 'storage/logs/*' \
+            --exclude 'node_modules/' \
+            --exclude 'tests/' \
+            -e "ssh -p ${PORT} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+            api/ "${SSH_USER}@${SSH_HOST}:${API_TARGET_DIR}"
+
+          # 2. Run remote composer install and database migrations if available
+          echo "Running remote post-deployment tasks on Hostinger..."
+          ssh -p ${PORT} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "${SSH_USER}@${SSH_HOST}" << 'EOF'
+            TARGET_PATH="domains/api.videoreduce.com/public_html"
+            if [ -d "$TARGET_PATH" ]; then
+              cd "$TARGET_PATH"
+              if command -v composer &> /dev/null; then
+                echo "Installing backend dependencies..."
+                composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction
+              fi
+              if [ -f ".env" ] && command -v php &> /dev/null; then
+                echo "Running migrations and caching routes..."
+                php artisan migrate --force || true
+                php artisan config:cache || true
+                php artisan route:cache || true
+              fi
+            fi
+          EOF

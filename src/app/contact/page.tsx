@@ -13,25 +13,57 @@ import {
   HelpCircle,
   Globe,
   Clock,
+  AlertCircle,
 } from "lucide-react";
+
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    subject: "Feedback / Feature Request",
+    subject: "Feature Request",
     message: "",
   });
-  const [status, setStatus] = useState<"idle" | "submitting" | "success">("idle");
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("submitting");
+    setErrorMessage(null);
 
-    // Simulate instant secure submission (can also POST to Verse Next Laravel API endpoint)
-    await new Promise((r) => setTimeout(r, 800));
-    setStatus("success");
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+
+    try {
+      const response = await fetch(`${apiUrl}/api/contact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        if (data.errors) {
+          const firstError = Object.values(data.errors).flat()[0];
+          throw new Error(String(firstError || data.message || "Validation failed"));
+        }
+        throw new Error(data.message || `Server responded with status ${response.status}`);
+      }
+
+      setStatus("success");
+    } catch (err: any) {
+      console.error("Contact Form Submission Error:", err);
+      setStatus("error");
+      setErrorMessage(
+        err.message || "Failed to submit message. Please verify the backend API is running."
+      );
+    }
   };
+
 
   return (
     <div className="relative min-h-screen py-12 sm:py-20">
@@ -123,6 +155,13 @@ export default function ContactPage() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
+                {errorMessage && (
+                  <div className="flex items-start gap-2.5 rounded-xl border border-red-500/30 bg-red-500/10 p-3.5 text-xs text-red-300 animate-in fade-in">
+                    <AlertCircle className="h-4 w-4 shrink-0 text-red-400 mt-0.5" />
+                    <p className="leading-relaxed">{errorMessage}</p>
+                  </div>
+                )}
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
                     <label className="text-xs font-medium text-slate-300">Your Name</label>
@@ -135,6 +174,7 @@ export default function ContactPage() {
                       className="w-full rounded-xl border border-white/10 bg-slate-900 px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none"
                     />
                   </div>
+
 
                   <div className="space-y-1.5">
                     <label className="text-xs font-medium text-slate-300">Email Address</label>
