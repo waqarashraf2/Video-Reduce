@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Core Static Pages -->
   <url>
     <loc>https://videoreduce.com</loc>
     <changefreq>daily</changefreq>
@@ -36,7 +37,7 @@
     <priority>0.8</priority>
   </url>
 
-  <!-- Tools -->
+  <!-- Core Tools -->
   <url>
     <loc>https://videoreduce.com/tools/video-compressor</loc>
     <changefreq>daily</changefreq>
@@ -170,29 +171,7 @@
     <priority>0.85</priority>
   </url>
 
-  <!-- Solution Hubs / Compress Presets -->
-  <url>
-    <loc>https://videoreduce.com/compress/whatsapp-video</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://videoreduce.com/compress/discord-video</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://videoreduce.com/compress/email-attachment</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://videoreduce.com/compress/4k-to-1080p</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-
-  <!-- Format Converters -->
+  <!-- Format Converters (EN) -->
   <url>
     <loc>https://videoreduce.com/convert/mov-to-mp4</loc>
     <changefreq>weekly</changefreq>
@@ -213,4 +192,357 @@
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
+  <url>
+    <loc>https://videoreduce.com/convert/flv-to-mp4</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/convert/wmv-to-mp4</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/convert/3gp-to-mp4</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/convert/vob-to-mp4</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/convert/m4v-to-mp4</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/convert/ts-to-mp4</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/convert/ogv-to-mp4</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/convert/mp4-to-webm</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/convert/mp4-to-gif</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/convert/mov-to-gif</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/convert/mp4-to-mp3</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/convert/mov-to-mp3</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Compress Presets (EN) -->
+  <url>
+    <loc>https://videoreduce.com/compress/whatsapp-video</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/compress/discord-video</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/compress/email-attachment</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/compress/4k-to-1080p</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/compress/instagram-reels</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/compress/tiktok-video</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/compress/youtube-shorts</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/compress/slack-video</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/compress/twitter-x-video</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/compress/powerpoint-video</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/compress/zoom-recording</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/compress/compress-video-under-10mb</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/compress/compress-video-under-25mb</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/compress/compress-video-under-50mb</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/compress/compress-video-under-100mb</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/compress/compress-iphone-video</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Multi-Language Programmatic Routes (es, pt, fr, de, it, hi) -->
+  <!-- Spanish (es) -->
+  <url><loc>https://videoreduce.com/es/convert/mov-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/convert/mkv-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/convert/webm-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/convert/avi-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/convert/flv-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/convert/wmv-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/convert/3gp-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/convert/vob-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/convert/m4v-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/convert/ts-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/convert/ogv-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/convert/mp4-to-webm</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/convert/mp4-to-gif</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/convert/mov-to-gif</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/convert/mp4-to-mp3</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/convert/mov-to-mp3</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+
+  <url><loc>https://videoreduce.com/es/compress/whatsapp-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/compress/discord-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/compress/email-attachment</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/compress/4k-to-1080p</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/compress/instagram-reels</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/compress/tiktok-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/compress/youtube-shorts</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/compress/slack-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/compress/twitter-x-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/compress/powerpoint-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/compress/zoom-recording</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/compress/compress-video-under-10mb</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/compress/compress-video-under-25mb</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/compress/compress-video-under-50mb</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/compress/compress-video-under-100mb</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/es/compress/compress-iphone-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+
+  <!-- Portuguese (pt) -->
+  <url><loc>https://videoreduce.com/pt/convert/mov-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/convert/mkv-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/convert/webm-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/convert/avi-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/convert/flv-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/convert/wmv-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/convert/3gp-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/convert/vob-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/convert/m4v-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/convert/ts-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/convert/ogv-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/convert/mp4-to-webm</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/convert/mp4-to-gif</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/convert/mov-to-gif</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/convert/mp4-to-mp3</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/convert/mov-to-mp3</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+
+  <url><loc>https://videoreduce.com/pt/compress/whatsapp-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/compress/discord-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/compress/email-attachment</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/compress/4k-to-1080p</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/compress/instagram-reels</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/compress/tiktok-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/compress/youtube-shorts</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/compress/slack-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/compress/twitter-x-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/compress/powerpoint-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/compress/zoom-recording</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/compress/compress-video-under-10mb</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/compress/compress-video-under-25mb</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/compress/compress-video-under-50mb</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/compress/compress-video-under-100mb</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/pt/compress/compress-iphone-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+
+  <!-- French (fr) -->
+  <url><loc>https://videoreduce.com/fr/convert/mov-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/convert/mkv-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/convert/webm-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/convert/avi-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/convert/flv-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/convert/wmv-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/convert/3gp-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/convert/vob-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/convert/m4v-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/convert/ts-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/convert/ogv-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/convert/mp4-to-webm</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/convert/mp4-to-gif</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/convert/mov-to-gif</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/convert/mp4-to-mp3</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/convert/mov-to-mp3</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+
+  <url><loc>https://videoreduce.com/fr/compress/whatsapp-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/compress/discord-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/compress/email-attachment</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/compress/4k-to-1080p</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/compress/instagram-reels</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/compress/tiktok-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/compress/youtube-shorts</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/compress/slack-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/compress/twitter-x-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/compress/powerpoint-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/compress/zoom-recording</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/compress/compress-video-under-10mb</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/compress/compress-video-under-25mb</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/compress/compress-video-under-50mb</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/compress/compress-video-under-100mb</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/fr/compress/compress-iphone-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+
+  <!-- German (de) -->
+  <url><loc>https://videoreduce.com/de/convert/mov-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/convert/mkv-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/convert/webm-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/convert/avi-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/convert/flv-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/convert/wmv-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/convert/3gp-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/convert/vob-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/convert/m4v-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/convert/ts-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/convert/ogv-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/convert/mp4-to-webm</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/convert/mp4-to-gif</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/convert/mov-to-gif</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/convert/mp4-to-mp3</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/convert/mov-to-mp3</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+
+  <url><loc>https://videoreduce.com/de/compress/whatsapp-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/compress/discord-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/compress/email-attachment</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/compress/4k-to-1080p</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/compress/instagram-reels</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/compress/tiktok-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/compress/youtube-shorts</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/compress/slack-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/compress/twitter-x-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/compress/powerpoint-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/compress/zoom-recording</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/compress/compress-video-under-10mb</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/compress/compress-video-under-25mb</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/compress/compress-video-under-50mb</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/compress/compress-video-under-100mb</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/de/compress/compress-iphone-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+
+  <!-- Italian (it) -->
+  <url><loc>https://videoreduce.com/it/convert/mov-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/convert/mkv-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/convert/webm-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/convert/avi-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/convert/flv-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/convert/wmv-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/convert/3gp-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/convert/vob-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/convert/m4v-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/convert/ts-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/convert/ogv-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/convert/mp4-to-webm</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/convert/mp4-to-gif</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/convert/mov-to-gif</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/convert/mp4-to-mp3</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/convert/mov-to-mp3</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+
+  <url><loc>https://videoreduce.com/it/compress/whatsapp-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/compress/discord-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/compress/email-attachment</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/compress/4k-to-1080p</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/compress/instagram-reels</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/compress/tiktok-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/compress/youtube-shorts</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/compress/slack-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/compress/twitter-x-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/compress/powerpoint-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/compress/zoom-recording</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/compress/compress-video-under-10mb</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/compress/compress-video-under-25mb</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/compress/compress-video-under-50mb</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/compress/compress-video-under-100mb</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/it/compress/compress-iphone-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+
+  <!-- Hindi (hi) -->
+  <url><loc>https://videoreduce.com/hi/convert/mov-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/convert/mkv-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/convert/webm-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/convert/avi-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/convert/flv-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/convert/wmv-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/convert/3gp-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/convert/vob-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/convert/m4v-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/convert/ts-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/convert/ogv-to-mp4</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/convert/mp4-to-webm</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/convert/mp4-to-gif</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/convert/mov-to-gif</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/convert/mp4-to-mp3</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/convert/mov-to-mp3</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+
+  <url><loc>https://videoreduce.com/hi/compress/whatsapp-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/compress/discord-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/compress/email-attachment</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/compress/4k-to-1080p</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/compress/instagram-reels</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/compress/tiktok-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/compress/youtube-shorts</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/compress/slack-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/compress/twitter-x-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/compress/powerpoint-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/compress/zoom-recording</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/compress/compress-video-under-10mb</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/compress/compress-video-under-25mb</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/compress/compress-video-under-50mb</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/compress/compress-video-under-100mb</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://videoreduce.com/hi/compress/compress-iphone-video</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
 </urlset>

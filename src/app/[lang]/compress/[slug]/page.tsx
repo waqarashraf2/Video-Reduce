@@ -2,8 +2,15 @@ import React from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { FORMAT_PAIRS, getFormatPairBySlug } from "@/config/formats";
+import { USE_CASES } from "@/config/use-cases";
 import { getToolBySlug } from "@/config/tools";
+import {
+  SUPPORTED_LOCALES,
+  SupportedLocale,
+  isValidLocale,
+  getLocalizedUseCase,
+  getTranslations,
+} from "@/config/i18n";
 import { SocialShareBar } from "@/components/ui/SocialShareBar";
 import { CompetitorComparison } from "@/components/ui/CompetitorComparison";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
@@ -16,7 +23,7 @@ import {
   Sparkles,
   HelpCircle,
   CheckCircle2,
-  RefreshCw,
+  Globe,
 } from "lucide-react";
 
 const ToolRunner = dynamic(
@@ -26,47 +33,66 @@ const ToolRunner = dynamic(
     loading: () => (
       <div className="flex flex-col items-center justify-center p-8 space-y-3">
         <div className="h-6 w-6 animate-spin rounded-full border-2 border-blue-500 border-t-transparent" />
-        <span className="text-xs text-slate-400">Loading Converter Engine...</span>
+        <span className="text-xs text-slate-400">Loading Compressor...</span>
       </div>
     ),
   }
 );
 
-interface FormatPageProps {
+interface LocalizedUseCasePageProps {
   params: {
+    lang: string;
     slug: string;
   };
 }
 
 export async function generateStaticParams() {
-  return FORMAT_PAIRS.map((f) => ({
-    slug: f.slug,
-  }));
-}
+  const params: { lang: string; slug: string }[] = [];
 
-export async function generateMetadata({ params }: FormatPageProps): Promise<Metadata> {
-  const formatPair = getFormatPairBySlug(params.slug);
-  if (!formatPair) {
-    return {
-      title: "Converter Not Found | VideoReduce",
-    };
+  for (const lang of SUPPORTED_LOCALES) {
+    for (const uc of USE_CASES) {
+      params.push({
+        lang,
+        slug: uc.slug,
+      });
+    }
   }
 
+  return params;
+}
+
+export async function generateMetadata({
+  params,
+}: LocalizedUseCasePageProps): Promise<Metadata> {
+  if (!isValidLocale(params.lang)) {
+    return { title: "Page Not Found | VideoReduce" };
+  }
+
+  const useCase = getLocalizedUseCase(params.slug, params.lang);
+  if (!useCase) {
+    return { title: "Preset Not Found | VideoReduce" };
+  }
+
+  const canonicalUrl =
+    params.lang === "en"
+      ? `https://videoreduce.com/compress/${useCase.slug}`
+      : `https://videoreduce.com/${params.lang}/compress/${useCase.slug}`;
+
   return {
-    title: formatPair.seoTitle,
-    description: formatPair.seoDescription,
-    keywords: formatPair.keywords,
+    title: useCase.localeSeoTitle,
+    description: useCase.localeSeoDescription,
+    keywords: useCase.localeKeywords,
     alternates: {
-      canonical: `https://videoreduce.com/convert/${formatPair.slug}`,
+      canonical: canonicalUrl,
       languages: {
-        en: `https://videoreduce.com/convert/${formatPair.slug}`,
-        es: `https://videoreduce.com/es/convert/${formatPair.slug}`,
-        pt: `https://videoreduce.com/pt/convert/${formatPair.slug}`,
-        fr: `https://videoreduce.com/fr/convert/${formatPair.slug}`,
-        de: `https://videoreduce.com/de/convert/${formatPair.slug}`,
-        it: `https://videoreduce.com/it/convert/${formatPair.slug}`,
-        hi: `https://videoreduce.com/hi/convert/${formatPair.slug}`,
-        "x-default": `https://videoreduce.com/convert/${formatPair.slug}`,
+        en: `https://videoreduce.com/compress/${useCase.slug}`,
+        es: `https://videoreduce.com/es/compress/${useCase.slug}`,
+        pt: `https://videoreduce.com/pt/compress/${useCase.slug}`,
+        fr: `https://videoreduce.com/fr/compress/${useCase.slug}`,
+        de: `https://videoreduce.com/de/compress/${useCase.slug}`,
+        it: `https://videoreduce.com/it/compress/${useCase.slug}`,
+        hi: `https://videoreduce.com/hi/compress/${useCase.slug}`,
+        "x-default": `https://videoreduce.com/compress/${useCase.slug}`,
       },
     },
     robots: {
@@ -77,49 +103,60 @@ export async function generateMetadata({ params }: FormatPageProps): Promise<Met
       "max-snippet": -1,
     },
     openGraph: {
-      title: formatPair.seoTitle,
-      description: formatPair.seoDescription,
+      title: useCase.localeSeoTitle,
+      description: useCase.localeSeoDescription,
       type: "website",
       siteName: "VideoReduce",
-      url: `https://videoreduce.com/convert/${formatPair.slug}`,
+      url: canonicalUrl,
       images: [
         {
           url: "/og-image.jpg",
           width: 1200,
           height: 630,
-          alt: `${formatPair.title} — VideoReduce`,
+          alt: `${useCase.title} — VideoReduce`,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: formatPair.seoTitle,
-      description: formatPair.seoDescription,
+      title: useCase.localeSeoTitle,
+      description: useCase.localeSeoDescription,
       images: ["/og-image.jpg"],
     },
   };
 }
 
-export default function FormatConverterPage({ params }: FormatPageProps) {
-  const formatPair = getFormatPairBySlug(params.slug);
-
-  if (!formatPair) {
+export default function LocalizedUseCasePage({
+  params,
+}: LocalizedUseCasePageProps) {
+  if (!isValidLocale(params.lang)) {
     notFound();
   }
 
-  const tool = getToolBySlug(formatPair.toolSlug || "format-converter") || getToolBySlug("format-converter")!;
+  const useCase = getLocalizedUseCase(params.slug, params.lang);
+  if (!useCase) {
+    notFound();
+  }
+
+  const t = getTranslations(params.lang);
+  const tool = getToolBySlug("video-compressor")!;
+
+  const canonicalUrl =
+    params.lang === "en"
+      ? `https://videoreduce.com/compress/${useCase.slug}`
+      : `https://videoreduce.com/${params.lang}/compress/${useCase.slug}`;
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "SoftwareApplication",
-        name: `${formatPair.title} — VideoReduce`,
-        url: `https://videoreduce.com/convert/${formatPair.slug}`,
+        name: `${useCase.title} — VideoReduce`,
+        url: canonicalUrl,
         image: "https://videoreduce.com/logo.png",
         screenshot: "https://videoreduce.com/logo.png",
         applicationCategory: "MultimediaApplication",
-        applicationSubCategory: "Video & Audio Processing",
+        applicationSubCategory: "Video Compression & Optimization",
         operatingSystem: "All (Browser-Based: Windows, Mac, iOS, Android, Linux)",
         browserRequirements: "Requires WebAssembly Compatible Browser",
         offers: {
@@ -130,11 +167,11 @@ export default function FormatConverterPage({ params }: FormatPageProps) {
         aggregateRating: {
           "@type": "AggregateRating",
           ratingValue: "4.9",
-          ratingCount: "1250",
+          ratingCount: "1480",
           bestRating: "5",
           worstRating: "1",
         },
-        description: formatPair.seoDescription,
+        description: useCase.localeSeoDescription,
       },
       {
         "@type": "BreadcrumbList",
@@ -142,29 +179,29 @@ export default function FormatConverterPage({ params }: FormatPageProps) {
           {
             "@type": "ListItem",
             position: 1,
-            name: "Home",
-            item: "https://videoreduce.com",
+            name: t.home,
+            item: `https://videoreduce.com${params.lang === "en" ? "" : `/${params.lang}`}`,
           },
           {
             "@type": "ListItem",
             position: 2,
-            name: "Converters",
-            item: "https://videoreduce.com/tools/format-converter",
+            name: t.compress,
+            item: `https://videoreduce.com${params.lang === "en" ? "/compress/whatsapp-video" : `/${params.lang}/compress/whatsapp-video`}`,
           },
           {
             "@type": "ListItem",
             position: 3,
-            name: formatPair.title,
-            item: `https://videoreduce.com/convert/${formatPair.slug}`,
+            name: useCase.title,
+            item: canonicalUrl,
           },
         ],
       },
       {
         "@type": "HowTo",
-        name: `How to Convert ${formatPair.fromFormat} to ${formatPair.toFormat}`,
-        description: formatPair.seoDescription,
+        name: `${t.howToCompress} - ${useCase.title}`,
+        description: useCase.localeSeoDescription,
         totalTime: "PT1M",
-        step: formatPair.steps.map((s) => ({
+        step: (useCase.localeSteps || useCase.steps).map((s) => ({
           "@type": "HowToStep",
           position: s.step,
           name: s.title,
@@ -173,7 +210,7 @@ export default function FormatConverterPage({ params }: FormatPageProps) {
       },
       {
         "@type": "FAQPage",
-        mainEntity: formatPair.faqs.map((f) => ({
+        mainEntity: (useCase.localeFaqs || useCase.faqs).map((f) => ({
           "@type": "Question",
           name: f.q,
           acceptedAnswer: {
@@ -200,53 +237,73 @@ export default function FormatConverterPage({ params }: FormatPageProps) {
         {/* Breadcrumb Navigation & In-Page Language Switcher */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/5 pb-4">
           <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-medium text-slate-400">
-            <Link href="/" className="hover:text-blue-400 transition-colors">
-              Home
+            <Link
+              href={params.lang === "en" ? "/" : `/${params.lang}`}
+              className="hover:text-blue-400 transition-colors"
+            >
+              {t.home}
             </Link>
             <ChevronRight className="h-3.5 w-3.5 text-slate-600" />
-            <Link href="/tools/format-converter" className="hover:text-blue-400 transition-colors">
-              Convert
+            <Link
+              href={params.lang === "en" ? "/compress/whatsapp-video" : `/${params.lang}/compress/whatsapp-video`}
+              className="hover:text-blue-400 transition-colors"
+            >
+              {t.compress}
             </Link>
             <ChevronRight className="h-3.5 w-3.5 text-slate-600" />
-            <span className="text-blue-400 font-semibold">{formatPair.title}</span>
+            <span className="text-blue-400 font-semibold">{useCase.title}</span>
           </nav>
 
-          <LanguageSwitcher />
+          <div className="flex items-center gap-2">
+            <Globe className="h-3.5 w-3.5 text-blue-400" />
+            <LanguageSwitcher />
+          </div>
         </div>
 
         {/* Page Header */}
         <header className="space-y-4">
           <div className="flex flex-wrap items-center gap-2.5">
             <span className="rounded-full bg-blue-500/15 px-3 py-1 text-xs font-bold text-blue-400 ring-1 ring-blue-500/30">
-              {formatPair.badge}
+              {useCase.badge}
             </span>
             <span className="rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-bold text-emerald-400 ring-1 ring-emerald-500/30 flex items-center gap-1">
               <Lock className="h-3 w-3" />
-              100% In-Browser Transcode
+              {t.inBrowserPrivate}
             </span>
-            <span className="rounded-full bg-purple-500/15 px-3 py-1 text-xs font-bold text-purple-400 ring-1 ring-purple-500/30 flex items-center gap-1">
+            <span className="rounded-full bg-indigo-500/15 px-3 py-1 text-xs font-bold text-indigo-400 ring-1 ring-indigo-500/30 flex items-center gap-1">
               <Zap className="h-3 w-3" />
-              0 Server Wait Time
+              {t.noServerUpload}
             </span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
-            {formatPair.h1}
+            {useCase.localeH1}
           </h1>
 
           <p className="text-base sm:text-lg text-slate-300 max-w-3xl leading-relaxed">
-            {formatPair.tagline}
+            {useCase.localeTagline}
           </p>
+
+          <div className="flex flex-wrap items-center gap-3 pt-1 text-xs text-slate-400">
+            <div className="flex items-center gap-1.5 rounded-lg bg-slate-900/80 px-3 py-1.5 border border-white/10">
+              <span className="font-semibold text-white">{t.targetLimit}</span>
+              <span className="text-emerald-400 font-mono font-bold">{useCase.targetSizeText}</span>
+            </div>
+            <div className="flex items-center gap-1.5 rounded-lg bg-slate-900/80 px-3 py-1.5 border border-white/10">
+              <span className="font-semibold text-white">{t.recommendedPreset}</span>
+              <span className="text-blue-400 font-bold">{useCase.recommendedPreset}</span>
+            </div>
+          </div>
         </header>
 
-        {/* Interactive Format Converter Tool */}
+        {/* Interactive Compressor Tool */}
         <main className="rounded-3xl border border-blue-500/30 bg-[#0d1424]/90 p-6 sm:p-8 shadow-2xl backdrop-blur-2xl space-y-4">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-400">
-              <RefreshCw className="h-4 w-4" />
-              <span>Transcoding {formatPair.fromFormat} ➔ {formatPair.toFormat}</span>
+              <Sparkles className="h-4 w-4" />
+              <span>Instant Video Compression Engine</span>
             </div>
-            <span className="text-xs text-emerald-400 font-medium">0 Server Cost • Unlimited</span>
+            <span className="text-xs text-emerald-400 font-medium">{t.zeroServerCost}</span>
           </div>
 
           <ToolRunner tool={tool} />
@@ -254,33 +311,33 @@ export default function FormatConverterPage({ params }: FormatPageProps) {
 
         {/* Social Share Bar */}
         <SocialShareBar
-          title={`${formatPair.title} | VideoReduce.com`}
-          url={`https://videoreduce.com/convert/${formatPair.slug}`}
-          description={formatPair.seoDescription}
+          title={`${useCase.title} | VideoReduce.com`}
+          url={canonicalUrl}
+          description={useCase.localeSeoDescription}
         />
 
         {/* Competitor Differentiation (VideoReduce vs FreeConvert) */}
-        <CompetitorComparison lang="en" />
+        <CompetitorComparison lang={params.lang as SupportedLocale} />
 
-        {/* Why Convert & Technical Specs */}
+        {/* Why It Matters & Best Settings Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-6 sm:p-8 space-y-3">
             <h2 className="text-lg font-bold text-white flex items-center gap-2">
               <Zap className="h-5 w-5 text-blue-400" />
-              Why Convert {formatPair.fromFormat} to {formatPair.toFormat}?
+              {t.whyCompressTitle}
             </h2>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              {formatPair.whyConvert}
+              {useCase.localeWhyItMatters}
             </p>
           </div>
 
           <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-6 sm:p-8 space-y-3">
             <h2 className="text-lg font-bold text-white flex items-center gap-2">
               <CheckCircle2 className="h-5 w-5 text-emerald-400" />
-              Technical Format Specifications
+              {t.techSpecsTitle}
             </h2>
             <div className="space-y-2.5 pt-1">
-              {formatPair.technicalSpecs.map((s, idx) => (
+              {(useCase.localeBestSettings || useCase.bestSettings).map((s, idx) => (
                 <div key={idx} className="flex justify-between border-b border-white/5 pb-1.5 text-xs">
                   <span className="text-slate-400">{s.label}:</span>
                   <span className="font-semibold text-white">{s.value}</span>
@@ -293,11 +350,13 @@ export default function FormatConverterPage({ params }: FormatPageProps) {
         {/* Step-by-Step Guide */}
         <section className="space-y-6">
           <div className="text-center space-y-2">
-            <h2 className="text-2xl font-bold text-white">How to Convert {formatPair.fromFormat} to {formatPair.toFormat}</h2>
+            <h2 className="text-2xl font-bold text-white">
+              {t.howToCompress} - {useCase.title}
+            </h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {formatPair.steps.map((s) => (
+            {(useCase.localeSteps || useCase.steps).map((s) => (
               <div
                 key={s.step}
                 className="rounded-2xl border border-white/10 bg-slate-900/40 p-6 space-y-2"
@@ -313,14 +372,14 @@ export default function FormatConverterPage({ params }: FormatPageProps) {
         </section>
 
         {/* FAQs */}
-        {formatPair.faqs.length > 0 && (
+        {(useCase.localeFaqs || useCase.faqs).length > 0 && (
           <section className="space-y-4 pt-6 border-t border-white/10">
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
               <HelpCircle className="h-5 w-5 text-blue-400" />
-              Frequently Asked Questions
+              {t.faqTitle}
             </h2>
             <div className="grid grid-cols-1 gap-3">
-              {formatPair.faqs.map((f, idx) => (
+              {(useCase.localeFaqs || useCase.faqs).map((f, idx) => (
                 <div key={idx} className="rounded-2xl border border-white/10 bg-slate-900/60 p-5 space-y-1.5">
                   <div className="text-sm font-semibold text-white">{f.q}</div>
                   <p className="text-xs text-slate-300 leading-relaxed">{f.a}</p>

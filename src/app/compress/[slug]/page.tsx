@@ -5,7 +5,18 @@ import Link from "next/link";
 import { USE_CASES, getUseCaseBySlug } from "@/config/use-cases";
 import { getToolBySlug } from "@/config/tools";
 import { SocialShareBar } from "@/components/ui/SocialShareBar";
+import { CompetitorComparison } from "@/components/ui/CompetitorComparison";
+import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 import dynamic from "next/dynamic";
+import {
+  ChevronRight,
+  ShieldCheck,
+  Zap,
+  Lock,
+  Sparkles,
+  HelpCircle,
+  CheckCircle2,
+} from "lucide-react";
 
 const ToolRunner = dynamic(
   () => import("@/components/tools/ToolRunner").then((m) => m.ToolRunner),
@@ -19,15 +30,6 @@ const ToolRunner = dynamic(
     ),
   }
 );
-import {
-  ChevronRight,
-  ShieldCheck,
-  Zap,
-  Lock,
-  Sparkles,
-  HelpCircle,
-  CheckCircle2,
-} from "lucide-react";
 
 interface UseCasePageProps {
   params: {
@@ -45,26 +47,39 @@ export async function generateMetadata({ params }: UseCasePageProps): Promise<Me
   const useCase = getUseCaseBySlug(params.slug);
   if (!useCase) {
     return {
-      title: "Page Not Found | VideoReduce.com",
+      title: "Page Not Found | VideoReduce",
     };
   }
 
   return {
-    title: useCase.title,
+    title: useCase.seoTitle,
     description: useCase.seoDescription,
-    keywords: useCase.keywords.slice(0, 8),
+    keywords: useCase.keywords,
     alternates: {
       canonical: `https://videoreduce.com/compress/${useCase.slug}`,
+      languages: {
+        en: `https://videoreduce.com/compress/${useCase.slug}`,
+        es: `https://videoreduce.com/es/compress/${useCase.slug}`,
+        pt: `https://videoreduce.com/pt/compress/${useCase.slug}`,
+        fr: `https://videoreduce.com/fr/compress/${useCase.slug}`,
+        de: `https://videoreduce.com/de/compress/${useCase.slug}`,
+        it: `https://videoreduce.com/it/compress/${useCase.slug}`,
+        hi: `https://videoreduce.com/hi/compress/${useCase.slug}`,
+        "x-default": `https://videoreduce.com/compress/${useCase.slug}`,
+      },
     },
     robots: {
       index: true,
       follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
     openGraph: {
-      title: `${useCase.title} — VideoReduce.com`,
+      title: useCase.seoTitle,
       description: useCase.seoDescription,
       type: "website",
-      siteName: "VideoReduce.com",
+      siteName: "VideoReduce",
       url: `https://videoreduce.com/compress/${useCase.slug}`,
       images: [
         {
@@ -77,7 +92,7 @@ export async function generateMetadata({ params }: UseCasePageProps): Promise<Me
     },
     twitter: {
       card: "summary_large_image",
-      title: useCase.title,
+      title: useCase.seoTitle,
       description: useCase.seoDescription,
       images: ["/og-image.jpg"],
     },
@@ -98,7 +113,7 @@ export default function UseCasePage({ params }: UseCasePageProps) {
     "@graph": [
       {
         "@type": "SoftwareApplication",
-        name: `${useCase.title} — VideoReduce.com`,
+        name: `${useCase.title} — VideoReduce`,
         url: `https://videoreduce.com/compress/${useCase.slug}`,
         image: "https://videoreduce.com/logo.png",
         screenshot: "https://videoreduce.com/logo.png",
@@ -114,7 +129,7 @@ export default function UseCasePage({ params }: UseCasePageProps) {
         aggregateRating: {
           "@type": "AggregateRating",
           ratingValue: "4.9",
-          ratingCount: "890",
+          ratingCount: "1480",
           bestRating: "5",
           worstRating: "1",
         },
@@ -147,7 +162,7 @@ export default function UseCasePage({ params }: UseCasePageProps) {
         "@type": "HowTo",
         name: `How to ${useCase.title}`,
         description: useCase.seoDescription,
-        totalTime: "PT2M",
+        totalTime: "PT1M",
         step: useCase.steps.map((s) => ({
           "@type": "HowToStep",
           position: s.step,
@@ -181,20 +196,26 @@ export default function UseCasePage({ params }: UseCasePageProps) {
       <div className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 h-[450px] w-full max-w-7xl bg-hero-glow blur-3xl opacity-60" />
 
       <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 space-y-10">
-        {/* Breadcrumb Navigation */}
-        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-medium text-slate-400">
-          <Link href="/" className="hover:text-blue-400 transition-colors">
-            Home
-          </Link>
-          <ChevronRight className="h-3.5 w-3.5 text-slate-600" />
-          <span className="text-slate-500">Compress</span>
-          <ChevronRight className="h-3.5 w-3.5 text-slate-600" />
-          <span className="text-blue-400 font-semibold">{useCase.title}</span>
-        </nav>
+        {/* Breadcrumb Navigation & In-Page Language Switcher */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/5 pb-4">
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-medium text-slate-400">
+            <Link href="/" className="hover:text-blue-400 transition-colors">
+              Home
+            </Link>
+            <ChevronRight className="h-3.5 w-3.5 text-slate-600" />
+            <Link href="/tools/video-compressor" className="hover:text-blue-400 transition-colors">
+              Compress
+            </Link>
+            <ChevronRight className="h-3.5 w-3.5 text-slate-600" />
+            <span className="text-blue-400 font-semibold">{useCase.title}</span>
+          </nav>
+
+          <LanguageSwitcher />
+        </div>
 
         {/* Page Header */}
         <header className="space-y-4">
-          <div className="flex items-center gap-2.5">
+          <div className="flex flex-wrap items-center gap-2.5">
             <span className="rounded-full bg-blue-500/15 px-3 py-1 text-xs font-bold text-blue-400 ring-1 ring-blue-500/30">
               {useCase.badge}
             </span>
@@ -202,13 +223,17 @@ export default function UseCasePage({ params }: UseCasePageProps) {
               <Lock className="h-3 w-3" />
               100% Private Wasm
             </span>
+            <span className="rounded-full bg-indigo-500/15 px-3 py-1 text-xs font-bold text-indigo-400 ring-1 ring-indigo-500/30 flex items-center gap-1">
+              <Zap className="h-3 w-3" />
+              0 Server Wait Time
+            </span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
             {useCase.h1}
           </h1>
 
-          <p className="text-base sm:text-lg text-slate-300 max-w-3xl">
+          <p className="text-base sm:text-lg text-slate-300 max-w-3xl leading-relaxed">
             {useCase.tagline}
           </p>
 
@@ -231,7 +256,7 @@ export default function UseCasePage({ params }: UseCasePageProps) {
               <Sparkles className="h-4 w-4" />
               <span>Instant Video Compression Engine</span>
             </div>
-            <span className="text-xs text-slate-400">0 Bytes Uploaded</span>
+            <span className="text-xs text-emerald-400 font-medium">0 Bytes Uploaded to Cloud</span>
           </div>
 
           <ToolRunner tool={tool} />
@@ -243,6 +268,9 @@ export default function UseCasePage({ params }: UseCasePageProps) {
           url={`https://videoreduce.com/compress/${useCase.slug}`}
           description={useCase.seoDescription}
         />
+
+        {/* Competitor Differentiation (VideoReduce vs FreeConvert) */}
+        <CompetitorComparison lang="en" />
 
         {/* Why It Matters & Best Settings Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

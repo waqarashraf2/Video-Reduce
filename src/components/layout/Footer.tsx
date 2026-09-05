@@ -1,16 +1,34 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ARTICLES } from "@/config/articles";
 import { USE_CASES } from "@/config/use-cases";
 import { FORMAT_PAIRS } from "@/config/formats";
+import { SUPPORTED_LOCALES, SupportedLocale } from "@/config/i18n/locales";
+import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 import { BrandLogo } from "@/components/ui/BrandLogo";
 import { Cpu, Lock, Globe, Sparkles } from "lucide-react";
 
 export const Footer: React.FC = () => {
+  const pathname = usePathname() || "/";
+  const segments = pathname.split("/").filter(Boolean);
+  const firstSegment = segments[0];
+  const currentLang: SupportedLocale =
+    SUPPORTED_LOCALES.includes(firstSegment as SupportedLocale)
+      ? (firstSegment as SupportedLocale)
+      : "en";
+
+  const getHref = (path: string) => {
+    if (currentLang === "en") return path;
+    return `/${currentLang}${path}`;
+  };
+
   return (
     <footer className="border-t border-white/[0.08] bg-[#05080e] pt-16 pb-12 text-slate-400">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-5">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5">
           {/* Brand & Privacy Statement */}
           <div className="lg:col-span-2 space-y-4">
             <BrandLogo size="md" />
@@ -46,64 +64,74 @@ export const Footer: React.FC = () => {
             </a>
           </div>
 
-          {/* Platform Solution Hubs */}
+          {/* Format Converters */}
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-wider text-white">
+              Format Converters
+            </p>
+            <ul className="mt-4 space-y-2 text-xs">
+              {FORMAT_PAIRS.slice(0, 10).map((fp) => (
+                <li key={fp.slug}>
+                  <Link
+                    href={getHref(`/convert/${fp.slug}`)}
+                    className="hover:text-blue-400 transition-colors"
+                  >
+                    {fp.title}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link
+                  href="/tools/format-converter"
+                  className="font-semibold text-blue-400 hover:text-blue-300"
+                >
+                  All 16 Converters ➔
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Solution Hubs / Compress Presets */}
           <div>
             <p className="text-sm font-semibold uppercase tracking-wider text-white">
               Platform Solutions
             </p>
             <ul className="mt-4 space-y-2 text-xs">
-              {USE_CASES.map((uc) => (
+              {USE_CASES.slice(0, 10).map((uc) => (
                 <li key={uc.slug}>
-                  <Link href={`/compress/${uc.slug}`} className="hover:text-blue-400 transition-colors">
+                  <Link
+                    href={getHref(`/compress/${uc.slug}`)}
+                    className="hover:text-blue-400 transition-colors"
+                  >
                     {uc.title}
                   </Link>
                 </li>
               ))}
-              {FORMAT_PAIRS.map((fp) => (
-                <li key={fp.slug}>
-                  <Link href={`/convert/${fp.slug}`} className="hover:text-blue-400 transition-colors">
-                    {fp.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Editorial Articles & Guides */}
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-wider text-white">
-              Guides & Articles
-            </p>
-            <ul className="mt-4 space-y-2 text-xs">
               <li>
-                <Link href="/articles" className="hover:text-blue-400 transition-colors font-semibold text-blue-400">
-                  All Knowledge Guides ➔
+                <Link
+                  href="/tools/video-compressor"
+                  className="font-semibold text-blue-400 hover:text-blue-300"
+                >
+                  All 16 Solution Presets ➔
                 </Link>
               </li>
-              {ARTICLES.slice(0, 5).map((art) => (
-                <li key={art.slug}>
-                  <Link href={`/articles/${art.slug}`} className="hover:text-blue-400 transition-colors line-clamp-1">
-                    {art.title.length > 35 ? art.title.slice(0, 32) + "..." : art.title}
-                  </Link>
-                </li>
-              ))}
             </ul>
           </div>
 
           {/* Privacy & Legal */}
           <div>
             <p className="text-sm font-semibold uppercase tracking-wider text-white">
-              Privacy & Info
+              Privacy & Guides
             </p>
             <ul className="mt-4 space-y-2.5 text-xs">
               <li>
-                <Link href="/tools/video-compressor" className="hover:text-blue-400 transition-colors">
-                  Smart Video Compressor
+                <Link href="/articles" className="hover:text-blue-400 transition-colors font-semibold text-blue-400">
+                  All Knowledge Guides
                 </Link>
               </li>
               <li>
-                <Link href="/tools/metadata-stripper" className="hover:text-blue-400 transition-colors">
-                  Metadata Privacy Shield
+                <Link href="/tools/video-compressor" className="hover:text-blue-400 transition-colors">
+                  Smart Video Compressor
                 </Link>
               </li>
               <li>
@@ -114,11 +142,6 @@ export const Footer: React.FC = () => {
               <li>
                 <Link href="/faq" className="hover:text-blue-400 transition-colors">
                   Frequently Asked Questions (FAQ)
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="hover:text-blue-400 transition-colors">
-                  Contact & Support
                 </Link>
               </li>
               <li>
@@ -141,7 +164,19 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/[0.08] pt-8 sm:flex-row text-xs text-slate-400">
+        {/* Global 7-Language Switcher (Dynamic Current Page Preserving) */}
+        <div className="border-t border-white/[0.08] pt-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-2 text-xs font-semibold text-slate-300">
+              <Globe className="h-4 w-4 text-blue-400" />
+              <span>Select Language / Idioma / Sprache / भाषा:</span>
+            </div>
+            <LanguageSwitcher />
+          </div>
+        </div>
+
+        {/* Copyright */}
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-white/[0.08] pt-6 sm:flex-row text-xs text-slate-400">
           <p>
             © {new Date().getFullYear()} VideoReduce.com — An Innovation by{" "}
             <a
