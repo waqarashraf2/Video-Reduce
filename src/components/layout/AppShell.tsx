@@ -10,6 +10,11 @@ const PwaInstallBanner = dynamic(
   { ssr: false }
 );
 
+const CookieConsentBanner = dynamic(
+  () => import("./CookieConsentBanner").then((mod) => mod.CookieConsentBanner),
+  { ssr: false }
+);
+
 export const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [showInstallModal, setShowInstallModal] = useState(false);
 
@@ -18,6 +23,7 @@ export const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) 
       <Navbar />
       <div className="flex-1">{children}</div>
       <Footer />
+      <CookieConsentBanner />
       <PwaInstallBanner
         isOpen={showInstallModal}
         onClose={() => setShowInstallModal(false)}

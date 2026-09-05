@@ -110,7 +110,7 @@ export const LiveScreenView: React.FC<LiveScreenViewProps> = ({
           return "max-h-[360px]";
       }
     }
-    return "max-h-[360px]";
+    return "max-h-[220px] sm:max-h-[300px]";
   };
 
   // Compute Watermark overlay

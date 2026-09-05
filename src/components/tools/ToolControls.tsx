@@ -95,26 +95,24 @@ export const ToolControls: React.FC<ToolControlsProps> = ({
       }
 
       return (
-        <div className="space-y-5 rounded-2xl bg-slate-900/80 p-5 border border-white/10">
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/5 pb-3">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-              <Sliders className="h-4 w-4 text-blue-400" />
-              Smart Compression Target
+        <div className="space-y-3.5 rounded-2xl bg-slate-900/80 p-3.5 sm:p-4 border border-white/10">
+          {/* Header Row: Title & Estimated Size */}
+          <div className="flex items-center justify-between gap-2 border-b border-white/5 pb-2.5">
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
+              <Sliders className="h-3.5 w-3.5 text-blue-400" />
+              Target Size & Quality
             </span>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-slate-400">Estimated Output:</span>
-              <span className="rounded bg-emerald-500/20 px-2 py-0.5 font-mono text-xs font-bold text-emerald-400">
-                ~{formatBytes(estimatedBytes)} (-{Math.round(((originalBytes - estimatedBytes) / originalBytes) * 100)}%)
-              </span>
-            </div>
+            <span className="rounded bg-emerald-500/20 px-2 py-0.5 font-mono text-[11px] font-bold text-emerald-400">
+              Est: ~{formatBytes(estimatedBytes)} (-{Math.round(((originalBytes - estimatedBytes) / originalBytes) * 100)}%)
+            </span>
           </div>
 
-          {/* Quick Target Reduction Presets */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          {/* Compact 3-Column Target Reduction Presets */}
+          <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
             {[
-              { label: "50% Smaller", sub: "Balanced Quality & Size", percent: 50, badge: "Recommended" },
-              { label: "70% Smaller", sub: "Small File (WhatsApp/Email)", percent: 70, badge: "Max Savings" },
-              { label: "30% Smaller", sub: "High Definition 1080p", percent: 30, badge: "Crisp Quality" },
+              { label: "50% Smaller", percent: 50, tag: "Balanced" },
+              { label: "70% Smaller", percent: 70, tag: "Max Save" },
+              { label: "30% Smaller", percent: 30, tag: "1080p HD" },
             ].map((p) => {
               const isSelected = opt.compressionMode === "percentage" && opt.targetPercent === p.percent;
               const estSize = originalBytes * (1 - p.percent / 100);
@@ -130,50 +128,34 @@ export const ToolControls: React.FC<ToolControlsProps> = ({
                       crf: p.percent >= 70 ? 30 : p.percent >= 50 ? 28 : 24,
                     })
                   }
-                  className={`relative flex flex-col items-start rounded-xl p-3.5 text-left transition-all ${
+                  className={`flex flex-col items-center justify-center rounded-xl py-2 px-1 text-center transition-all ${
                     isSelected
-                      ? "bg-blue-600/20 border-2 border-blue-500 shadow-lg shadow-blue-500/20 text-white"
+                      ? "bg-blue-600 border border-blue-400 shadow-md shadow-blue-500/30 text-white"
                       : "bg-slate-950/60 border border-white/5 text-slate-300 hover:bg-slate-800/80"
                   }`}
                 >
-                  <div className="flex w-full items-center justify-between">
-                    <span className="font-bold text-sm">{p.label}</span>
-                    <span
-                      className={`text-[10px] font-semibold rounded px-1.5 py-0.5 ${
-                        isSelected ? "bg-blue-500 text-white" : "bg-slate-800 text-slate-400"
-                      }`}
-                    >
-                      {p.badge}
-                    </span>
-                  </div>
-                  <span className="text-[11px] text-slate-400 mt-1">{p.sub}</span>
-                  <div className="mt-2 font-mono text-xs font-semibold text-emerald-400">
-                    Target: ~{formatBytes(estSize)}
-                  </div>
+                  <span className="font-bold text-xs sm:text-sm">{p.label}</span>
+                  <span className={`text-[10px] mt-0.5 font-mono font-semibold ${isSelected ? "text-blue-100" : "text-emerald-400"}`}>
+                    ~{formatBytes(estSize)}
+                  </span>
                 </button>
               );
             })}
           </div>
 
-          {/* Custom Target Size in MB */}
-          <div className="rounded-xl bg-slate-950/80 p-4 border border-white/5 space-y-3">
-            <div className="flex items-center justify-between">
-              <label className="text-xs font-medium text-slate-300 flex items-center gap-1.5">
-                <Target className="h-3.5 w-3.5 text-blue-400" />
-                Or Enter Custom Target Size (MB)
-              </label>
-              {opt.compressionMode === "target-size" && (
-                <span className="text-[11px] font-bold text-blue-400">Active</span>
-              )}
-            </div>
-
-            <div className="flex items-center gap-3">
+          {/* Compact Custom Target Size in MB */}
+          <div className="flex items-center justify-between rounded-xl bg-slate-950/60 px-3 py-2 border border-white/5 text-xs">
+            <label className="font-medium text-slate-300 flex items-center gap-1.5">
+              <Target className="h-3.5 w-3.5 text-blue-400" />
+              <span>Or Custom Target Size:</span>
+            </label>
+            <div className="flex items-center gap-2">
               <input
                 type="number"
                 min={1}
                 max={Math.max(1, Math.round(originalBytes / (1024 * 1024)))}
                 step="0.5"
-                placeholder="e.g. 5"
+                placeholder="e.g. 15"
                 value={opt.targetSizeMB || ""}
                 onChange={(e) => {
                   const val = parseFloat(e.target.value);
@@ -183,29 +165,32 @@ export const ToolControls: React.FC<ToolControlsProps> = ({
                     setComp({ compressionMode: "percentage", targetSizeMB: undefined });
                   }
                 }}
-                className="w-32 rounded-xl border border-white/10 bg-slate-900 px-3 py-2 text-sm font-mono text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none"
+                className="w-20 rounded-lg border border-white/10 bg-slate-900 px-2 py-1 text-xs font-mono text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none"
               />
-              <span className="text-xs text-slate-400">
-                MB (Original: {formatBytes(originalBytes)})
-              </span>
+              <span className="text-[11px] text-slate-400 font-mono">MB</span>
             </div>
           </div>
 
-          {/* Resolution Downscaling */}
-          <div className="space-y-2 pt-2 border-t border-white/5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-              <Maximize className="h-4 w-4 text-blue-400" />
-              Target Resolution
-            </label>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          {/* Compact Resolution Downscaling */}
+          <div className="space-y-1.5 pt-1 border-t border-white/5">
+            <div className="flex items-center justify-between">
+              <label className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                <Maximize className="h-3.5 w-3.5 text-blue-400" />
+                Target Resolution
+              </label>
+              <span className="text-[10px] font-mono text-blue-400 uppercase font-bold">
+                {opt.resolution || "Original"}
+              </span>
+            </div>
+            <div className="grid grid-cols-4 gap-1.5">
               {(["original", "1080p", "720p", "480p"] as ResolutionOption[]).map((res) => (
                 <button
                   key={res}
                   type="button"
                   onClick={() => setComp({ resolution: res })}
-                  className={`rounded-xl px-3 py-2 text-xs font-semibold capitalize transition-all ${
+                  className={`rounded-lg py-1.5 text-xs font-semibold capitalize transition-all ${
                     opt.resolution === res
-                      ? "bg-blue-600 text-white shadow-md shadow-blue-500/30"
+                      ? "bg-blue-600 text-white shadow-sm shadow-blue-500/30"
                       : "bg-slate-950/60 text-slate-300 hover:bg-slate-800"
                   }`}
                 >
@@ -215,26 +200,26 @@ export const ToolControls: React.FC<ToolControlsProps> = ({
             </div>
           </div>
 
-          {/* Compression Speed / Engine Preset */}
-          <div className="space-y-2 pt-2 border-t border-white/5">
+          {/* Compact Compression Speed / Preset */}
+          <div className="space-y-1.5 pt-1 border-t border-white/5">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                <Zap className="h-4 w-4 text-amber-400" />
-                Processing Speed & Performance
+              <label className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                <Zap className="h-3.5 w-3.5 text-amber-400" />
+                Speed & Performance
               </label>
-              <span className="text-[11px] font-mono text-emerald-400 font-semibold">
+              <span className="text-[10px] font-mono text-emerald-400 font-semibold">
                 {opt.preset === "ultrafast" || !opt.preset
-                  ? "⚡ Turbo (5x-10x Fast)"
+                  ? "⚡ Turbo"
                   : opt.preset === "superfast"
                   ? "⚖️ Balanced"
-                  : "🎯 Maximum Ratio"}
+                  : "🎯 Max Quality"}
               </span>
             </div>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-1.5">
               {[
-                { id: "ultrafast", label: "⚡ Turbo Fast", desc: "Recommended (Near-instant)" },
-                { id: "superfast", label: "⚖️ Balanced", desc: "Fast multi-core" },
-                { id: "veryfast", label: "🎯 Maximum", desc: "Smaller file (Slower)" },
+                { id: "ultrafast", label: "⚡ Turbo" },
+                { id: "superfast", label: "⚖️ Balanced" },
+                { id: "veryfast", label: "🎯 Max Quality" },
               ].map((p) => {
                 const isSelected = (opt.preset || "ultrafast") === p.id;
                 return (
@@ -242,25 +227,24 @@ export const ToolControls: React.FC<ToolControlsProps> = ({
                     key={p.id}
                     type="button"
                     onClick={() => setComp({ preset: p.id as any })}
-                    className={`rounded-xl p-2.5 text-left transition-all ${
+                    className={`rounded-lg py-1.5 text-center text-xs font-semibold transition-all ${
                       isSelected
-                        ? "bg-amber-500/20 border-2 border-amber-500 text-white shadow-lg shadow-amber-500/10"
+                        ? "bg-amber-500/20 border border-amber-500 text-amber-200"
                         : "bg-slate-950/60 border border-white/5 text-slate-300 hover:bg-slate-800"
                     }`}
                   >
-                    <div className="text-xs font-bold">{p.label}</div>
-                    <div className="text-[10px] text-slate-400 mt-0.5">{p.desc}</div>
+                    {p.label}
                   </button>
                 );
               })}
             </div>
           </div>
 
-          {/* Mute Audio Option */}
-          <div className="flex items-center justify-between pt-2">
+          {/* Compact Mute Audio Option */}
+          <div className="flex items-center justify-between pt-1 border-t border-white/5">
             <span className="text-xs text-slate-300 flex items-center gap-1.5">
-              <VolumeX className="h-4 w-4 text-slate-400" />
-              Mute / Strip Audio (Additional 10-15% size saving)
+              <VolumeX className="h-3.5 w-3.5 text-slate-400" />
+              Mute / Strip Audio (-10-15% size)
             </span>
             <input
               type="checkbox"
