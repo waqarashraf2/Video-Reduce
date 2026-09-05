@@ -1,7 +1,27 @@
+"use client";
+
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, Sparkles, Video } from "lucide-react";
+import { SUPPORTED_LOCALES, SupportedLocale } from "@/config/i18n/locales";
 
 export default function NotFound() {
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const path = window.location.pathname;
+      const segments = path.split("/").filter(Boolean);
+      const firstSegment = segments[0];
+
+      // If URL has a language prefix (like /es/articles, /fr/about, /hi/tools/...)
+      // but that route is not localized, seamlessly redirect to the clean standard route (/articles, /about, etc.)
+      if (SUPPORTED_LOCALES.includes(firstSegment as SupportedLocale)) {
+        const cleanSegments = segments.slice(1);
+        const cleanPath = "/" + cleanSegments.join("/");
+        window.location.replace(cleanPath || "/");
+      }
+    }
+  }, []);
+
   return (
     <div className="relative min-h-[70vh] flex items-center justify-center px-4 py-16">
       <div className="relative mx-auto max-w-lg text-center space-y-6">

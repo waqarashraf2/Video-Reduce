@@ -23,6 +23,17 @@ export function getLocalizedPath(pathname: string, targetLang: SupportedLocale):
   const coreSegments = hasLocalePrefix ? segments.slice(1) : segments;
   const corePath = "/" + coreSegments.join("/");
 
+  // CRITICAL SAFEGUARD: Localization is strictly ONLY supported for /convert/[slug] and /compress/[slug]
+  const isLocalizable =
+    coreSegments.length >= 2 &&
+    (coreSegments[0] === "convert" || coreSegments[0] === "compress");
+
+  if (!isLocalizable) {
+    // For articles, tools, about, faq, contact, terms, privacy:
+    // ALWAYS return the clean, simple path without language prefix to prevent 404s!
+    return corePath || "/";
+  }
+
   if (targetLang === "en") {
     return corePath || "/";
   }
