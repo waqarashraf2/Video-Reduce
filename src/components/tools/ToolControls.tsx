@@ -114,8 +114,9 @@ export const ToolControls: React.FC<ToolControlsProps> = ({
               { label: "70% Smaller", percent: 70, tag: "Max Save" },
               { label: "30% Smaller", percent: 30, tag: "1080p HD" },
             ].map((p) => {
-              const isSelected = opt.compressionMode === "percentage" && opt.targetPercent === p.percent;
+              const isSelected = opt.targetPercent === p.percent;
               const estSize = originalBytes * (1 - p.percent / 100);
+              const targetMB = Number((estSize / (1024 * 1024)).toFixed(1));
 
               return (
                 <button
@@ -123,9 +124,9 @@ export const ToolControls: React.FC<ToolControlsProps> = ({
                   type="button"
                   onClick={() =>
                     setComp({
-                      compressionMode: "percentage",
+                      compressionMode: "target-size",
                       targetPercent: p.percent,
-                      crf: p.percent >= 70 ? 30 : p.percent >= 50 ? 28 : 24,
+                      targetSizeMB: targetMB,
                     })
                   }
                   className={`flex flex-col items-center justify-center rounded-xl py-2 px-1 text-center transition-all ${
@@ -136,7 +137,7 @@ export const ToolControls: React.FC<ToolControlsProps> = ({
                 >
                   <span className="font-bold text-xs sm:text-sm">{p.label}</span>
                   <span className={`text-[10px] mt-0.5 font-mono font-semibold ${isSelected ? "text-blue-100" : "text-emerald-400"}`}>
-                    ~{formatBytes(estSize)}
+                    ~{formatBytes(estSize)} ({targetMB} MB)
                   </span>
                 </button>
               );
@@ -147,25 +148,26 @@ export const ToolControls: React.FC<ToolControlsProps> = ({
           <div className="flex items-center justify-between rounded-xl bg-slate-950/60 px-3 py-2 border border-white/5 text-xs">
             <label className="font-medium text-slate-300 flex items-center gap-1.5">
               <Target className="h-3.5 w-3.5 text-blue-400" />
-              <span>Or Custom Target Size:</span>
+              <span>Target Size:</span>
             </label>
             <div className="flex items-center gap-2">
               <input
                 type="number"
                 min={1}
                 max={Math.max(1, Math.round(originalBytes / (1024 * 1024)))}
-                step="0.5"
-                placeholder="e.g. 15"
-                value={opt.targetSizeMB || ""}
+                step="0.1"
+                placeholder="e.g. 76.3"
+                value={opt.targetSizeMB !== undefined ? opt.targetSizeMB : ""}
                 onChange={(e) => {
                   const val = parseFloat(e.target.value);
                   if (!isNaN(val) && val > 0) {
-                    setComp({ compressionMode: "target-size", targetSizeMB: val });
+                    const calcPercent = Math.max(5, Math.min(95, Math.round((1 - (val * 1024 * 1024) / originalBytes) * 100)));
+                    setComp({ compressionMode: "target-size", targetSizeMB: val, targetPercent: calcPercent });
                   } else {
-                    setComp({ compressionMode: "percentage", targetSizeMB: undefined });
+                    setComp({ compressionMode: "target-size", targetSizeMB: undefined });
                   }
                 }}
-                className="w-20 rounded-lg border border-white/10 bg-slate-900 px-2 py-1 text-xs font-mono text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none"
+                className="w-24 rounded-lg border border-white/10 bg-slate-900 px-2 py-1 text-xs font-mono text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none"
               />
               <span className="text-[11px] text-slate-400 font-mono">MB</span>
             </div>

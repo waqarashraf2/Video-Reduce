@@ -213,11 +213,15 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
     if (tool.id === "video-compressor") {
       const isMobile = typeof window !== "undefined" && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
       const isLarge = meta.size > 200 * 1024 * 1024;
+      const initialHalfMB = Number(((meta.size * 0.5) / (1024 * 1024)).toFixed(1));
 
       setOptions((prev) => {
         const comp = prev as CompressionOptions;
         return {
           ...comp,
+          compressionMode: "target-size",
+          targetPercent: 50,
+          targetSizeMB: initialHalfMB,
           durationSecs: meta.durationSecs,
           fileSizeBytes: meta.size,
           preset: "ultrafast",

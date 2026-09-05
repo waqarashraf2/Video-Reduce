@@ -109,8 +109,7 @@ export function buildFFmpegJob(
           (opt.crf || 28).toString()
         );
       } else {
-        // Target Bitrate Mode (Accurately matches requested MB / target percentage)
-        const adaptiveCrf = opt.targetPercent >= 70 ? "26" : opt.targetPercent >= 50 ? "22" : "19";
+        // Target Bitrate Mode (Accurately matches requested MB / target percentage without early CRF cutoff)
         args.push(
           "-vcodec",
           "libx264",
@@ -120,10 +119,10 @@ export function buildFFmpegJob(
           "fastdecode",
           "-threads",
           "0",
-          "-crf",
-          adaptiveCrf,
           "-b:v",
           `${videoBitrateKbps}k`,
+          "-minrate",
+          `${Math.floor(videoBitrateKbps * 0.85)}k`,
           "-maxrate",
           `${maxRateKbps}k`,
           "-bufsize",
