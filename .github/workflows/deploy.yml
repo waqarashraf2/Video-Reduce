@@ -7,6 +7,10 @@ on:
       - master
   workflow_dispatch:
 
+concurrency:
+  group: deploy-hostinger
+  cancel-in-progress: true
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -48,10 +52,11 @@ jobs:
           SSH_PORT: ${{ secrets.SSH_PORT }}
         run: |
           PORT="${SSH_PORT:-65002}"
+          SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=15 -o ServerAliveCountMax=6 -o ConnectTimeout=30 -o TCPKeepAlive=yes"
           
           # Detect active document root on Hostinger (domains/videoreduce.com/public_html or public_html)
           echo "Determining remote web root..."
-          REMOTE_DIR=$(ssh -p ${PORT} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "${SSH_USER}@${SSH_HOST}" '
+          REMOTE_DIR=$(ssh -p ${PORT} ${SSH_OPTS} "${SSH_USER}@${SSH_HOST}" '
             if [ -d "domains/videoreduce.com/public_html" ]; then
               echo "domains/videoreduce.com/public_html/"
             else
@@ -62,18 +67,18 @@ jobs:
           echo "Deploying Next.js frontend to ${SSH_HOST}:${REMOTE_DIR}..."
           
           rsync -avz --delete \
-            -e "ssh -p ${PORT} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+            -e "ssh -p ${PORT} ${SSH_OPTS}" \
             out/ "${SSH_USER}@${SSH_HOST}:${REMOTE_DIR}"
 
           # Fix file permissions to prevent 403 Forbidden
           echo "Fixing web permissions on ${REMOTE_DIR}..."
-          ssh -p ${PORT} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "${SSH_USER}@${SSH_HOST}" "
+          ssh -p ${PORT} ${SSH_OPTS} "${SSH_USER}@${SSH_HOST}" "
             find ${REMOTE_DIR} -type d -exec chmod 755 {} + 2>/dev/null || true
             find ${REMOTE_DIR} -type f -exec chmod 644 {} + 2>/dev/null || true
             if [ -f '${REMOTE_DIR}.htaccess' ]; then
               chmod 644 '${REMOTE_DIR}.htaccess'
             fi
-          "
+          " || echo "Note: Web permissions fix command exited with code $? (ignoring non-fatal status)"
 
       - name: Deploy Backend (Laravel API) to Hostinger Subdomain
         env:
@@ -84,6 +89,7 @@ jobs:
         run: |
           PORT="${SSH_PORT:-65002}"
           API_TARGET_DIR="${REMOTE_API_TARGET:-domains/api.videoreduce.com/public_html/}"
+          SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=15 -o ServerAliveCountMax=6 -o ConnectTimeout=30 -o TCPKeepAlive=yes"
           
           echo "Deploying Laravel API to ${SSH_HOST}:${API_TARGET_DIR}..."
           
@@ -96,12 +102,12 @@ jobs:
             --exclude 'storage/logs/*' \
             --exclude 'node_modules/' \
             --exclude 'tests/' \
-            -e "ssh -p ${PORT} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+            -e "ssh -p ${PORT} ${SSH_OPTS}" \
             api/ "${SSH_USER}@${SSH_HOST}:${API_TARGET_DIR}"
 
           # 2. Run remote composer install and database migrations if available
           echo "Running remote post-deployment tasks on Hostinger..."
-          ssh -p ${PORT} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "${SSH_USER}@${SSH_HOST}" << 'EOF'
+          ssh -p ${PORT} ${SSH_OPTS} "${SSH_USER}@${SSH_HOST}" << 'EOF'
             TARGET_PATH="domains/api.videoreduce.com/public_html"
             if [ -d "$TARGET_PATH" ]; then
               cd "$TARGET_PATH"
