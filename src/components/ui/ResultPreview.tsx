@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import confetti from "canvas-confetti";
 import { ProcessResult } from "@/lib/ffmpeg/types";
-import { formatBytes } from "@/lib/utils";
+import { formatBytes, formatProcessDuration } from "@/lib/utils";
 import {
   Download,
   CheckCircle2,
@@ -122,7 +122,7 @@ export const ResultPreview: React.FC<ResultPreviewProps> = ({
             <span>Process Time</span>
           </span>
           <p className="font-mono text-sm font-semibold text-violet-300">
-            {(result.processTimeMs / 1000).toFixed(1)}s
+            {formatProcessDuration(result.processTimeMs / 1000)}
           </p>
         </div>
       </div>

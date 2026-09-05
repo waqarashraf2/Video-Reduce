@@ -32,6 +32,24 @@ export function formatDurationOnly(seconds: number): string {
   return `${secs}s`;
 }
 
+export function formatProcessDuration(seconds: number): string {
+  if (isNaN(seconds) || seconds <= 0) return "0s";
+  const mins = Math.floor(seconds / 60);
+  const remSecs = seconds % 60;
+  if (mins > 0) {
+    const wholeSecs = Math.floor(remSecs);
+    return `${mins}m ${wholeSecs}s`;
+  }
+  return `${remSecs.toFixed(1)}s`;
+}
+
+export function formatStopwatch(ms: number): string {
+  const totalSecs = Math.floor(ms / 1000);
+  const mins = Math.floor(totalSecs / 60);
+  const secs = totalSecs % 60;
+  return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+}
+
 export function sanitizeFileName(name: string): string {
   return name.replace(/[^a-zA-Z0-9._-]/g, "_");
 }

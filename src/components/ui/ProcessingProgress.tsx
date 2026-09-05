@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ProcessProgress } from "@/lib/ffmpeg/types";
+import { formatStopwatch, formatDurationOnly } from "@/lib/utils";
 import {
   Cpu,
   Clock,
@@ -26,6 +27,21 @@ export const ProcessingProgress: React.FC<ProcessingProgressProps> = ({
   onCancel,
 }) => {
   const [showLogs, setShowLogs] = useState(false);
+  const [elapsedMs, setElapsedMs] = useState(0);
+
+  // Live stopwatch (Minutes & Seconds)
+  useEffect(() => {
+    const start = Date.now();
+    const interval = setInterval(() => {
+      setElapsedMs(Date.now() - start);
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const stopwatch = formatStopwatch(elapsedMs); // e.g. "00:08", "01:24"
+  const elapsedSecsTotal = Math.floor(elapsedMs / 1000);
+  const formattedDuration = formatDurationOnly(elapsedSecsTotal); // e.g. "8s", "1m 24s"
 
   return (
     <div className="space-y-5 rounded-2xl border border-blue-500/40 bg-[#0f172a]/95 p-6 shadow-2xl backdrop-blur-xl">
@@ -52,11 +68,23 @@ export const ProcessingProgress: React.FC<ProcessingProgressProps> = ({
           </div>
         </div>
 
-        {/* Percentage Badge */}
-        <div className="text-right">
-          <span className="font-mono text-2xl font-black text-blue-400">
-            {progress.percent}%
-          </span>
+        {/* Live Elapsed Time & Percentage Badge */}
+        <div className="flex items-center gap-3">
+          <div className="rounded-xl bg-slate-900/90 border border-white/10 px-3 py-1.5 text-right font-mono">
+            <div className="text-[10px] uppercase tracking-wider text-slate-400 font-sans">
+              Elapsed Time
+            </div>
+            <div className="text-base font-bold text-amber-300 flex items-center justify-end gap-1.5">
+              <Clock className="h-3.5 w-3.5 text-amber-400 animate-spin" />
+              <span>{stopwatch}</span>
+              <span className="text-xs text-slate-400 font-sans">({formattedDuration})</span>
+            </div>
+          </div>
+          <div className="text-right">
+            <span className="font-mono text-2xl font-black text-blue-400">
+              {progress.percent}%
+            </span>
+          </div>
         </div>
       </div>
 
@@ -73,7 +101,12 @@ export const ProcessingProgress: React.FC<ProcessingProgressProps> = ({
           <div className="flex items-center gap-1.5">
             <Clock className="h-3.5 w-3.5 text-blue-400" />
             {progress.estimatedRemainingSecs !== undefined ? (
-              <span>Estimated remaining: ~{progress.estimatedRemainingSecs}s</span>
+              <span>
+                Estimated remaining: ~
+                {progress.estimatedRemainingSecs >= 60
+                  ? formatDurationOnly(progress.estimatedRemainingSecs)
+                  : `${progress.estimatedRemainingSecs}s`}
+              </span>
             ) : (
               <span>Encoding streams...</span>
             )}

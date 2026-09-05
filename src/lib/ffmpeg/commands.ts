@@ -93,27 +93,43 @@ export function buildFFmpegJob(
         args.push("-vf", filters.join(","));
       }
 
-      const crfValue = opt.crf || (opt.targetPercent >= 70 ? 30 : opt.targetPercent >= 50 ? 28 : 24);
       const chosenPreset = opt.preset || "ultrafast";
 
-      args.push(
-        "-vcodec",
-        "libx264",
-        "-preset",
-        chosenPreset,
-        "-tune",
-        "fastdecode",
-        "-threads",
-        "0",
-        "-crf",
-        crfValue.toString(),
-        "-b:v",
-        `${videoBitrateKbps}k`,
-        "-maxrate",
-        `${maxRateKbps}k`,
-        "-bufsize",
-        `${bufSizeKbps}k`
-      );
+      if (opt.compressionMode === "manual-crf") {
+        args.push(
+          "-vcodec",
+          "libx264",
+          "-preset",
+          chosenPreset,
+          "-tune",
+          "fastdecode",
+          "-threads",
+          "0",
+          "-crf",
+          (opt.crf || 28).toString()
+        );
+      } else {
+        // Target Bitrate Mode (Accurately matches requested MB / target percentage)
+        const adaptiveCrf = opt.targetPercent >= 70 ? "26" : opt.targetPercent >= 50 ? "22" : "19";
+        args.push(
+          "-vcodec",
+          "libx264",
+          "-preset",
+          chosenPreset,
+          "-tune",
+          "fastdecode",
+          "-threads",
+          "0",
+          "-crf",
+          adaptiveCrf,
+          "-b:v",
+          `${videoBitrateKbps}k`,
+          "-maxrate",
+          `${maxRateKbps}k`,
+          "-bufsize",
+          `${bufSizeKbps}k`
+        );
+      }
 
       if (opt.muteAudio) {
         args.push("-an");
