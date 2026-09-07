@@ -77,6 +77,14 @@ jobs:
           # Fix file permissions to prevent 403 Forbidden
           echo "Fixing web permissions on ${REMOTE_DIR}..."
           ssh -p ${PORT} ${SSH_OPTS} "${SSH_USER}@${SSH_HOST}" "
+            # Remove any misplaced api folder from frontend root
+            if [ -d '${REMOTE_DIR}api' ]; then
+              rm -rf '${REMOTE_DIR}api'
+            fi
+            if [ -d 'public_html/api' ]; then
+              rm -rf 'public_html/api'
+            fi
+
             find ${REMOTE_DIR} -type d -exec chmod 755 {} + 2>/dev/null || true
             find ${REMOTE_DIR} -type f -exec chmod 644 {} + 2>/dev/null || true
             if [ -f '${REMOTE_DIR}.htaccess' ]; then
