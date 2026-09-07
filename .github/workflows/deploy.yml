@@ -66,7 +66,11 @@ jobs:
           
           echo "Deploying Next.js frontend to ${SSH_HOST}:${REMOTE_DIR}..."
           
-          rsync -avz --delete \
+          rsync -avz \
+            --exclude '.env' \
+            --exclude '.env.*' \
+            --exclude 'api/' \
+            --exclude 'api' \
             -e "ssh -p ${PORT} ${SSH_OPTS}" \
             out/ "${SSH_USER}@${SSH_HOST}:${REMOTE_DIR}"
 
