@@ -36,6 +36,7 @@ jobs:
           if [ -f "public/.htaccess" ]; then
             cp public/.htaccess out/.htaccess
           fi
+
       - name: Setup SSH
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -43,6 +44,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+
       - name: Deploy Frontend (Next.js) to Hostinger
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
@@ -50,7 +52,7 @@ jobs:
           SSH_PORT: ${{ secrets.SSH_PORT }}
         run: |
           PORT="${SSH_PORT:-65002}"
-          SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=15 -o ServerAliveCountMax=6 -o ConnectTimeout=30 -o TCPKeepAlive=yes"
+          SSH_OPTS="-i ~/.ssh/id_rsa -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=15 -o ServerAliveCountMax=6 -o ConnectTimeout=30 -o TCPKeepAlive=yes"
           
           # Detect active document root on Hostinger (domains/videoreduce.com/public_html or public_html)
           echo "Determining remote web root..."
@@ -64,18 +66,32 @@ jobs:
           
           echo "Deploying Next.js frontend to ${SSH_HOST}:${REMOTE_DIR}..."
           
-          rsync -avz --delete \
+          rsync -avz \
+            --exclude '.env' \
+            --exclude '.env.*' \
+            --exclude 'api/' \
+            --exclude 'api' \
             -e "ssh -p ${PORT} ${SSH_OPTS}" \
             out/ "${SSH_USER}@${SSH_HOST}:${REMOTE_DIR}"
+
           # Fix file permissions to prevent 403 Forbidden
           echo "Fixing web permissions on ${REMOTE_DIR}..."
           ssh -p ${PORT} ${SSH_OPTS} "${SSH_USER}@${SSH_HOST}" "
+            # Remove any misplaced api folder from frontend root
+            if [ -d '${REMOTE_DIR}api' ]; then
+              rm -rf '${REMOTE_DIR}api'
+            fi
+            if [ -d 'public_html/api' ]; then
+              rm -rf 'public_html/api'
+            fi
+
             find ${REMOTE_DIR} -type d -exec chmod 755 {} + 2>/dev/null || true
             find ${REMOTE_DIR} -type f -exec chmod 644 {} + 2>/dev/null || true
             if [ -f '${REMOTE_DIR}.htaccess' ]; then
               chmod 644 '${REMOTE_DIR}.htaccess'
             fi
           " || echo "Note: Web permissions fix command exited with code $? (ignoring non-fatal status)"
+
       - name: Deploy Backend (Laravel API) to Hostinger Subdomain
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
@@ -85,7 +101,7 @@ jobs:
         run: |
           PORT="${SSH_PORT:-65002}"
           API_TARGET_DIR="${REMOTE_API_TARGET:-domains/api.videoreduce.com/public_html/}"
-          SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=15 -o ServerAliveCountMax=6 -o ConnectTimeout=30 -o TCPKeepAlive=yes"
+          SSH_OPTS="-i ~/.ssh/id_rsa -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=15 -o ServerAliveCountMax=6 -o ConnectTimeout=30 -o TCPKeepAlive=yes"
           
           echo "Deploying Laravel API to ${SSH_HOST}:${API_TARGET_DIR}..."
           
@@ -100,6 +116,7 @@ jobs:
             --exclude 'tests/' \
             -e "ssh -p ${PORT} ${SSH_OPTS}" \
             api/ "${SSH_USER}@${SSH_HOST}:${API_TARGET_DIR}"
+
           # 2. Run remote composer install and database migrations if available
           echo "Running remote post-deployment tasks on Hostinger..."
           ssh -p ${PORT} ${SSH_OPTS} "${SSH_USER}@${SSH_HOST}" << 'EOF'
