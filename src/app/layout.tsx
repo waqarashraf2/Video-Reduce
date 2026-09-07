@@ -63,7 +63,8 @@ export const metadata: Metadata = {
       "Reduce video file sizes up to 90% with zero quality loss. 100% private in-browser WebAssembly with 18 tools, 10MB to 10GB+ unlimited file sizes.",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "https://videoreduce.com/og-image.jpg",
+        secureUrl: "https://videoreduce.com/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "VideoReduce — High-Fidelity Video Compressor & Media Suite",
@@ -76,7 +77,7 @@ export const metadata: Metadata = {
     title: "VideoReduce — High-Fidelity Video Compressor & Media Suite",
     description:
       "Reduce video file sizes up to 90% with zero quality loss. 100% private in-browser WebAssembly with 18 tools.",
-    images: ["/og-image.jpg"],
+    images: ["https://videoreduce.com/og-image.jpg"],
   },
   robots: {
     index: true,

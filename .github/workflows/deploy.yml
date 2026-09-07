@@ -54,31 +54,55 @@ jobs:
           PORT="${SSH_PORT:-65002}"
           SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=15 -o ServerAliveCountMax=6 -o ConnectTimeout=30 -o TCPKeepAlive=yes"
           
-          # Detect active document root on Hostinger (domains/videoreduce.com/public_html or public_html)
-          echo "Determining remote web root..."
-          REMOTE_DIR=$(ssh -p ${PORT} ${SSH_OPTS} "${SSH_USER}@${SSH_HOST}" '
-            if [ -d "domains/videoreduce.com/public_html" ]; then
-              echo "domains/videoreduce.com/public_html/"
-            else
-              echo "public_html/"
-            fi
-          ')
-          
-          echo "Deploying Next.js frontend to ${SSH_HOST}:${REMOTE_DIR}..."
-          
+          echo "Preparing remote web directories..."
+          ssh -p ${PORT} ${SSH_OPTS} "${SSH_USER}@${SSH_HOST}" '
+            mkdir -p public_html
+            chmod 755 . || true
+            chmod 755 public_html || true
+          '
+
+          echo "Deploying Next.js frontend to public_html/..."
           rsync -avz --delete \
             -e "ssh -p ${PORT} ${SSH_OPTS}" \
-            out/ "${SSH_USER}@${SSH_HOST}:${REMOTE_DIR}"
+            out/ "${SSH_USER}@${SSH_HOST}:public_html/"
 
-          # Fix file permissions to prevent 403 Forbidden
-          echo "Fixing web permissions on ${REMOTE_DIR}..."
-          ssh -p ${PORT} ${SSH_OPTS} "${SSH_USER}@${SSH_HOST}" "
-            find ${REMOTE_DIR} -type d -exec chmod 755 {} + 2>/dev/null || true
-            find ${REMOTE_DIR} -type f -exec chmod 644 {} + 2>/dev/null || true
-            if [ -f '${REMOTE_DIR}.htaccess' ]; then
-              chmod 644 '${REMOTE_DIR}.htaccess'
+          # Check if domains/videoreduce.com/public_html exists or was created as addon domain
+          HAS_DOMAIN=$(ssh -p ${PORT} ${SSH_OPTS} "${SSH_USER}@${SSH_HOST}" '
+            if [ -d "domains/videoreduce.com" ]; then
+              mkdir -p domains/videoreduce.com/public_html
+              echo "YES"
+            else
+              echo "NO"
             fi
-          " || echo "Note: Web permissions fix command exited with code $? (ignoring non-fatal status)"
+          ')
+
+          if echo "${HAS_DOMAIN}" | grep -q "YES"; then
+            echo "Also syncing Next.js frontend to domains/videoreduce.com/public_html/..."
+            rsync -avz --delete \
+              -e "ssh -p ${PORT} ${SSH_OPTS}" \
+              out/ "${SSH_USER}@${SSH_HOST}:domains/videoreduce.com/public_html/"
+          fi
+
+          # Fix file permissions across all web roots to guarantee 755/644 (prevents 403 Forbidden)
+          echo "Fixing web permissions..."
+          ssh -p ${PORT} ${SSH_OPTS} "${SSH_USER}@${SSH_HOST}" '
+            chmod 755 . || true
+            chmod 755 public_html || true
+            find public_html -type d -exec chmod 755 {} + 2>/dev/null || true
+            find public_html -type f -exec chmod 644 {} + 2>/dev/null || true
+            [ -f public_html/.htaccess ] && chmod 644 public_html/.htaccess || true
+
+            if [ -d "domains" ]; then
+              chmod 755 domains || true
+              [ -d "domains/videoreduce.com" ] && chmod 755 domains/videoreduce.com || true
+              if [ -d "domains/videoreduce.com/public_html" ]; then
+                chmod 755 domains/videoreduce.com/public_html || true
+                find domains/videoreduce.com/public_html -type d -exec chmod 755 {} + 2>/dev/null || true
+                find domains/videoreduce.com/public_html -type f -exec chmod 644 {} + 2>/dev/null || true
+                [ -f domains/videoreduce.com/public_html/.htaccess ] && chmod 644 domains/videoreduce.com/public_html/.htaccess || true
+              fi
+            fi
+          ' || echo "Note: Web permissions fix command exited with code $? (ignoring non-fatal status)"
 
       - name: Deploy Backend (Laravel API) to Hostinger Subdomain
         env:
