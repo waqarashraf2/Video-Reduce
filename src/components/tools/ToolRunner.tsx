@@ -21,8 +21,10 @@ import {
   AlertTriangle,
   Loader2,
   ArrowRight,
+  Zap,
 } from "lucide-react";
 import { formatBytes } from "@/lib/utils";
+import { useWebCodecsCompressor } from "@/lib/webcodecs/useWebCodecsCompressor";
 
 interface ToolRunnerProps {
   tool: ToolMetadata;
@@ -87,6 +89,8 @@ function getDefaultOptions(toolId: ToolId): AnyToolOptions {
 
 export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
   const { runFFmpeg, isLoaded, isLoading, loadProgress, loadFFmpeg, logs } = useFFmpeg();
+  const { isEligible: isWebCodecsEligible, compress: compressWebCodecs } = useWebCodecsCompressor();
+  const [engineMode, setEngineMode] = useState<"webcodecs" | "ffmpeg">("webcodecs");
 
   const [mounted, setMounted] = React.useState(false);
   const [fileMeta, setFileMeta] = useState<FileMetadata | null>(null);
@@ -270,6 +274,35 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
       typeof window !== "undefined" &&
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
+    const isGpuEligible = isWebCodecsEligible(tool.id, fileMeta.file);
+
+    // ⚡ 1. Ultra-Fast WebCodecs Hardware Acceleration Pipeline (GPU Engine)
+    if (isGpuEligible) {
+      console.log("⚡ [WebCodecs GPU] Initiating hardware-accelerated compression for:", fileMeta.file.name);
+      try {
+        setEngineMode("webcodecs");
+        const compOptions: CompressionOptions = {
+          ...(options as CompressionOptions),
+          durationSecs: fileMeta.durationSecs,
+          fileSizeBytes: fileMeta.size,
+        };
+        const res = await compressWebCodecs(
+          fileMeta.file,
+          compOptions,
+          (p) => setProgress(p)
+        );
+        console.log("✅ [WebCodecs GPU] Finished successfully in", res.processTimeMs, "ms!");
+        setResult(res);
+        setStatus("completed");
+        scrollToToolContainer();
+        return;
+      } catch (gpuErr) {
+        console.error("❌ [WebCodecs GPU] Error encountered, falling back to FFmpeg Wasm:", gpuErr);
+        setEngineMode("ffmpeg");
+        // Gracefully continue to standard FFmpeg Wasm pipeline below
+      }
+    }
+
     try {
       if (!isLoaded) {
         const loaded = await loadFFmpeg();
@@ -395,6 +428,18 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
                 <h4 className="text-sm font-semibold">Processing Failed</h4>
                 <p className="text-xs">{errorMessage}</p>
               </div>
+            </div>
+          )}
+
+          {isWebCodecsEligible(tool.id, fileMeta.file) && (
+            <div className="flex items-center justify-between px-4 py-2.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-300">
+              <span className="flex items-center gap-2 font-medium">
+                <Zap className="h-4 w-4 text-emerald-400 shrink-0" />
+                <span>Hardware Acceleration Ready (GPU Engine)</span>
+              </span>
+              <span className="text-[11px] font-semibold text-emerald-400 uppercase tracking-wider">
+                10x Faster
+              </span>
             </div>
           )}
 

@@ -1,8 +1,11 @@
 # Set default directory index
 DirectoryIndex index.html index.php
 
-# Options
+# Options: Disable directory listing and follow symlinks
 Options -Indexes +FollowSymLinks
+
+# Prevent Apache mod_dir from forcing trailing slashes on folders
+DirectorySlash Off
 
 <IfModule mod_headers.c>
     Header set Cross-Origin-Opener-Policy "same-origin"
@@ -12,6 +15,19 @@ Options -Indexes +FollowSymLinks
     Header set X-Content-Type-Options "nosniff"
     Header set X-Frame-Options "SAMEORIGIN"
     Header set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # CRITICAL CACHE CONTROL:
+    # 1. HTML files: Never cache aggressively so mobile & desktop visitors always get latest code immediately!
+    <FilesMatch "\.(html|htm)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires 0
+    </FilesMatch>
+
+    # 2. Hashed static assets (_next/static JS/CSS): Safe to cache long term because filenames have content hashes
+    <FilesMatch "\.(js|css|webp|png|jpg|jpeg|gif|svg|woff2|woff)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
 </IfModule>
 
 # Force UTF-8 charset
@@ -29,24 +45,29 @@ AddDefaultCharset UTF-8
     RewriteCond %{HTTPS} off
     RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
-    # Remove trailing slash from non-directory URLs (301 redirect)
-    RewriteCond %{REQUEST_FILENAME} !-d
+    # 1. 301 Redirect: Remove trailing slash from all URLs for SEO canonicalization (e.g. /articles/ -> /articles)
+    # Excludes root '/' because '.+' requires at least one character before the slash
     RewriteCond %{REQUEST_URI} ^(.+)/+$
-    RewriteRule ^ %1 [R=301,L]
+    RewriteRule ^ %1 [R=301,L,QSA]
 
-    # Serve existing files directly
+    # 2. Serve existing files directly (CSS, JS, images, etc.)
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
 
-    # Clean URL rewrite: /about -> /about.html or /tools/video-compressor -> /tools/video-compressor.html
+    # 3. Clean URL rewrite: /about -> /about.html or /articles -> /articles.html
     RewriteCond %{DOCUMENT_ROOT}/$1.html -f
     RewriteRule ^(.*)$ $1.html [L]
 
-    # Clean URL rewrite for folders with index.html
+    # 4. Clean URL rewrite for folders with index.html: /folder -> /folder/index.html
     RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
     RewriteRule ^(.*)$ $1/index.html [L]
 
-    # Fallback to 404.html
+    # 5. If requesting a directory that has neither an index.html nor a matching .html, show 404 instead of 403 Forbidden
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteCond %{REQUEST_FILENAME}/index.html !-f
+    RewriteRule ^ 404.html [L]
+
+    # 6. Fallback to 404.html for any other non-existent resource
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^ 404.html [L]

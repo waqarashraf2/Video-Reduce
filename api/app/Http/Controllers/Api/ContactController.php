@@ -45,8 +45,8 @@ class ContactController extends Controller
         $validated = $validator->validated();
 
         try {
-            // 1. Save submission to Database
-            $contact = Contact::create([
+            // 1. Prepare Contact object in memory
+            $contact = new Contact([
                 'name' => strip_tags(trim($validated['name'])),
                 'email' => strtolower(trim($validated['email'])),
                 'subject' => !empty($validated['subject']) ? strip_tags(trim($validated['subject'])) : 'General Inquiry',
@@ -56,14 +56,41 @@ class ContactController extends Controller
                 'status' => 'unread',
             ]);
 
-            // 2. Dispatch Email Notification safely
+            // 2. Try saving to MySQL Database if PDO is available
+            $saved = false;
+            if (class_exists('PDO')) {
+                try {
+                    $contact->save();
+                    $saved = true;
+                } catch (\Throwable $dbException) {
+                    Log::warning('Database save failed, falling back to file storage: ' . $dbException->getMessage());
+                }
+            }
+
+            // 3. Fallback: Save to JSON storage if database driver is not available
+            if (!$saved) {
+                $storageDir = storage_path('app');
+                if (!is_dir($storageDir)) {
+                    mkdir($storageDir, 0775, true);
+                }
+                $storagePath = $storageDir . '/contacts.json';
+                $existing = file_exists($storagePath) ? json_decode(file_get_contents($storagePath), true) ?: [] : [];
+                $entry = $contact->toArray();
+                $entry['id'] = count($existing) + 1;
+                $entry['created_at'] = now()->toISOString();
+                $existing[] = $entry;
+                file_put_contents($storagePath, json_encode($existing, JSON_PRETTY_PRINT));
+                $contact->id = $entry['id'];
+                Log::info('Contact message saved to JSON storage successfully', ['email' => $contact->email]);
+            }
+
+            // 4. Dispatch Email Notification safely
             $recipientEmail = env('ADMIN_NOTIFICATION_EMAIL', env('MAIL_TO_ADDRESS', config('mail.from.address')));
 
             if (!empty($recipientEmail)) {
                 try {
                     Mail::to($recipientEmail)->send(new ContactMessageReceived($contact));
                 } catch (\Throwable $mailException) {
-                    // Log email error so form submission is not lost if mail server is temporarily down
                     Log::warning('Contact email notification failed to dispatch: ' . $mailException->getMessage(), [
                         'contact_id' => $contact->id,
                         'email' => $contact->email,
@@ -77,7 +104,7 @@ class ContactController extends Controller
                 'data' => [
                     'id' => $contact->id,
                     'name' => $contact->name,
-                    'created_at' => $contact->created_at?->toISOString(),
+                    'created_at' => $contact->created_at?->toISOString() ?? now()->toISOString(),
                 ],
             ], 201);
         } catch (\Throwable $e) {

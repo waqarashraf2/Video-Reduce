@@ -12,7 +12,7 @@ interface LanguageSwitcherProps {
 
 export function getLocalizedPath(pathname: string, targetLang: SupportedLocale): string {
   if (!pathname || pathname === "/") {
-    return targetLang === "en" ? "/" : `/${targetLang}/convert/mov-to-mp4`;
+    return targetLang === "en" ? "/" : `/${targetLang}/compress/whatsapp-video`;
   }
 
   // Check if pathname starts with a supported locale, e.g. /es/convert/mov-to-mp4
@@ -23,15 +23,47 @@ export function getLocalizedPath(pathname: string, targetLang: SupportedLocale):
   const coreSegments = hasLocalePrefix ? segments.slice(1) : segments;
   const corePath = "/" + coreSegments.join("/");
 
-  // CRITICAL SAFEGUARD: Localization is strictly ONLY supported for /convert/[slug] and /compress/[slug]
+  // 1. Direct match for main compressor pages (/tools/video-compressor, /compress)
+  if (
+    corePath === "/tools/video-compressor" ||
+    corePath === "/compress" ||
+    (coreSegments[0] === "tools" && corePath.includes("compress"))
+  ) {
+    if (targetLang === "en") {
+      return corePath || "/tools/video-compressor";
+    }
+    return `/${targetLang}/compress/whatsapp-video`;
+  }
+
+  // 2. Direct match for converter tools (/tools/format-converter, /convert)
+  if (
+    corePath === "/convert" ||
+    (coreSegments[0] === "tools" && corePath.includes("convert"))
+  ) {
+    if (targetLang === "en") {
+      return corePath || "/convert/mov-to-mp4";
+    }
+    return `/${targetLang}/convert/mov-to-mp4`;
+  }
+
+  // 3. Fallback for any other /tools/[slug] pages
+  if (coreSegments[0] === "tools") {
+    if (targetLang === "en") {
+      return corePath || "/";
+    }
+    return `/${targetLang}/compress/whatsapp-video`;
+  }
+
+  // 4. CRITICAL SAFEGUARD: Localization is strictly supported for /convert/[slug] and /compress/[slug]
   const isLocalizable =
     coreSegments.length >= 2 &&
     (coreSegments[0] === "convert" || coreSegments[0] === "compress");
 
   if (!isLocalizable) {
-    // For articles, tools, about, faq, contact, terms, privacy:
-    // ALWAYS return the clean, simple path without language prefix to prevent 404s!
-    return corePath || "/";
+    // For articles, about, faq, contact, terms, privacy:
+    // If targetLang is English, return the clean English path.
+    // If switching to another language, redirect to the primary localized suite instead of staying stuck on English.
+    return targetLang === "en" ? (corePath || "/") : `/${targetLang}/compress/whatsapp-video`;
   }
 
   if (targetLang === "en") {

@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { TOOLS } from "@/config/tools";
 import { ToolIcon } from "@/components/ui/ToolIcon";
 import { BrandLogo } from "@/components/ui/BrandLogo";
+import { SUPPORTED_LOCALES, SupportedLocale } from "@/config/i18n/locales";
 import {
   ChevronDown,
   Menu,
@@ -19,6 +20,16 @@ import {
 
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
+  const segments = (pathname || "").split("/").filter(Boolean);
+  const firstSegment = segments[0];
+  const isLocalized = SUPPORTED_LOCALES.includes(firstSegment as SupportedLocale);
+  const compressorHref = isLocalized
+    ? `/${firstSegment}/compress/whatsapp-video`
+    : "/tools/video-compressor";
+  const isCompressorActive =
+    pathname === "/tools/video-compressor" ||
+    (isLocalized && segments[1] === "compress");
+
   const [toolsOpen, setToolsOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -118,9 +129,9 @@ export const Navbar: React.FC = () => {
             </div>
 
             <Link
-              href="/tools/video-compressor"
+              href={compressorHref}
               className={`text-sm font-medium transition-colors ${
-                pathname === "/tools/video-compressor"
+                isCompressorActive
                   ? "text-blue-400 font-semibold"
                   : "text-slate-200 hover:text-white"
               }`}
@@ -203,7 +214,7 @@ export const Navbar: React.FC = () => {
 
               <div className="border-t border-white/10 pt-3 space-y-1.5 text-sm font-medium">
                 <Link
-                  href="/tools/video-compressor"
+                  href={compressorHref}
                   onClick={() => setMobileMenuOpen(false)}
                   className="flex items-center justify-between rounded-xl bg-blue-600/20 border border-blue-500/30 p-2.5 text-blue-300 hover:bg-blue-600/30"
                 >
