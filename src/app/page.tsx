@@ -36,36 +36,35 @@ export default function HomePage() {
     "@graph": [
       {
         "@type": "WebSite",
+        "@id": "https://videoreduce.com/#website",
         name: "VideoReduce.com",
         url: "https://videoreduce.com",
         description:
           "Free online video compressor to reduce video size and file size without losing quality. 100% private WebAssembly MP4 video compressor.",
-        potentialAction: {
-          "@type": "SearchAction",
-          target: "https://videoreduce.com/?q={search_term_string}",
-          "query-input": "required name=search_term_string",
-        },
       },
       {
         "@type": "WebPage",
         "@id": "https://videoreduce.com/#webpage",
         url: "https://videoreduce.com",
-        name: "VideoReduce.com — Free Online Video Compressor & Media Suite",
+        name: "VideoReduce — Free Online Video Compressor & Media Suite",
         description:
           "Reduce video file size online for free without losing quality. 18 powerful tools for video compression, GIF conversion, and audio editing — 100% private in your browser.",
         isPartOf: { "@id": "https://videoreduce.com/#website" },
         primaryImageOfPage: {
           "@type": "ImageObject",
-          url: "https://videoreduce.com/logo.png",
+          url: "https://videoreduce.com/og-image.jpg",
         },
       },
       {
         "@type": "SoftwareApplication",
         name: "VideoReduce — Free Online Video Compressor & Media Suite",
         url: "https://videoreduce.com",
+        image: "https://videoreduce.com/logo.png",
+        screenshot: "https://videoreduce.com/og-image.jpg",
         applicationCategory: "MultimediaApplication",
+        applicationSubCategory: "Video Compression & Editing Suite",
         operatingSystem: "All (Browser-Based: iOS, Android, Windows, Mac, Linux)",
-        browserRequirements: "Requires WebAssembly Compatible Browser",
+        softwareRequirements: "Requires WebAssembly Compatible Browser",
         offers: {
           "@type": "Offer",
           price: "0",
@@ -74,23 +73,12 @@ export default function HomePage() {
         aggregateRating: {
           "@type": "AggregateRating",
           ratingValue: "4.9",
-          ratingCount: "2150",
+          ratingCount: "1280",
           bestRating: "5",
           worstRating: "1",
         },
         description:
           "Free online video compressor to reduce video size and file size without losing quality. 100% private WebAssembly MP4 video compressor.",
-      },
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: "https://videoreduce.com",
-          },
-        ],
       },
       {
         "@type": "FAQPage",
@@ -156,7 +144,7 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative pt-8 pb-14 sm:pt-14 sm:pb-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center space-y-7">
-          
+
           {/* Privacy & Engine Pill */}
           <div className="flex items-center justify-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 text-xs font-semibold text-blue-400 backdrop-blur-md shadow-lg shadow-blue-500/10 animate-in fade-in slide-in-from-bottom-2">
@@ -277,11 +265,10 @@ export default function HomePage() {
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`rounded-xl px-4 py-2 text-xs sm:text-sm font-semibold transition-all ${
-                  activeCategory === cat
+                className={`rounded-xl px-4 py-2 text-xs sm:text-sm font-semibold transition-all ${activeCategory === cat
                     ? "bg-blue-600 text-white shadow-lg shadow-blue-500/25 ring-1 ring-blue-400"
                     : "bg-slate-900/80 text-slate-400 hover:bg-slate-800 hover:text-white border border-white/5"
-                }`}
+                  }`}
               >
                 {cat}
               </button>

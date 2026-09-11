@@ -17,8 +17,8 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://videoreduce.com"),
   title: {
-    default: "Free Video Compressor Online — VideoReduce.com",
-    template: "%s | VideoReduce.com",
+    default: "VideoReduce — Free Online Video Tools & Privacy Suite",
+    template: "%s | VideoReduce",
   },
   description:
     "Reduce video file size online free without losing quality. Private in-browser video compressor & media suite. No uploads, no limits.",

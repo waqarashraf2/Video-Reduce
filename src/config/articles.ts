@@ -26,7 +26,7 @@ export const ARTICLES: Article[] = [
   {
     slug: "how-to-compress-video-without-losing-quality",
     title: "How to Reduce Video File Size Without Losing Quality (Complete 2026 Guide)",
-    seoTitle: "How to Reduce Video File Size Without Losing Quality Online Free",
+    seoTitle: "Reduce Video File Size Without Quality Loss",
     seoDescription:
       "Learn how to reduce video file size without losing quality for free. The ultimate guide for iPhone, Android, any video size, Discord, and PC using modern CRF rate control.",
     publishedDate: "2026-08-29",
@@ -168,7 +168,7 @@ Discord free accounts have a strict 25MB file upload limit (and formerly 8MB). I
   {
     slug: "why-online-video-converters-are-a-privacy-risk",
     title: "Why Traditional Online Video Converters Are a Privacy Nightmare (And How WebAssembly Fixes It)",
-    seoTitle: "The Hidden Privacy Risks of Online Video Converters | VideoReduce.com",
+    seoTitle: "Online Video Converter Privacy Risks",
     seoDescription:
       "Explore why uploading personal videos to cloud converters exposes sensitive metadata and private media, and how client-side WebAssembly guarantees 100% privacy.",
     publishedDate: "2026-08-28",
@@ -229,7 +229,7 @@ By compiling the battle-tested FFmpeg C/C++ engine into WebAssembly (Wasm), your
   {
     slug: "how-to-compress-videos-for-whatsapp-discord-email",
     title: "How to Compress Large Videos for WhatsApp, Discord, and Email (Exact Workarounds)",
-    seoTitle: "Compress Videos for WhatsApp, Discord & Email (Under 16MB/25MB)",
+    seoTitle: "Compress Videos for WhatsApp & Discord",
     seoDescription:
       "Step-by-step instructions to bypass WhatsApp 16MB limits, Discord 8MB/25MB limits, and Gmail 25MB attachment restrictions without losing video clarity.",
     publishedDate: "2026-08-28",
@@ -300,7 +300,7 @@ The Solution:
   {
     slug: "how-to-convert-iphone-mov-to-mp4-online",
     title: "How to Convert iPhone MOV Videos to Universal MP4 (Fast & Lossless)",
-    seoTitle: "Convert iPhone MOV to MP4 Online Free | VideoReduce.com",
+    seoTitle: "Convert iPhone MOV to MP4 Online Free",
     seoDescription:
       "Convert Apple QuickTime MOV files from iPhone/iPad into universal H.264 MP4 videos for Windows, Android, and web compatibility with zero quality loss.",
     publishedDate: "2026-08-28",
@@ -366,7 +366,7 @@ Converting from MOV to MP4 allows your iPhone footage to be shared, edited, and 
   {
     slug: "how-to-watermark-videos-for-social-media",
     title: "How to Add Watermarks and Logos to Social Media Videos to Protect Your Content",
-    seoTitle: "Add Watermark & Logo to Video Online Free | VideoReduce.com",
+    seoTitle: "Add Watermark & Logo to Video Free",
     seoDescription:
       "Protect your TikTok, Reels, and Shorts videos from content reposters and scrapers by adding custom transparent logos and text watermarks in your browser.",
     publishedDate: "2026-08-28",
@@ -416,7 +416,7 @@ Adding a subtle, semi-transparent watermark ensures:
   {
     slug: "how-to-extract-high-quality-audio-from-video",
     title: "How to Extract Studio-Quality Audio (320kbps MP3 & Lossless WAV) from Video",
-    seoTitle: "Extract High Quality Audio from Video (MP3/WAV) | VideoReduce.com",
+    seoTitle: "Extract High Quality Audio from Video",
     seoDescription:
       "Extract music tracks, podcasts, and sound effects from MP4, MKV, and MOV videos into pristine 320kbps MP3 or lossless 16-bit PCM WAV audio files.",
     publishedDate: "2026-08-28",
@@ -460,7 +460,7 @@ With VideoReduce.com's Audio Extractor, you have full control over the exported 
   {
     slug: "how-to-convert-video-to-gif-high-quality",
     title: "How to Convert Video to GIF in High Quality (Free Online Guide for iPhone, YouTube, Twitter & PC)",
-    seoTitle: "How to Convert Video to GIF Online Free - High Quality HD GIF Maker",
+    seoTitle: "Convert Video to GIF in High Quality",
     seoDescription:
       "Step-by-step guide to convert video to GIF in high quality for free. Turn MP4, iPhone MOV, YouTube, and Twitter clips into HD animated GIFs with custom FPS.",
     publishedDate: "2026-08-29",
@@ -581,7 +581,7 @@ Want to create an animated GIF from a viral Twitter or YouTube video?
   {
     slug: "how-to-convert-gif-to-mp4-video",
     title: "How to Convert GIF to MP4 Video (Free Online Guide with Looping & 95% Size Reduction)",
-    seoTitle: "How to Convert GIF to MP4 Online Free - GIF to MP4 Converter",
+    seoTitle: "Convert GIF to MP4 Video Online Free",
     seoDescription:
       "Convert animated GIF to MP4 video online for free. Learn how to turn .gif into looping MP4 videos with 95% smaller file sizes for Twitter, Mac, and PC.",
     publishedDate: "2026-08-29",

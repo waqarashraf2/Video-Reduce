@@ -112,7 +112,7 @@ export default function ArticleDetailPage({ params }: ArticlePageProps) {
           "@type": "WebPage",
           "@id": `https://videoreduce.com/articles/${article.slug}`,
         },
-        image: "https://videoreduce.com/logo.png",
+        image: "https://videoreduce.com/og-image.jpg",
         author: {
           "@type": "Organization",
           name: article.author.name,

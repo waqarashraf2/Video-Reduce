@@ -33,4 +33,21 @@ for (const item of items) {
   }
 }
 
+// 3. Remove legacy out/en directory if present to prevent duplicate English routes
+const enDir = path.join(outDir, 'en');
+if (fs.existsSync(enDir)) {
+  fs.rmSync(enDir, { recursive: true, force: true });
+  console.log('✅ Cleaned legacy out/en directory to prevent duplicate content.');
+}
+
+// 4. Generate version.json for automatic client-side cache busting on mobile & desktop
+const buildVersion = {
+  version: Date.now().toString(),
+  buildDate: new Date().toISOString(),
+};
+const versionJsonStr = JSON.stringify(buildVersion, null, 2);
+fs.writeFileSync(path.join(outDir, 'version.json'), versionJsonStr);
+fs.writeFileSync(path.join(publicDir, 'version.json'), versionJsonStr);
+console.log(`✅ Generated version.json (${buildVersion.version}) for auto-cache purging.`);
+
 console.log('🎉 Postbuild processing complete.');

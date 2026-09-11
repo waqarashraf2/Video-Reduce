@@ -7,6 +7,46 @@ Options -Indexes +FollowSymLinks
 # Prevent Apache mod_dir from forcing trailing slashes on folders
 DirectorySlash Off
 
+# Force UTF-8 charset
+AddDefaultCharset UTF-8
+
+# ==============================================================================
+# 1. OPTIMAL BROWSER CACHING (mod_expires)
+# Recommended by Google Web.dev & Core Web Vitals for maximum performance & SEO
+# ==============================================================================
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 month"
+
+    # HTML Pages: Cache for 1 hour with instant revalidation (allows bfcache & fast back/forward)
+    ExpiresByType text/html "access plus 1 hour"
+
+    # Data / JSON
+    ExpiresByType application/json "access plus 1 hour"
+    ExpiresByType application/manifest+json "access plus 1 week"
+
+    # Hashed JS & CSS: Next.js bundles have unique hashes, safe to cache 1 year
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType text/javascript "access plus 1 year"
+
+    # Media & Images: 1 month cache
+    ExpiresByType image/webp "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType image/x-icon "access plus 1 year"
+
+    # Web Fonts: 1 year cache
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType application/font-woff2 "access plus 1 year"
+</IfModule>
+
+# ==============================================================================
+# 2. HTTP CACHE-CONTROL HEADERS (mod_headers)
+# ==============================================================================
 <IfModule mod_headers.c>
     Header set Cross-Origin-Opener-Policy "same-origin"
     Header set Cross-Origin-Embedder-Policy "require-corp"
@@ -16,23 +56,30 @@ DirectorySlash Off
     Header set X-Frame-Options "SAMEORIGIN"
     Header set Referrer-Policy "strict-origin-when-cross-origin"
 
-    # CRITICAL CACHE CONTROL:
-    # 1. HTML files: Never cache aggressively so mobile & desktop visitors always get latest code immediately!
+    # 1. HTML Pages: Stale-While-Revalidate (Instant navigation + background refresh)
     <FilesMatch "\.(html|htm)$">
-        Header set Cache-Control "no-cache, no-store, must-revalidate"
-        Header set Pragma "no-cache"
-        Header set Expires 0
+        Header set Cache-Control "public, max-age=3600, stale-while-revalidate=86400"
     </FilesMatch>
 
-    # 2. Hashed static assets (_next/static JS/CSS): Safe to cache long term because filenames have content hashes
-    <FilesMatch "\.(js|css|webp|png|jpg|jpeg|gif|svg|woff2|woff)$">
+    # 2. Hashed Next.js static assets (_next/static JS/CSS): 1 year immutable
+    <FilesMatch "\.(js|css)$">
         Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+
+    # 3. Images & Media Assets: 30 days cache with stale-while-revalidate
+    <FilesMatch "\.(webp|png|jpg|jpeg|gif|svg|ico|woff2|woff)$">
+        Header set Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+    </FilesMatch>
+
+    # 4. Service Worker (sw.js) & version check: Always check with server
+    <FilesMatch "(sw\.js|version\.json)$">
+        Header set Cache-Control "no-cache, must-revalidate"
     </FilesMatch>
 </IfModule>
 
-# Force UTF-8 charset
-AddDefaultCharset UTF-8
-
+# ==============================================================================
+# 3. REWRITE RULES & ROUTING (mod_rewrite)
+# ==============================================================================
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
@@ -50,24 +97,28 @@ AddDefaultCharset UTF-8
     RewriteCond %{REQUEST_URI} ^(.+)/+$
     RewriteRule ^ %1 [R=301,L,QSA]
 
-    # 2. Serve existing files directly (CSS, JS, images, etc.)
+    # 2. 301 Redirect: Consolidate legacy /en/ routes to clean canonical English URLs (transfers 100% SEO link juice)
+    RewriteRule ^en/(.*)$ https://videoreduce.com/$1 [R=301,L]
+    RewriteRule ^en/?$ https://videoreduce.com/ [R=301,L]
+
+    # 3. Serve existing files directly (CSS, JS, images, etc.)
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
 
-    # 3. Clean URL rewrite: /about -> /about.html or /articles -> /articles.html
+    # 4. Clean URL rewrite: /about -> /about.html or /articles -> /articles.html
     RewriteCond %{DOCUMENT_ROOT}/$1.html -f
     RewriteRule ^(.*)$ $1.html [L]
 
-    # 4. Clean URL rewrite for folders with index.html: /folder -> /folder/index.html
+    # 5. Clean URL rewrite for folders with index.html: /folder -> /folder/index.html
     RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
     RewriteRule ^(.*)$ $1/index.html [L]
 
-    # 5. If requesting a directory that has neither an index.html nor a matching .html, show 404 instead of 403 Forbidden
+    # 6. If requesting a directory that has neither an index.html nor a matching .html, show 404 instead of 403 Forbidden
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteCond %{REQUEST_FILENAME}/index.html !-f
     RewriteRule ^ 404.html [L]
 
-    # 6. Fallback to 404.html for any other non-existent resource
+    # 7. Fallback to 404.html for any other non-existent resource
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^ 404.html [L]

@@ -24,7 +24,7 @@ export const USE_CASES: UseCaseData[] = [
     tagline: "Reduce large smartphone videos under WhatsApp's 16MB limit without blurry compression",
     targetSizeText: "Under 16 MB",
     recommendedPreset: "Target Size: 15MB (720p HD)",
-    seoTitle: "Compress Video for WhatsApp Online Free (Under 16MB Limit) | VideoReduce",
+    seoTitle: "Compress Video for WhatsApp Free",
     seoDescription: "Compress large MP4 and MOV videos under WhatsApp's 16MB file size limit directly in your browser. 100% private with no quality loss.",
     keywords: [
       "compress video for whatsapp",
@@ -73,7 +73,7 @@ export const USE_CASES: UseCaseData[] = [
     tagline: "Reduce gaming clips and memes for Discord with instant inline web embed playback",
     targetSizeText: "Under 25 MB",
     recommendedPreset: "Custom Target: 24MB (FastStart)",
-    seoTitle: "Compress Video for Discord Online Free (Under 25MB Max Size) | VideoReduce",
+    seoTitle: "Compress Video for Discord Free",
     seoDescription: "Easily compress gaming clips and videos under Discord's 25MB file limit without server uploads. Instant web embed ready.",
     keywords: [
       "compress video for discord",
@@ -122,7 +122,7 @@ export const USE_CASES: UseCaseData[] = [
     tagline: "Shrink gigabyte videos down to email-friendly attachments in seconds without third-party links",
     targetSizeText: "Under 20 MB",
     recommendedPreset: "Target Size: 19MB (720p)",
-    seoTitle: "Compress Video for Email Attachment Online (Gmail, Outlook) | VideoReduce",
+    seoTitle: "Compress Video for Email Free",
     seoDescription: "Compress large video files to send as email attachments in Gmail, Outlook, and Apple Mail. Zero server uploads, 100% private.",
     keywords: [
       "compress video for email",
@@ -171,7 +171,7 @@ export const USE_CASES: UseCaseData[] = [
     tagline: "Reduce massive 4K file sizes by up to 75% while keeping crystal-clear 1080p sharpness",
     targetSizeText: "75% Smaller",
     recommendedPreset: "Resolution: 1080p (CRF 22)",
-    seoTitle: "Convert 4K Video to 1080p Online Free - Reduce 4K File Size | VideoReduce",
+    seoTitle: "Convert 4K Video to 1080p Free",
     seoDescription: "Downscale heavy 4K UHD smartphone and drone videos to 1080p Full HD in your browser. Fast, private, and 100% free.",
     keywords: [
       "convert 4k to 1080p",
@@ -220,7 +220,7 @@ export const USE_CASES: UseCaseData[] = [
     tagline: "Optimize vertical 9:16 videos for Instagram Reels and Stories to stop Instagram's blurry upload compression",
     targetSizeText: "Under 50 MB",
     recommendedPreset: "1080x1920 (9:16) • CRF 21",
-    seoTitle: "Compress Video for Instagram Reels Online Free (1080x1920) | VideoReduce",
+    seoTitle: "Compress Video for Instagram Reels",
     seoDescription: "Optimize and compress 9:16 vertical videos for Instagram Reels and Stories. Maintain sharp 1080p quality with zero upload blur.",
     keywords: [
       "compress video for instagram reels",
@@ -270,7 +270,7 @@ export const USE_CASES: UseCaseData[] = [
     tagline: "Optimize vertical TikTok clips for maximum algorithm clarity and fast viral playback",
     targetSizeText: "Under 72 MB",
     recommendedPreset: "1080x1920 • 60 FPS • CRF 22",
-    seoTitle: "Compress Video for TikTok Online Free (Under 72MB Limit) | VideoReduce",
+    seoTitle: "Compress Video for TikTok Free",
     seoDescription: "Compress TikTok videos to stay under 72MB (Android) and 287MB (iOS) limits. Retain 1080p 60fps quality without lag or blur.",
     keywords: [
       "compress video for tiktok",
@@ -319,7 +319,7 @@ export const USE_CASES: UseCaseData[] = [
     tagline: "Fine-tune vertical videos for YouTube Shorts with optimal bitrate and fast VP9/AV1 YouTube transcoding",
     targetSizeText: "Under 100 MB",
     recommendedPreset: "1080x1920 (9:16) • CRF 20",
-    seoTitle: "Compress Video for YouTube Shorts Online Free (1080p 60FPS) | VideoReduce",
+    seoTitle: "Compress Video for YouTube Shorts",
     seoDescription: "Compress and optimize vertical videos for YouTube Shorts. Achieve crystal-clear 1080p 60fps uploads that YouTube's engine loves.",
     keywords: [
       "compress video for youtube shorts",
@@ -368,7 +368,7 @@ export const USE_CASES: UseCaseData[] = [
     tagline: "Shrink screen recordings and bug demos for Slack workspace channels with instant inline player playback",
     targetSizeText: "Under 30 MB",
     recommendedPreset: "720p/1080p • FastStart MP4",
-    seoTitle: "Compress Video for Slack Online Free - Inline Video Player Ready | VideoReduce",
+    seoTitle: "Compress Video for Slack Free",
     seoDescription: "Compress screen recordings and videos for Slack workspaces. Enable instant inline video playback without forcing downloads.",
     keywords: [
       "compress video for slack",
@@ -417,7 +417,7 @@ export const USE_CASES: UseCaseData[] = [
     tagline: "Compress and format videos for Twitter / X feeds to maximize engagement with instant muted autoplay",
     targetSizeText: "Under 512 MB",
     recommendedPreset: "1080p • 30/60 FPS • CRF 22",
-    seoTitle: "Compress Video for Twitter / X Online Free (512MB Max Limit) | VideoReduce",
+    seoTitle: "Compress Video for Twitter X Free",
     seoDescription: "Compress videos for Twitter / X feeds. Ensure instant autoplay, stay under the 512MB size limit, and maintain 1080p clarity.",
     keywords: [
       "compress video for twitter",
@@ -466,7 +466,7 @@ export const USE_CASES: UseCaseData[] = [
     tagline: "Reduce video size inside Microsoft PowerPoint presentations to stop slide freezing and prevent file bloat",
     targetSizeText: "Under 50 MB",
     recommendedPreset: "720p/1080p Universal H.264",
-    seoTitle: "Compress Video for PowerPoint Presentations Online Free | VideoReduce",
+    seoTitle: "Compress Video for PowerPoint Free",
     seoDescription: "Compress videos for PowerPoint (PPT/PPTX) presentations. Shrink slide deck file sizes and ensure smooth lag-free playback.",
     keywords: [
       "compress video for powerpoint",
@@ -515,7 +515,7 @@ export const USE_CASES: UseCaseData[] = [
     tagline: "Shrink multi-hour Zoom, Teams, and Google Meet video recordings by up to 90% for easy sharing and archiving",
     targetSizeText: "Up to 90% Smaller",
     recommendedPreset: "Speech Optimized • 720p",
-    seoTitle: "Compress Zoom Video Recording Online Free - 90% Size Reduction | VideoReduce",
+    seoTitle: "Compress Zoom Recording Online Free",
     seoDescription: "Compress Zoom and Microsoft Teams meeting recordings online for free. Speech-optimized compression cuts gigabyte recordings down to megabytes.",
     keywords: [
       "compress zoom recording",
@@ -564,7 +564,7 @@ export const USE_CASES: UseCaseData[] = [
     tagline: "Shrink any video down to exactly under 10MB for strict job portals, government forms, and email systems",
     targetSizeText: "Under 10 MB",
     recommendedPreset: "Custom Target: 9.5 MB",
-    seoTitle: "Compress Video Under 10MB Online Free - Exact 10MB Target | VideoReduce",
+    seoTitle: "Compress Video Under 10MB Free",
     seoDescription: "Compress any video under 10MB online without quality loss. Guaranteed under 10MB file size for job portals, LMS, and legacy uploaders.",
     keywords: [
       "compress video under 10mb",
@@ -613,7 +613,7 @@ export const USE_CASES: UseCaseData[] = [
     tagline: "Reduce video files under 25MB for universal compatibility across Gmail, Discord, Outlook, and web forms",
     targetSizeText: "Under 25 MB",
     recommendedPreset: "Custom Target: 24 MB",
-    seoTitle: "Compress Video Under 25MB Online Free (Gmail & Discord) | VideoReduce",
+    seoTitle: "Compress Video Under 25MB Free",
     seoDescription: "Compress videos under 25MB online free. Exact 24MB target ensures 100% successful attachments for Discord, Gmail, and Outlook.",
     keywords: [
       "compress video under 25mb",
@@ -662,7 +662,7 @@ export const USE_CASES: UseCaseData[] = [
     tagline: "Reduce large videos under 50MB for social media uploads, LMS submissions, and web portals",
     targetSizeText: "Under 50 MB",
     recommendedPreset: "Custom Target: 48 MB",
-    seoTitle: "Compress Video Under 50MB Online Free (Target Size) | VideoReduce",
+    seoTitle: "Compress Video Under 50MB Free",
     seoDescription: "Compress videos under 50MB online for free. Maintain high 1080p clarity for social uploads, LMS portals, and cloud backups.",
     keywords: [
       "compress video under 50mb",
@@ -711,7 +711,7 @@ export const USE_CASES: UseCaseData[] = [
     tagline: "Compress student video assignments, university presentations, and course modules under 100MB",
     targetSizeText: "Under 100 MB",
     recommendedPreset: "Custom Target: 95 MB",
-    seoTitle: "Compress Video Under 100MB Online Free (Canvas, Blackboard LMS) | VideoReduce",
+    seoTitle: "Compress Video Under 100MB Free",
     seoDescription: "Compress videos under 100MB online for university submissions, Canvas, Blackboard, and Moodle. Retain full 1080p clarity.",
     keywords: [
       "compress video under 100mb",
@@ -760,7 +760,7 @@ export const USE_CASES: UseCaseData[] = [
     tagline: "Reduce heavy iPhone 4K ProRes and HEVC MOV video sizes by up to 85% for effortless sharing with Android and PC",
     targetSizeText: "Up to 85% Smaller",
     recommendedPreset: "Universal H.264 MP4 • 1080p",
-    seoTitle: "Compress iPhone Video Online Free (Reduce 4K MOV Size) | VideoReduce",
+    seoTitle: "Compress iPhone Video Online Free",
     seoDescription: "Compress large iPhone 4K HDR and QuickTime MOV videos to universal MP4 online. Reduce file size up to 85% with zero quality loss.",
     keywords: [
       "compress iphone video",

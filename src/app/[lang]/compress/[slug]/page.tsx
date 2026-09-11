@@ -6,6 +6,7 @@ import { USE_CASES } from "@/config/use-cases";
 import { getToolBySlug } from "@/config/tools";
 import {
   SUPPORTED_LOCALES,
+  NON_ENGLISH_LOCALES,
   SupportedLocale,
   isValidLocale,
   getLocalizedUseCase,
@@ -49,7 +50,7 @@ interface LocalizedUseCasePageProps {
 export async function generateStaticParams() {
   const params: { lang: string; slug: string }[] = [];
 
-  for (const lang of SUPPORTED_LOCALES) {
+  for (const lang of NON_ENGLISH_LOCALES) {
     for (const uc of USE_CASES) {
       params.push({
         lang,
@@ -64,7 +65,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: LocalizedUseCasePageProps): Promise<Metadata> {
-  if (!isValidLocale(params.lang)) {
+  if (!isValidLocale(params.lang) || params.lang === "en") {
     return { title: "Page Not Found | VideoReduce" };
   }
 
@@ -73,10 +74,7 @@ export async function generateMetadata({
     return { title: "Preset Not Found | VideoReduce" };
   }
 
-  const canonicalUrl =
-    params.lang === "en"
-      ? `https://videoreduce.com/compress/${useCase.slug}`
-      : `https://videoreduce.com/${params.lang}/compress/${useCase.slug}`;
+  const canonicalUrl = `https://videoreduce.com/${params.lang}/compress/${useCase.slug}`;
 
   return {
     title: useCase.localeSeoTitle,
@@ -129,7 +127,7 @@ export async function generateMetadata({
 export default function LocalizedUseCasePage({
   params,
 }: LocalizedUseCasePageProps) {
-  if (!isValidLocale(params.lang)) {
+  if (!isValidLocale(params.lang) || params.lang === "en") {
     notFound();
   }
 
@@ -141,10 +139,7 @@ export default function LocalizedUseCasePage({
   const t = getTranslations(params.lang);
   const tool = getToolBySlug("video-compressor")!;
 
-  const canonicalUrl =
-    params.lang === "en"
-      ? `https://videoreduce.com/compress/${useCase.slug}`
-      : `https://videoreduce.com/${params.lang}/compress/${useCase.slug}`;
+  const canonicalUrl = `https://videoreduce.com/${params.lang}/compress/${useCase.slug}`;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -154,11 +149,11 @@ export default function LocalizedUseCasePage({
         name: `${useCase.title} — VideoReduce`,
         url: canonicalUrl,
         image: "https://videoreduce.com/logo.png",
-        screenshot: "https://videoreduce.com/logo.png",
+        screenshot: "https://videoreduce.com/og-image.jpg",
         applicationCategory: "MultimediaApplication",
         applicationSubCategory: "Video Compression & Optimization",
         operatingSystem: "All (Browser-Based: Windows, Mac, iOS, Android, Linux)",
-        browserRequirements: "Requires WebAssembly Compatible Browser",
+        softwareRequirements: "Requires WebAssembly Compatible Browser",
         offers: {
           "@type": "Offer",
           price: "0",
@@ -167,7 +162,7 @@ export default function LocalizedUseCasePage({
         aggregateRating: {
           "@type": "AggregateRating",
           ratingValue: "4.9",
-          ratingCount: "1480",
+          ratingCount: "1280",
           bestRating: "5",
           worstRating: "1",
         },
@@ -180,13 +175,13 @@ export default function LocalizedUseCasePage({
             "@type": "ListItem",
             position: 1,
             name: t.home,
-            item: `https://videoreduce.com${params.lang === "en" ? "" : `/${params.lang}`}`,
+            item: `https://videoreduce.com/${params.lang}`,
           },
           {
             "@type": "ListItem",
             position: 2,
             name: t.compress,
-            item: `https://videoreduce.com${params.lang === "en" ? "/compress/whatsapp-video" : `/${params.lang}/compress/whatsapp-video`}`,
+            item: `https://videoreduce.com/${params.lang}/compress/whatsapp-video`,
           },
           {
             "@type": "ListItem",
@@ -200,12 +195,15 @@ export default function LocalizedUseCasePage({
         "@type": "HowTo",
         name: `${t.howToCompress} - ${useCase.title}`,
         description: useCase.localeSeoDescription,
+        image: "https://videoreduce.com/og-image.jpg",
         totalTime: "PT1M",
         step: (useCase.localeSteps || useCase.steps).map((s) => ({
           "@type": "HowToStep",
           position: s.step,
           name: s.title,
           text: s.desc,
+          url: `${canonicalUrl}#step-${s.step}`,
+          image: "https://videoreduce.com/og-image.jpg",
         })),
       },
       {
@@ -238,14 +236,14 @@ export default function LocalizedUseCasePage({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/5 pb-4">
           <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-medium text-slate-400">
             <Link
-              href={params.lang === "en" ? "/" : `/${params.lang}`}
+              href={`/${params.lang}`}
               className="hover:text-blue-400 transition-colors"
             >
               {t.home}
             </Link>
             <ChevronRight className="h-3.5 w-3.5 text-slate-600" />
             <Link
-              href={params.lang === "en" ? "/compress/whatsapp-video" : `/${params.lang}/compress/whatsapp-video`}
+              href={`/${params.lang}/compress/whatsapp-video`}
               className="hover:text-blue-400 transition-colors"
             >
               {t.compress}

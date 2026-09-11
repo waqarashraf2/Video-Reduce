@@ -18,50 +18,18 @@ export const TOOLS: ToolMetadata[] = [
     outputExtension: "mp4",
     outputMimeType: "video/mp4",
     estimatedSpeed: "Ultra-Fast (Wasm SIMD)",
-    seoTitle: "Free Video Compressor Online — Reduce Any Video Size",
+    seoTitle: "Free Video Compressor Online – Reduce Any Video Size",
     seoDescription:
       "Reduce video file size online free for any video (10MB to 1GB+). Fast, private WebAssembly video compressor for Discord, WhatsApp, iPhone, and PC.",
     seoKeywords: [
-      "reduce video size",
-      "reduce video file size",
-      "how to reduce video file size",
-      "reduce video size online free",
-      "how to reduce video size",
-      "reduce video size online",
-      "reduce video quality",
-      "does dropbox reduce video quality",
-      "reduce video file size without losing quality",
-      "how to reduce video size on iphone",
-      "how to reduce video quality",
-      "how to reduce video file size without losing quality",
-      "how to reduce video size without losing quality",
-      "how to reduce video resolution",
-      "how to reduce video file size on iphone",
-      "how to reduce video file size on my phone",
-      "how do i reduce video file size",
-      "reduce video size free",
-      "reduce video size iphone",
-      "how to reduce video storage size",
       "video compressor",
-      "video compressor for discord",
-      "discord video compressor",
-      "video compressor free",
+      "reduce video size",
+      "compress video online free",
+      "reduce video file size",
       "free video compressor",
-      "online video compressor",
-      "video compressor online",
-      "8mb video compressor",
-      "handbrake video compressor",
-      "freeconvert video compressor",
-      "10mb video compressor",
-      "video compressor online free",
-      "free online video compressor",
-      "video compressor app",
-      "mp4 video compressor",
-      "free video compressor online",
-      "online video compressor free",
-      "veed video compressor",
-      "best video compressor",
-      "video compressor discord",
+      "mp4 compressor online",
+      "video size reducer",
+      "compress video for discord",
     ],
     features: [
       {
@@ -141,7 +109,7 @@ export const TOOLS: ToolMetadata[] = [
     outputExtension: "gif",
     outputMimeType: "image/gif",
     estimatedSpeed: "Fast (Two-Pass Palette)",
-    seoTitle: "Free Video to GIF Converter Online - High Quality HD GIF Maker",
+    seoTitle: "Free Video to GIF Converter Online",
     seoDescription:
       "Convert video to GIF online free in high quality. Fast video to GIF maker for iPhone, PC, YouTube and Twitter clips with custom FPS and two-pass color palette. Best free alternative to Ezgif & Adobe Express.",
     seoKeywords: [
@@ -251,7 +219,7 @@ export const TOOLS: ToolMetadata[] = [
     outputExtension: "mp3",
     outputMimeType: "audio/mpeg",
     estimatedSpeed: "Instant",
-    seoTitle: "Extract Audio from Video Online Free — MP4 to MP3",
+    seoTitle: "Extract Audio from Video Online Free",
     seoDescription:
       "Extract audio from video online free. Convert MP4 to MP3, WAV, or AAC. Rip soundtrack from any video in seconds — no app install, 100% private.",
     seoKeywords: [
@@ -349,7 +317,7 @@ export const TOOLS: ToolMetadata[] = [
     outputExtension: "mp4",
     outputMimeType: "video/mp4",
     estimatedSpeed: "Instant (Lossless Copy)",
-    seoTitle: "Free Video Trimmer Online — Cut & Split Video Clips",
+    seoTitle: "Free Video Trimmer & Cutter Online",
     seoDescription:
       "Trim and cut video clips online free. Split MP4, MOV, MKV videos with dual-handle timeline and lossless stream-copy — no quality loss, no upload.",
     seoKeywords: [
@@ -447,7 +415,7 @@ export const TOOLS: ToolMetadata[] = [
     outputExtension: "mp4",
     outputMimeType: "video/mp4",
     estimatedSpeed: "Fast",
-    seoTitle: "Speed Up Video Online Free — Slow Motion & Fast Forward",
+    seoTitle: "Speed Up Video Online Free",
     seoDescription:
       "Speed up or slow down video online free. Change video speed from 0.25x slow motion to 4x fast forward with pitch correction — no app needed.",
     seoKeywords: [
@@ -545,7 +513,7 @@ export const TOOLS: ToolMetadata[] = [
     outputExtension: "mp4",
     outputMimeType: "video/mp4",
     estimatedSpeed: "Instant (100ms)",
-    seoTitle: "Remove Audio from Video Online Free — Mute Video",
+    seoTitle: "Remove Audio from Video Online Free",
     seoDescription:
       "Remove audio from video online free. Mute and strip audio from MP4, MOV, WebM videos instantly with zero quality loss — no software needed.",
     seoKeywords: [
@@ -643,7 +611,7 @@ export const TOOLS: ToolMetadata[] = [
     outputExtension: "mp4",
     outputMimeType: "video/mp4",
     estimatedSpeed: "Fast",
-    seoTitle: "Free Video Converter Online — Convert MP4, MOV, MKV, WebM",
+    seoTitle: "Free Video Converter Online",
     seoDescription:
       "Convert video format online free. Convert MOV to MP4, MKV to MP4, WebM to MP4, AVI to MP4 and more in your browser — no software install needed.",
     seoKeywords: [
@@ -705,7 +673,7 @@ export const TOOLS: ToolMetadata[] = [
     outputExtension: "mp4",
     outputMimeType: "video/mp4",
     estimatedSpeed: "Fast",
-    seoTitle: "Resize Video for TikTok & Reels Free — Aspect Ratio",
+    seoTitle: "Resize Video for TikTok & Reels Free",
     seoDescription:
       "Resize video for TikTok, Instagram Reels (9:16), YouTube (16:9) free online. Convert landscape to vertical with crop or letterbox padding.",
     seoKeywords: [
@@ -767,7 +735,7 @@ export const TOOLS: ToolMetadata[] = [
     outputExtension: "mp4",
     outputMimeType: "video/mp4",
     estimatedSpeed: "Fast",
-    seoTitle: "Add Watermark to Video Online Free — Logo & Text",
+    seoTitle: "Add Watermark to Video Online Free",
     seoDescription:
       "Add watermark to video online free. Overlay text or PNG logo on MP4, MOV, WebM videos with custom opacity and position — no software needed.",
     seoKeywords: [
@@ -829,7 +797,7 @@ export const TOOLS: ToolMetadata[] = [
     outputExtension: "mp4",
     outputMimeType: "video/mp4",
     estimatedSpeed: "Fast",
-    seoTitle: "Rotate Video Online Free — 90° 180° 270° & Flip",
+    seoTitle: "Rotate Video Online Free",
     seoDescription:
       "Rotate video online free. Fix sideways videos 90°, 180°, 270° clockwise or flip horizontal/vertical mirror — no software needed.",
     seoKeywords: [
@@ -891,7 +859,7 @@ export const TOOLS: ToolMetadata[] = [
     outputExtension: "mp4",
     outputMimeType: "video/mp4",
     estimatedSpeed: "Fast (Wasm)",
-    seoTitle: "Free Video Reverse Online — Play Video Backwards & Rewind Maker",
+    seoTitle: "Free Video Reverse Online",
     seoDescription:
       "Reverse video online for free. Play any video backwards with reversed or muted audio. Create viral rewind effects, loop videos in reverse, and edit reversed clips — no app install needed.",
     seoKeywords: [
@@ -999,7 +967,7 @@ export const TOOLS: ToolMetadata[] = [
     outputExtension: "png",
     outputMimeType: "image/png",
     estimatedSpeed: "Instant",
-    seoTitle: "Extract Frame from Video Online Free — Snapshot Grabber",
+    seoTitle: "Extract Frame from Video Online Free",
     seoDescription:
       "Extract HD and 4K frames from video online free. Capture video screenshots as lossless PNG or JPG with exact timeline scrubber — 100% private.",
     seoKeywords: [
@@ -1097,7 +1065,7 @@ export const TOOLS: ToolMetadata[] = [
     outputExtension: "mp4",
     outputMimeType: "video/mp4",
     estimatedSpeed: "Fast",
-    seoTitle: "Free Video Color Filters & Grading Online — Effects",
+    seoTitle: "Video Color Filters & Effects Online",
     seoDescription:
       "Apply cinematic video filters, vintage effects, and color grading online free. Adjust brightness, contrast, and saturation in browser with zero upload.",
     seoKeywords: [
@@ -1195,7 +1163,7 @@ export const TOOLS: ToolMetadata[] = [
     outputExtension: "mp4",
     outputMimeType: "video/mp4",
     estimatedSpeed: "Fast (Wasm SIMD)",
-    seoTitle: "Free GIF to MP4 Converter Online — Convert GIF to Video",
+    seoTitle: "Free GIF to MP4 Converter Online",
     seoDescription:
       "Convert GIF to MP4 online free with looping and 95% size reduction. Best tool for Twitter, Photoshop, Mac, and PC GIFs with zero uploads.",
     seoKeywords: [
@@ -1305,7 +1273,7 @@ export const TOOLS: ToolMetadata[] = [
     outputExtension: "mp4",
     outputMimeType: "video/mp4",
     estimatedSpeed: "Instant",
-    seoTitle: "Free Video Volume Booster Online — Amplify Audio 300%",
+    seoTitle: "Free Video Volume Booster Online",
     seoDescription:
       "Boost video volume up to 300% online free. Amplify quiet video audio and normalize sound levels with zero quality loss — no app needed.",
     seoKeywords: [
@@ -1403,7 +1371,7 @@ export const TOOLS: ToolMetadata[] = [
     outputExtension: "mp4",
     outputMimeType: "video/mp4",
     estimatedSpeed: "Fast",
-    seoTitle: "Remove Background Noise from Video Online Free — De-Noiser",
+    seoTitle: "Remove Video Background Noise Free",
     seoDescription:
       "Remove background noise, fan hiss, and mic hum from video online free. Clean voice audio with WebAssembly spectral noise reduction — 100% private.",
     seoKeywords: [
@@ -1501,7 +1469,7 @@ export const TOOLS: ToolMetadata[] = [
     outputExtension: "mp4",
     outputMimeType: "video/mp4",
     estimatedSpeed: "Instant (50ms)",
-    seoTitle: "Remove Video Metadata & EXIF Online Free — Privacy Shield",
+    seoTitle: "Remove Video Metadata & EXIF Free",
     seoDescription:
       "Remove EXIF metadata, GPS location, and camera tags from video online free in 1-click. Protect privacy before sharing — zero quality loss.",
     seoKeywords: [
@@ -1599,7 +1567,7 @@ export const TOOLS: ToolMetadata[] = [
     outputExtension: "mp4",
     outputMimeType: "video/mp4",
     estimatedSpeed: "Variable",
-    seoTitle: "Online FFmpeg Command Runner — WebAssembly Terminal",
+    seoTitle: "Online FFmpeg Command Runner",
     seoDescription:
       "Run FFmpeg CLI commands online in browser via WebAssembly. Sandbox with recipes, custom filters, and live real-time execution logs.",
     seoKeywords: [

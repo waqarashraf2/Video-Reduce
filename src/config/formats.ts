@@ -30,7 +30,7 @@ export const FORMAT_PAIRS: FormatPairData[] = [
     badge: "iPhone & Apple Fix",
     h1: "Convert Apple MOV to Universal MP4 Online Free",
     tagline: "Transcode iPhone and QuickTime MOV videos to universal H.264 MP4 with 100% in-browser privacy",
-    seoTitle: "Convert MOV to MP4 Online Free (No File Limit) | VideoReduce",
+    seoTitle: "Convert MOV to MP4 Online Free",
     seoDescription: "Convert Apple QuickTime MOV files to MP4 in your browser with WebAssembly. No upload limits, 100% private, instant web streaming ready.",
     keywords: [
       "convert mov to mp4",
@@ -82,7 +82,7 @@ export const FORMAT_PAIRS: FormatPairData[] = [
     badge: "Matroska Repack",
     h1: "Convert MKV to MP4 Online Without Quality Loss",
     tagline: "Convert Matroska MKV videos into universal MP4 container for smart TVs, phones, and browsers",
-    seoTitle: "Convert MKV to MP4 Online Free - Lossless & Private | VideoReduce",
+    seoTitle: "Convert MKV to MP4 Online Free",
     seoDescription: "Convert MKV to MP4 format online without quality loss. Runs locally in your browser with WebAssembly, 0 server uploads.",
     keywords: [
       "convert mkv to mp4",
@@ -134,7 +134,7 @@ export const FORMAT_PAIRS: FormatPairData[] = [
     badge: "Web Video Fix",
     h1: "Convert WebM to MP4 Online (Fast & Free)",
     tagline: "Convert Google WebM and VP8/VP9 videos into standard MP4 for editing and sharing",
-    seoTitle: "Convert WebM to MP4 Online Free | VideoReduce",
+    seoTitle: "Convert WebM to MP4 Online Free",
     seoDescription: "Convert WebM videos to MP4 format with WebAssembly in your browser. 100% private, free, and compatible with iPhone and Premiere Pro.",
     keywords: [
       "convert webm to mp4",
@@ -185,7 +185,7 @@ export const FORMAT_PAIRS: FormatPairData[] = [
     badge: "Legacy Video Fix",
     h1: "Convert AVI to MP4 Online (Modern Web Standard)",
     tagline: "Convert old AVI videos into modern, lightweight MP4 videos with up to 85% size savings",
-    seoTitle: "Convert AVI to MP4 Online Free | VideoReduce",
+    seoTitle: "Convert AVI to MP4 Online Free",
     seoDescription: "Convert legacy AVI video files to modern H.264 MP4 format online. Reduce file size and enable playback on modern phones.",
     keywords: [
       "convert avi to mp4",
@@ -236,7 +236,7 @@ export const FORMAT_PAIRS: FormatPairData[] = [
     badge: "Flash Video Recovery",
     h1: "Convert FLV Flash Video to MP4 Online Free",
     tagline: "Recover legacy Adobe Flash FLV videos and transcode Sorenson/VP6 streams into modern universal MP4",
-    seoTitle: "Convert FLV to MP4 Online Free - Recover Flash Video | VideoReduce",
+    seoTitle: "Convert FLV to MP4 Online Free",
     seoDescription: "Convert Flash FLV videos to MP4 format online for free. In-browser WebAssembly conversion restores unplayable vintage FLV clips.",
     keywords: [
       "convert flv to mp4",
@@ -287,7 +287,7 @@ export const FORMAT_PAIRS: FormatPairData[] = [
     badge: "Windows Media Fix",
     h1: "Convert Windows Media WMV to Universal MP4 Online",
     tagline: "Transcode Windows Media VC-1 and WMV9 videos into universal MP4 for iPhone, Mac, and Android",
-    seoTitle: "Convert WMV to MP4 Online Free (Mac & iPhone Fix) | VideoReduce",
+    seoTitle: "Convert WMV to MP4 Online Free",
     seoDescription: "Convert Windows Media WMV videos to MP4 format online. 100% private in-browser transcode, play Windows videos on Mac and iPhone.",
     keywords: [
       "convert wmv to mp4",
@@ -338,7 +338,7 @@ export const FORMAT_PAIRS: FormatPairData[] = [
     badge: "Vintage Mobile Fix",
     h1: "Convert Old 3GP Mobile Videos to MP4 Online",
     tagline: "Restore legacy 3GPP feature phone recordings and modernize AMR audio into crystal-clear MP4",
-    seoTitle: "Convert 3GP to MP4 Online Free - Restore Old Mobile Videos | VideoReduce",
+    seoTitle: "Convert 3GP to MP4 Online Free",
     seoDescription: "Convert old 3GP and 3G2 mobile phone videos to MP4 format online. In-browser tool restores vintage mobile memories with modern audio.",
     keywords: [
       "convert 3gp to mp4",
@@ -389,7 +389,7 @@ export const FORMAT_PAIRS: FormatPairData[] = [
     badge: "DVD Rip & Digitize",
     h1: "Convert DVD VOB Files to MP4 Online Free",
     tagline: "Digitize DVD Video Object (VOB) MPEG-2 streams into lightweight, universal H.264 MP4 videos",
-    seoTitle: "Convert VOB to MP4 Online Free (Digitize DVD) | VideoReduce",
+    seoTitle: "Convert VOB to MP4 Online Free",
     seoDescription: "Convert DVD VOB video files to MP4 format online without quality loss. In-browser WebAssembly digitizes home DVD movies privately.",
     keywords: [
       "convert vob to mp4",
@@ -440,7 +440,7 @@ export const FORMAT_PAIRS: FormatPairData[] = [
     badge: "Apple Container Fix",
     h1: "Convert Apple M4V to Universal MP4 Online",
     tagline: "Convert iTunes and Apple M4V video containers to standard MP4 for Android and Windows devices",
-    seoTitle: "Convert M4V to MP4 Online Free - Lossless Converter | VideoReduce",
+    seoTitle: "Convert M4V to MP4 Online Free",
     seoDescription: "Convert Apple M4V video files to MP4 format online for free. Fast, lossless in-browser conversion for Android, Windows, and TV playback.",
     keywords: [
       "convert m4v to mp4",
@@ -491,7 +491,7 @@ export const FORMAT_PAIRS: FormatPairData[] = [
     badge: "Broadcast Stream Fix",
     h1: "Convert MPEG Transport Stream (TS) to MP4 Online",
     tagline: "Convert IPTV, DVB broadcast, and digital TV Transport Stream recordings into shareable MP4",
-    seoTitle: "Convert TS to MP4 Online Free - Broadcast Stream Converter | VideoReduce",
+    seoTitle: "Convert TS to MP4 Online Free",
     seoDescription: "Convert MPEG-2/H.264 TS (Transport Stream) video files to MP4 format online. Private in-browser tool optimizes broadcast recordings.",
     keywords: [
       "convert ts to mp4",
@@ -542,7 +542,7 @@ export const FORMAT_PAIRS: FormatPairData[] = [
     badge: "Ogg Theora Modernizer",
     h1: "Convert Ogg OGV Video to MP4 Online Free",
     tagline: "Convert open-source Ogg Theora OGV videos into modern H.264 MP4 for mobile and social media",
-    seoTitle: "Convert OGV to MP4 Online Free - Ogg Video Converter | VideoReduce",
+    seoTitle: "Convert OGV to MP4 Online Free",
     seoDescription: "Convert Ogg OGV and Theora video files to MP4 format online for free. WebAssembly-powered converter brings open-source video to all devices.",
     keywords: [
       "convert ogv to mp4",
@@ -593,7 +593,7 @@ export const FORMAT_PAIRS: FormatPairData[] = [
     badge: "HTML5 Web Ready",
     h1: "Convert MP4 to WebM Online Free (HTML5 Video)",
     tagline: "Compress and encode MP4 videos into lightweight VP9/VP8 WebM for ultra-fast website background video loading",
-    seoTitle: "Convert MP4 to WebM Online Free - Fast HTML5 Web Video | VideoReduce",
+    seoTitle: "Convert MP4 to WebM Online Free",
     seoDescription: "Convert MP4 videos to WebM format online with WebAssembly. Create lightweight, royalty-free HTML5 video embeds with zero quality loss.",
     keywords: [
       "convert mp4 to webm",
@@ -645,7 +645,7 @@ export const FORMAT_PAIRS: FormatPairData[] = [
     badge: "High-FPS Animation",
     h1: "Convert MP4 Video to Animated GIF Online Free",
     tagline: "Turn video clips into silky-smooth, high-quality animated GIFs with custom FPS, resolution, and palette optimization",
-    seoTitle: "Convert MP4 to GIF Online Free - High Quality Animated GIF | VideoReduce",
+    seoTitle: "Convert MP4 to GIF Online Free",
     seoDescription: "Convert MP4 videos to high-quality animated GIFs in your browser. Custom frame rates, 256-color palette optimization, and zero upload limits.",
     keywords: [
       "convert mp4 to gif",
@@ -697,7 +697,7 @@ export const FORMAT_PAIRS: FormatPairData[] = [
     badge: "Apple & Live Photo GIF",
     h1: "Convert Apple MOV to Animated GIF Online Free",
     tagline: "Transform iPhone QuickTime videos and Live Photos into crisp, lightweight animated GIFs for chat and social media",
-    seoTitle: "Convert MOV to GIF Online Free - iPhone Video to Animated GIF | VideoReduce",
+    seoTitle: "Convert MOV to GIF Online Free",
     seoDescription: "Convert Apple MOV files and iPhone videos to animated GIFs online. 100% private in-browser tool with color palette optimization and no watermarks.",
     keywords: [
       "convert mov to gif",
@@ -748,7 +748,7 @@ export const FORMAT_PAIRS: FormatPairData[] = [
     badge: "Audio Extractor Pro",
     h1: "Extract High-Quality MP3 Audio from MP4 Video",
     tagline: "Strip video streams and extract studio-grade 320kbps MP3 audio tracks in seconds with zero quality loss",
-    seoTitle: "Convert MP4 to MP3 Online Free - 320kbps Audio Extractor | VideoReduce",
+    seoTitle: "Convert MP4 to MP3 Online Free",
     seoDescription: "Extract MP3 audio from MP4 video online free. High-quality 320kbps audio extractor powered by WebAssembly. No file size limits.",
     keywords: [
       "convert mp4 to mp3",
@@ -799,7 +799,7 @@ export const FORMAT_PAIRS: FormatPairData[] = [
     badge: "iPhone Audio Rip",
     h1: "Convert Apple MOV to MP3 Audio Online Free",
     tagline: "Extract crisp voice memos, interview audio, and soundtrack stems from iPhone QuickTime MOV videos",
-    seoTitle: "Convert MOV to MP3 Online Free - Extract iPhone Audio | VideoReduce",
+    seoTitle: "Convert MOV to MP3 Online Free",
     seoDescription: "Extract MP3 audio from Apple MOV and QuickTime videos online. 100% private in-browser tool with 320kbps audio quality and no file size limits.",
     keywords: [
       "convert mov to mp3",

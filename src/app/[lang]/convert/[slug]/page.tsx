@@ -2,18 +2,19 @@ import React from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { FORMAT_PAIRS } from "@/config/formats";
-import { getToolBySlug } from "@/config/tools";
 import {
   SUPPORTED_LOCALES,
+  NON_ENGLISH_LOCALES,
   SupportedLocale,
   isValidLocale,
-  getLocalizedFormat,
   getTranslations,
+  getLocalizedFormat,
 } from "@/config/i18n";
+import { FORMAT_PAIRS, getFormatPairBySlug } from "@/config/formats";
+import { getToolBySlug } from "@/config/tools";
+import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 import { SocialShareBar } from "@/components/ui/SocialShareBar";
 import { CompetitorComparison } from "@/components/ui/CompetitorComparison";
-import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 import dynamic from "next/dynamic";
 import {
   ChevronRight,
@@ -23,8 +24,11 @@ import {
   Sparkles,
   HelpCircle,
   CheckCircle2,
-  RefreshCw,
+  FileCode,
+  ArrowRight,
+  Info,
   Globe,
+  RefreshCw,
 } from "lucide-react";
 
 const ToolRunner = dynamic(
@@ -34,7 +38,7 @@ const ToolRunner = dynamic(
     loading: () => (
       <div className="flex flex-col items-center justify-center p-8 space-y-3">
         <div className="h-6 w-6 animate-spin rounded-full border-2 border-blue-500 border-t-transparent" />
-        <span className="text-xs text-slate-400">Loading Converter Engine...</span>
+        <span className="text-xs text-slate-400">Loading Converter...</span>
       </div>
     ),
   }
@@ -50,7 +54,7 @@ interface LocalizedFormatPageProps {
 export async function generateStaticParams() {
   const params: { lang: string; slug: string }[] = [];
 
-  for (const lang of SUPPORTED_LOCALES) {
+  for (const lang of NON_ENGLISH_LOCALES) {
     for (const format of FORMAT_PAIRS) {
       params.push({
         lang,
@@ -65,7 +69,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: LocalizedFormatPageProps): Promise<Metadata> {
-  if (!isValidLocale(params.lang)) {
+  if (!isValidLocale(params.lang) || params.lang === "en") {
     return { title: "Page Not Found | VideoReduce" };
   }
 
@@ -74,10 +78,7 @@ export async function generateMetadata({
     return { title: "Converter Not Found | VideoReduce" };
   }
 
-  const canonicalUrl =
-    params.lang === "en"
-      ? `https://videoreduce.com/convert/${format.slug}`
-      : `https://videoreduce.com/${params.lang}/convert/${format.slug}`;
+  const canonicalUrl = `https://videoreduce.com/${params.lang}/convert/${format.slug}`;
 
   return {
     title: format.localeSeoTitle,
@@ -130,7 +131,7 @@ export async function generateMetadata({
 export default function LocalizedFormatConverterPage({
   params,
 }: LocalizedFormatPageProps) {
-  if (!isValidLocale(params.lang)) {
+  if (!isValidLocale(params.lang) || params.lang === "en") {
     notFound();
   }
 
@@ -144,10 +145,7 @@ export default function LocalizedFormatConverterPage({
     getToolBySlug(format.toolSlug || "format-converter") ||
     getToolBySlug("format-converter")!;
 
-  const canonicalUrl =
-    params.lang === "en"
-      ? `https://videoreduce.com/convert/${format.slug}`
-      : `https://videoreduce.com/${params.lang}/convert/${format.slug}`;
+  const canonicalUrl = `https://videoreduce.com/${params.lang}/convert/${format.slug}`;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -157,11 +155,11 @@ export default function LocalizedFormatConverterPage({
         name: `${format.title} — VideoReduce`,
         url: canonicalUrl,
         image: "https://videoreduce.com/logo.png",
-        screenshot: "https://videoreduce.com/logo.png",
+        screenshot: "https://videoreduce.com/og-image.jpg",
         applicationCategory: "MultimediaApplication",
         applicationSubCategory: "Video & Audio Processing",
         operatingSystem: "All (Browser-Based: Windows, Mac, iOS, Android, Linux)",
-        browserRequirements: "Requires WebAssembly Compatible Browser",
+        softwareRequirements: "Requires WebAssembly Compatible Browser",
         offers: {
           "@type": "Offer",
           price: "0",
@@ -170,7 +168,7 @@ export default function LocalizedFormatConverterPage({
         aggregateRating: {
           "@type": "AggregateRating",
           ratingValue: "4.9",
-          ratingCount: "1250",
+          ratingCount: "1280",
           bestRating: "5",
           worstRating: "1",
         },
@@ -183,13 +181,13 @@ export default function LocalizedFormatConverterPage({
             "@type": "ListItem",
             position: 1,
             name: t.home,
-            item: `https://videoreduce.com${params.lang === "en" ? "" : `/${params.lang}`}`,
+            item: `https://videoreduce.com/${params.lang}`,
           },
           {
             "@type": "ListItem",
             position: 2,
             name: t.convert,
-            item: `https://videoreduce.com${params.lang === "en" ? "/convert/mov-to-mp4" : `/${params.lang}/convert/mov-to-mp4`}`,
+            item: `https://videoreduce.com/${params.lang}/convert/mov-to-mp4`,
           },
           {
             "@type": "ListItem",
@@ -203,12 +201,15 @@ export default function LocalizedFormatConverterPage({
         "@type": "HowTo",
         name: `${t.howToConvert} ${format.fromFormat} ➔ ${format.toFormat}`,
         description: format.localeSeoDescription,
+        image: "https://videoreduce.com/og-image.jpg",
         totalTime: "PT1M",
         step: (format.localeSteps || format.steps).map((s) => ({
           "@type": "HowToStep",
           position: s.step,
           name: s.title,
           text: s.desc,
+          url: `${canonicalUrl}#step-${s.step}`,
+          image: "https://videoreduce.com/og-image.jpg",
         })),
       },
       {
@@ -241,14 +242,14 @@ export default function LocalizedFormatConverterPage({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/5 pb-4">
           <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-medium text-slate-400">
             <Link
-              href={params.lang === "en" ? "/" : `/${params.lang}`}
+              href={`/${params.lang}`}
               className="hover:text-blue-400 transition-colors"
             >
               {t.home}
             </Link>
             <ChevronRight className="h-3.5 w-3.5 text-slate-600" />
             <Link
-              href={params.lang === "en" ? "/convert/mov-to-mp4" : `/${params.lang}/convert/mov-to-mp4`}
+              href={`/${params.lang}/convert/mov-to-mp4`}
               className="hover:text-blue-400 transition-colors"
             >
               {t.convert}

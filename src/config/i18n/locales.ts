@@ -8,7 +8,17 @@ export const SUPPORTED_LOCALES = [
   "hi",
 ] as const;
 
+export const NON_ENGLISH_LOCALES = [
+  "es",
+  "pt",
+  "fr",
+  "de",
+  "it",
+  "hi",
+] as const;
+
 export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
+export type NonEnglishLocale = (typeof NON_ENGLISH_LOCALES)[number];
 
 export interface LocaleMeta {
   code: SupportedLocale;

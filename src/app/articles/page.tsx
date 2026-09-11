@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Video Engineering & Privacy Guides | VideoReduce.com",
+  title: "Video Engineering & Privacy Guides",
   description:
     "Explore in-depth technical guides on video compression, privacy-first media processing, format conversion, and social media optimization by VideoReduce.com.",
   keywords: [

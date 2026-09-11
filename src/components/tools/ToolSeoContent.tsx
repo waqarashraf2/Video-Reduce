@@ -5,6 +5,7 @@ import { ARTICLES } from "@/config/articles";
 import { USE_CASES } from "@/config/use-cases";
 import { FORMAT_PAIRS } from "@/config/formats";
 import { SocialShareBar } from "@/components/ui/SocialShareBar";
+import { ToolFeedback } from "@/components/feedback/ToolFeedback";
 import {
   ShieldCheck,
   HelpCircle,
@@ -30,11 +31,11 @@ export const ToolSeoContent: React.FC<ToolSeoContentProps> = ({ tool }) => {
         name: `${tool.name} — VideoReduce.com`,
         url: `https://videoreduce.com/tools/${tool.slug}`,
         image: "https://videoreduce.com/logo.png",
-        screenshot: "https://videoreduce.com/logo.png",
+        screenshot: "https://videoreduce.com/og-image.jpg",
         applicationCategory: "MultimediaApplication",
         applicationSubCategory: "Video & Audio Processing",
         operatingSystem: "All (Browser-Based: Windows, Mac, iOS, Android, Linux)",
-        browserRequirements: "Requires WebAssembly Compatible Browser",
+        softwareRequirements: "Requires WebAssembly Compatible Browser",
         offers: {
           "@type": "Offer",
           price: "0",
@@ -85,14 +86,17 @@ export const ToolSeoContent: React.FC<ToolSeoContentProps> = ({ tool }) => {
       },
       {
         "@type": "HowTo",
-        name: `How to use ${tool.name} on VideoReduce.com`,
+        name: `How to use ${tool.name} on VideoReduce`,
         description: tool.description,
+        image: "https://videoreduce.com/og-image.jpg",
         totalTime: "PT2M",
         step: tool.steps.map((s) => ({
           "@type": "HowToStep",
           position: s.step,
           name: s.title,
           text: s.description,
+          url: `https://videoreduce.com/tools/${tool.slug}#step-${s.step}`,
+          image: "https://videoreduce.com/og-image.jpg",
         })),
       },
     ],
@@ -269,6 +273,9 @@ export const ToolSeoContent: React.FC<ToolSeoContentProps> = ({ tool }) => {
           ))}
         </div>
       </section>
+
+      {/* User Reviews, Star Rating & Feedback Recommendations */}
+      <ToolFeedback toolName={tool.name} toolSlug={tool.slug} />
 
       {/* Frequently Asked Questions (FAQ) */}
       <section className="space-y-6">

@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "How Video Reducer Works — In-Browser Video Compression",
+  title: "How VideoReduce Works (In-Browser)",
   description:
     "Discover how Video Reducer compresses videos of any size (from 10MB to 10GB+) locally in your browser using WebAssembly. 100% private, zero quality loss, and no server uploads.",
   keywords: [

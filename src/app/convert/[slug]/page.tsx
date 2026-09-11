@@ -117,11 +117,11 @@ export default function FormatConverterPage({ params }: FormatPageProps) {
         name: `${formatPair.title} — VideoReduce`,
         url: `https://videoreduce.com/convert/${formatPair.slug}`,
         image: "https://videoreduce.com/logo.png",
-        screenshot: "https://videoreduce.com/logo.png",
+        screenshot: "https://videoreduce.com/og-image.jpg",
         applicationCategory: "MultimediaApplication",
         applicationSubCategory: "Video & Audio Processing",
         operatingSystem: "All (Browser-Based: Windows, Mac, iOS, Android, Linux)",
-        browserRequirements: "Requires WebAssembly Compatible Browser",
+        softwareRequirements: "Requires WebAssembly Compatible Browser",
         offers: {
           "@type": "Offer",
           price: "0",
@@ -130,7 +130,7 @@ export default function FormatConverterPage({ params }: FormatPageProps) {
         aggregateRating: {
           "@type": "AggregateRating",
           ratingValue: "4.9",
-          ratingCount: "1250",
+          ratingCount: "1280",
           bestRating: "5",
           worstRating: "1",
         },
@@ -163,12 +163,15 @@ export default function FormatConverterPage({ params }: FormatPageProps) {
         "@type": "HowTo",
         name: `How to Convert ${formatPair.fromFormat} to ${formatPair.toFormat}`,
         description: formatPair.seoDescription,
+        image: "https://videoreduce.com/og-image.jpg",
         totalTime: "PT1M",
         step: formatPair.steps.map((s) => ({
           "@type": "HowToStep",
           position: s.step,
           name: s.title,
           text: s.desc,
+          url: `https://videoreduce.com/convert/${formatPair.slug}#step-${s.step}`,
+          image: "https://videoreduce.com/og-image.jpg",
         })),
       },
       {

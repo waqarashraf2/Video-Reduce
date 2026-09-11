@@ -116,11 +116,11 @@ export default function UseCasePage({ params }: UseCasePageProps) {
         name: `${useCase.title} — VideoReduce`,
         url: `https://videoreduce.com/compress/${useCase.slug}`,
         image: "https://videoreduce.com/logo.png",
-        screenshot: "https://videoreduce.com/logo.png",
+        screenshot: "https://videoreduce.com/og-image.jpg",
         applicationCategory: "MultimediaApplication",
         applicationSubCategory: "Video Compression & Optimization",
         operatingSystem: "All (Browser-Based: Windows, Mac, iOS, Android, Linux)",
-        browserRequirements: "Requires WebAssembly Compatible Browser",
+        softwareRequirements: "Requires WebAssembly Compatible Browser",
         offers: {
           "@type": "Offer",
           price: "0",
@@ -129,7 +129,7 @@ export default function UseCasePage({ params }: UseCasePageProps) {
         aggregateRating: {
           "@type": "AggregateRating",
           ratingValue: "4.9",
-          ratingCount: "1480",
+          ratingCount: "1280",
           bestRating: "5",
           worstRating: "1",
         },
@@ -162,12 +162,15 @@ export default function UseCasePage({ params }: UseCasePageProps) {
         "@type": "HowTo",
         name: `How to ${useCase.title}`,
         description: useCase.seoDescription,
+        image: "https://videoreduce.com/og-image.jpg",
         totalTime: "PT1M",
         step: useCase.steps.map((s) => ({
           "@type": "HowToStep",
           position: s.step,
           name: s.title,
           text: s.desc,
+          url: `https://videoreduce.com/compress/${useCase.slug}#step-${s.step}`,
+          image: "https://videoreduce.com/og-image.jpg",
         })),
       },
       {
