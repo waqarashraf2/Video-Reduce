@@ -188,29 +188,26 @@ export default function UseCasePage({ params }: UseCasePageProps) {
   };
 
   return (
-    <div className="relative min-h-screen py-10 sm:py-14">
+    <div className="relative min-h-screen bg-white py-10 sm:py-14 text-slate-900">
       {/* JSON-LD Schema */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* Glow Backdrops */}
-      <div className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 h-[450px] w-full max-w-7xl bg-hero-glow blur-3xl opacity-60" />
-
       <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 space-y-10">
         {/* Breadcrumb Navigation & In-Page Language Switcher */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/5 pb-4">
-          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-medium text-slate-400">
-            <Link href="/" className="hover:text-blue-400 transition-colors">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-semibold text-slate-500">
+            <Link href="/" className="hover:text-red-600 transition-colors">
               Home
             </Link>
-            <ChevronRight className="h-3.5 w-3.5 text-slate-600" />
-            <Link href="/tools/video-compressor" className="hover:text-blue-400 transition-colors">
+            <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
+            <Link href="/tools/video-compressor" className="hover:text-red-600 transition-colors">
               Compress
             </Link>
-            <ChevronRight className="h-3.5 w-3.5 text-slate-600" />
-            <span className="text-blue-400 font-semibold">{useCase.title}</span>
+            <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
+            <span className="text-red-600 font-bold">{useCase.title}</span>
           </nav>
 
           <LanguageSwitcher />
@@ -219,47 +216,47 @@ export default function UseCasePage({ params }: UseCasePageProps) {
         {/* Page Header */}
         <header className="space-y-4">
           <div className="flex flex-wrap items-center gap-2.5">
-            <span className="rounded-full bg-blue-500/15 px-3 py-1 text-xs font-bold text-blue-400 ring-1 ring-blue-500/30">
+            <span className="rounded-full bg-red-50 px-3 py-1 text-xs font-bold text-red-700 ring-1 ring-red-200">
               {useCase.badge}
             </span>
-            <span className="rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-bold text-emerald-400 ring-1 ring-emerald-500/30 flex items-center gap-1">
+            <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700 ring-1 ring-emerald-200 flex items-center gap-1">
               <Lock className="h-3 w-3" />
               100% Private Wasm
             </span>
-            <span className="rounded-full bg-indigo-500/15 px-3 py-1 text-xs font-bold text-indigo-400 ring-1 ring-indigo-500/30 flex items-center gap-1">
+            <span className="rounded-full bg-red-50 px-3 py-1 text-xs font-bold text-red-700 ring-1 ring-red-200 flex items-center gap-1">
               <Zap className="h-3 w-3" />
               0 Server Wait Time
             </span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-950">
             {useCase.h1}
           </h1>
 
-          <p className="text-base sm:text-lg text-slate-300 max-w-3xl leading-relaxed">
+          <p className="text-base sm:text-lg text-slate-600 max-w-3xl leading-relaxed">
             {useCase.tagline}
           </p>
 
-          <div className="flex flex-wrap items-center gap-3 pt-1 text-xs text-slate-400">
-            <div className="flex items-center gap-1.5 rounded-lg bg-slate-900/80 px-3 py-1.5 border border-white/10">
-              <span className="font-semibold text-white">Target Limit:</span>
-              <span className="text-emerald-400 font-mono font-bold">{useCase.targetSizeText}</span>
+          <div className="flex flex-wrap items-center gap-3 pt-1 text-xs text-slate-600">
+            <div className="flex items-center gap-1.5 rounded-lg bg-slate-50 px-3 py-1.5 border border-slate-200">
+              <span className="font-semibold text-slate-900">Target Limit:</span>
+              <span className="text-emerald-700 font-mono font-bold">{useCase.targetSizeText}</span>
             </div>
-            <div className="flex items-center gap-1.5 rounded-lg bg-slate-900/80 px-3 py-1.5 border border-white/10">
-              <span className="font-semibold text-white">Recommended Preset:</span>
-              <span className="text-blue-400 font-bold">{useCase.recommendedPreset}</span>
+            <div className="flex items-center gap-1.5 rounded-lg bg-slate-50 px-3 py-1.5 border border-slate-200">
+              <span className="font-semibold text-slate-900">Recommended Preset:</span>
+              <span className="text-red-600 font-bold">{useCase.recommendedPreset}</span>
             </div>
           </div>
         </header>
 
         {/* Interactive Compressor Tool */}
-        <main className="rounded-3xl border border-blue-500/30 bg-[#0d1424]/90 p-6 sm:p-8 shadow-2xl backdrop-blur-2xl space-y-4">
-          <div className="flex items-center justify-between border-b border-white/10 pb-3">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-400">
+        <main className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xl space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-red-600">
               <Sparkles className="h-4 w-4" />
               <span>Instant Video Compression Engine</span>
             </div>
-            <span className="text-xs text-emerald-400 font-medium">0 Bytes Uploaded to Cloud</span>
+            <span className="text-xs text-emerald-700 font-bold">0 Bytes Uploaded to Cloud</span>
           </div>
 
           <ToolRunner tool={tool} />
@@ -277,26 +274,26 @@ export default function UseCasePage({ params }: UseCasePageProps) {
 
         {/* Why It Matters & Best Settings Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-6 sm:p-8 space-y-3">
-            <h2 className="text-lg font-bold text-white flex items-center gap-2">
-              <Zap className="h-5 w-5 text-blue-400" />
+          <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 space-y-3 shadow-sm">
+            <h2 className="text-lg font-black text-slate-950 flex items-center gap-2">
+              <Zap className="h-5 w-5 text-red-600" />
               Why Pre-Compressing Matters
             </h2>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
               {useCase.whyItMatters}
             </p>
           </div>
 
-          <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-6 sm:p-8 space-y-3">
-            <h2 className="text-lg font-bold text-white flex items-center gap-2">
-              <CheckCircle2 className="h-5 w-5 text-emerald-400" />
+          <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 space-y-3 shadow-sm">
+            <h2 className="text-lg font-black text-slate-950 flex items-center gap-2">
+              <CheckCircle2 className="h-5 w-5 text-emerald-600" />
               Optimal Technical Specifications
             </h2>
             <div className="space-y-2.5 pt-1">
               {useCase.bestSettings.map((s, idx) => (
-                <div key={idx} className="flex justify-between border-b border-white/5 pb-1.5 text-xs">
-                  <span className="text-slate-400">{s.label}:</span>
-                  <span className="font-semibold text-white">{s.value}</span>
+                <div key={idx} className="flex justify-between border-b border-slate-100 pb-1.5 text-xs">
+                  <span className="text-slate-500">{s.label}:</span>
+                  <span className="font-bold text-slate-900">{s.value}</span>
                 </div>
               ))}
             </div>
@@ -306,20 +303,20 @@ export default function UseCasePage({ params }: UseCasePageProps) {
         {/* Step-by-Step Guide */}
         <section className="space-y-6">
           <div className="text-center space-y-2">
-            <h2 className="text-2xl font-bold text-white">How to {useCase.title}</h2>
+            <h2 className="text-2xl font-black text-slate-950">How to {useCase.title}</h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {useCase.steps.map((s) => (
               <div
                 key={s.step}
-                className="rounded-2xl border border-white/10 bg-slate-900/40 p-6 space-y-2"
+                className="rounded-2xl border border-slate-200 bg-white p-6 space-y-2 shadow-sm"
               >
-                <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600/20 font-mono text-xs font-bold text-blue-400">
+                <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-red-50 font-mono text-xs font-bold text-red-600 ring-1 ring-red-200">
                   0{s.step}
                 </div>
-                <div className="text-sm font-bold text-white">{s.title}</div>
-                <p className="text-xs text-slate-400 leading-relaxed">{s.desc}</p>
+                <div className="text-sm font-bold text-slate-900">{s.title}</div>
+                <p className="text-xs text-slate-600 leading-relaxed">{s.desc}</p>
               </div>
             ))}
           </div>
@@ -327,16 +324,16 @@ export default function UseCasePage({ params }: UseCasePageProps) {
 
         {/* FAQs */}
         {useCase.faqs.length > 0 && (
-          <section className="space-y-4 pt-6 border-t border-white/10">
-            <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <HelpCircle className="h-5 w-5 text-blue-400" />
+          <section className="space-y-4 pt-6 border-t border-slate-200">
+            <h2 className="text-xl font-black text-slate-950 flex items-center gap-2">
+              <HelpCircle className="h-5 w-5 text-red-600" />
               Frequently Asked Questions
             </h2>
             <div className="grid grid-cols-1 gap-3">
               {useCase.faqs.map((f, idx) => (
-                <div key={idx} className="rounded-2xl border border-white/10 bg-slate-900/60 p-5 space-y-1.5">
-                  <div className="text-sm font-semibold text-white">{f.q}</div>
-                  <p className="text-xs text-slate-300 leading-relaxed">{f.a}</p>
+                <div key={idx} className="rounded-2xl border border-slate-200 bg-white p-5 space-y-1.5 shadow-sm">
+                  <div className="text-sm font-bold text-slate-900">{f.q}</div>
+                  <p className="text-xs text-slate-600 leading-relaxed">{f.a}</p>
                 </div>
               ))}
             </div>

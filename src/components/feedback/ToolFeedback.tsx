@@ -106,32 +106,28 @@ export const ToolFeedback: React.FC<ToolFeedbackProps> = ({ toolName, toolSlug =
   };
 
   return (
-    <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-[#0e1628]/90 via-[#0a0f1d]/90 to-[#080c14]/90 p-6 sm:p-10 shadow-2xl backdrop-blur-xl">
-      {/* Decorative Glow */}
-      <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-blue-500/10 blur-3xl" />
-      <div className="pointer-events-none absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-amber-500/10 blur-3xl" />
-
+    <section className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 sm:p-10 shadow-lg">
       <div className="relative space-y-8">
         {/* Header with Verified Community Score */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-white/[0.08] pb-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-200 pb-6">
           <div className="space-y-1.5">
-            <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-400">
-              <Sparkles className="h-3.5 w-3.5" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
+              <Sparkles className="h-3.5 w-3.5 text-amber-600" />
               <span>User Community Reviews & Recommendations</span>
             </div>
-            <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+            <h3 className="text-xl sm:text-2xl font-black text-slate-950 tracking-tight">
               Rate {toolName}
             </h3>
-            <p className="text-xs sm:text-sm text-slate-400">
+            <p className="text-xs sm:text-sm text-slate-600">
               Your honest feedback and recommendations directly shape our next updates.
             </p>
           </div>
 
           {/* Social Proof Trust Score (Matches Schema 4.9 / 1,280 reviews) */}
-          <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-slate-900/80 px-5 py-3.5 shadow-inner">
+          <div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 px-5 py-3.5 shadow-sm">
             <div className="text-center">
-              <span className="text-3xl font-black text-amber-400">4.9</span>
-              <span className="text-xs text-slate-400 block font-medium">out of 5</span>
+              <span className="text-3xl font-black text-amber-500">4.9</span>
+              <span className="text-xs text-slate-500 block font-medium">out of 5</span>
             </div>
             <div className="space-y-1">
               <div className="flex items-center gap-0.5 text-amber-400">
@@ -139,7 +135,7 @@ export const ToolFeedback: React.FC<ToolFeedbackProps> = ({ toolName, toolSlug =
                   <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
                 ))}
               </div>
-              <p className="text-xs text-slate-300 font-medium">
+              <p className="text-xs text-slate-600 font-medium">
                 1,280+ Verified User Ratings
               </p>
             </div>
@@ -151,7 +147,7 @@ export const ToolFeedback: React.FC<ToolFeedbackProps> = ({ toolName, toolSlug =
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Star Selector */}
             <div className="space-y-2.5">
-              <label className="text-sm font-semibold text-slate-200 block">
+              <label className="text-sm font-bold text-slate-800 block">
                 How would you rate your experience with this tool?
               </label>
               <div className="flex flex-wrap items-center gap-3">
@@ -169,14 +165,14 @@ export const ToolFeedback: React.FC<ToolFeedbackProps> = ({ toolName, toolSlug =
                       <Star
                         className={`h-8 w-8 transition-colors ${
                           (hoverRating || rating) >= star
-                            ? "fill-amber-400 text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]"
-                            : "text-slate-600 hover:text-slate-400"
+                            ? "fill-amber-400 text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.3)]"
+                            : "text-slate-300 hover:text-slate-400"
                         }`}
                       />
                     </button>
                   ))}
                 </div>
-                <span className="text-xs sm:text-sm font-semibold text-amber-300 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20">
+                <span className="text-xs sm:text-sm font-semibold text-amber-800 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
                   {getRatingLabel(hoverRating || rating)}
                 </span>
               </div>
@@ -184,7 +180,7 @@ export const ToolFeedback: React.FC<ToolFeedbackProps> = ({ toolName, toolSlug =
 
             {/* Quick Recommendation Tags */}
             <div className="space-y-2">
-              <span className="text-xs font-medium text-slate-400 block">
+              <span className="text-xs font-semibold text-slate-600 block">
                 Quick Highlight (Optional):
               </span>
               <div className="flex flex-wrap gap-2">
@@ -193,10 +189,10 @@ export const ToolFeedback: React.FC<ToolFeedbackProps> = ({ toolName, toolSlug =
                     key={tag}
                     type="button"
                     onClick={() => setSelectedTag(selectedTag === tag ? "" : tag)}
-                    className={`rounded-lg px-3 py-1 text-xs font-medium transition-all ${
+                    className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
                       selectedTag === tag
-                        ? "bg-blue-600 text-white shadow-md shadow-blue-500/25 ring-1 ring-blue-400"
-                        : "bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white"
+                        ? "bg-red-600 text-white shadow-md shadow-red-500/25 ring-1 ring-red-500"
+                        : "bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900 border border-slate-200"
                     }`}
                   >
                     {tag}
@@ -213,7 +209,7 @@ export const ToolFeedback: React.FC<ToolFeedbackProps> = ({ toolName, toolSlug =
                   onChange={(e) => setComment(e.target.value)}
                   placeholder="What did you like about this tool, or what feature should we add next? (e.g., speed, format support, limits...)"
                   rows={3}
-                  className="w-full rounded-xl border border-white/10 bg-slate-950/70 p-3.5 text-sm text-slate-100 placeholder-slate-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all resize-none"
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50 p-3.5 text-sm text-slate-900 placeholder-slate-400 focus:border-red-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-500/20 transition-all resize-none"
                 />
               </div>
 
@@ -223,12 +219,12 @@ export const ToolFeedback: React.FC<ToolFeedbackProps> = ({ toolName, toolSlug =
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your Name / Nickname (Optional)"
-                  className="w-full sm:w-1/2 rounded-xl border border-white/10 bg-slate-950/70 px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all"
+                  className="w-full sm:w-1/2 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-red-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-500/20 transition-all"
                 />
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full sm:w-auto sm:ml-auto inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full sm:w-auto sm:ml-auto inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-red-500/20 transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <span>Submitting...</span>
@@ -244,24 +240,24 @@ export const ToolFeedback: React.FC<ToolFeedbackProps> = ({ toolName, toolSlug =
           </form>
         ) : (
           /* Thank You & Submitted Review Card */
-          <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-6 space-y-4">
+          <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6 space-y-4">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-emerald-400 font-semibold text-sm sm:text-base">
-                <CheckCircle2 className="h-5 w-5" />
+              <div className="flex items-center gap-2 text-emerald-700 font-bold text-sm sm:text-base">
+                <CheckCircle2 className="h-5 w-5 text-emerald-600" />
                 <span>Thank you for your rating & feedback!</span>
               </div>
               <button
                 onClick={() => setIsSubmitted(false)}
-                className="text-xs text-slate-400 hover:text-white underline"
+                className="text-xs text-emerald-700 hover:text-emerald-900 underline font-medium"
               >
                 Edit Review
               </button>
             </div>
 
             {userReview && (
-              <div className="rounded-xl border border-white/10 bg-slate-900/70 p-4 space-y-2">
+              <div className="rounded-xl border border-emerald-200 bg-white p-4 space-y-2 shadow-sm">
                 <div className="flex items-center justify-between">
-                  <span className="font-semibold text-white text-sm">
+                  <span className="font-bold text-slate-900 text-sm">
                     {userReview.name}
                   </span>
                   <div className="flex items-center gap-0.5 text-amber-400">
@@ -271,27 +267,27 @@ export const ToolFeedback: React.FC<ToolFeedbackProps> = ({ toolName, toolSlug =
                         className={`h-3.5 w-3.5 ${
                           userReview.rating >= s
                             ? "fill-amber-400 text-amber-400"
-                            : "text-slate-600"
+                            : "text-slate-200"
                         }`}
                       />
                     ))}
                   </div>
                 </div>
                 {userReview.tag && (
-                  <span className="inline-block rounded-md bg-blue-500/20 px-2 py-0.5 text-[11px] font-semibold text-blue-300">
+                  <span className="inline-block rounded-md bg-red-50 border border-red-200 px-2 py-0.5 text-[11px] font-bold text-red-700">
                     {userReview.tag}
                   </span>
                 )}
                 {userReview.comment && (
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-xs text-slate-700 leading-relaxed">
                     &ldquo;{userReview.comment}&rdquo;
                   </p>
                 )}
               </div>
             )}
 
-            <p className="text-xs text-slate-400 flex items-center gap-1.5">
-              <Heart className="h-3.5 w-3.5 text-rose-400 fill-rose-400" />
+            <p className="text-xs text-slate-500 flex items-center gap-1.5">
+              <Heart className="h-3.5 w-3.5 text-rose-500 fill-rose-500" />
               <span>Your recommendation has been recorded to help guide future releases.</span>
             </p>
           </div>

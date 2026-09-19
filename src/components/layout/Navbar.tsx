@@ -47,9 +47,9 @@ export const Navbar: React.FC = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full px-3 py-2.5 sm:px-6 lg:px-8 sm:pt-4 pointer-events-none transition-all">
-      {/* Floating Curved Pill Header Container (Bradleys Law Style) */}
+      {/* Floating Curved Pill Header Container */}
       <div
-        className={`pointer-events-auto mx-auto max-w-7xl border border-white/15 bg-[#121a2d]/85 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.37)] ring-1 ring-white/10 transition-all duration-300 ${
+        className={`pointer-events-auto mx-auto max-w-7xl border border-slate-200/90 bg-white/92 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] ring-1 ring-slate-100 transition-all duration-300 ${
           mobileMenuOpen ? "rounded-3xl" : "rounded-full"
         }`}
       >
@@ -63,34 +63,34 @@ export const Navbar: React.FC = () => {
           </Link>
 
           {/* Center / Right: Desktop Navigation */}
-          <nav className="hidden items-center gap-7 md:flex">
+          <nav className="hidden items-center gap-6 md:flex">
             {/* Tools Dropdown */}
             <div ref={dropdownRef} className="relative">
               <button
                 onClick={() => setToolsOpen(!toolsOpen)}
-                className={`flex items-center gap-1.5 text-sm font-medium transition-colors py-1.5 ${
+                className={`flex items-center gap-1.5 text-sm font-semibold transition-colors py-1.5 ${
                   toolsOpen || pathname.startsWith("/tools")
-                    ? "text-blue-400 font-semibold"
-                    : "text-slate-200 hover:text-white"
+                    ? "text-[#0B192C] font-black"
+                    : "text-slate-700 hover:text-[#0B192C]"
                 }`}
               >
                 <span>Tools</span>
                 <ChevronDown
                   className={`h-3.5 w-3.5 transition-transform duration-200 ${
-                    toolsOpen ? "rotate-180 text-blue-400" : "text-slate-400"
+                    toolsOpen ? "rotate-180 text-[#0B192C]" : "text-slate-500"
                   }`}
                 />
               </button>
 
               {/* Tools Dropdown Menu */}
               {toolsOpen && (
-                <div className="absolute left-1/2 -translate-x-1/2 top-full mt-4 w-[680px] max-h-[520px] overflow-y-auto rounded-3xl border border-white/15 bg-[#0f172a] p-5 shadow-[0_25px_70px_rgba(0,0,0,0.9)] z-[100] animate-in fade-in slide-in-from-top-2">
-                  <div className="flex items-center justify-between mb-3 px-2 pb-2.5 border-b border-white/10 text-xs font-semibold uppercase tracking-wider text-slate-300">
-                    <span className="flex items-center gap-2">
-                      <Sparkles className="h-3.5 w-3.5 text-blue-400" />
+                <div className="absolute left-1/2 -translate-x-1/2 top-full mt-4 w-[680px] max-h-[520px] overflow-y-auto rounded-3xl border border-slate-200 bg-white p-5 shadow-[0_20px_50px_rgba(11,25,44,0.12)] z-[100] animate-in fade-in slide-in-from-top-2">
+                  <div className="flex items-center justify-between mb-3 px-2 pb-2.5 border-b border-slate-100 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                    <span className="flex items-center gap-2 text-[#0B192C] font-black">
+                      <Sparkles className="h-3.5 w-3.5 text-red-600" />
                       All 18 Media Tools
                     </span>
-                    <span className="text-emerald-400 text-[11px] font-mono font-bold">
+                    <span className="text-emerald-700 text-[11px] font-mono font-bold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
                       100% In-Browser Wasm
                     </span>
                   </div>
@@ -105,18 +105,20 @@ export const Navbar: React.FC = () => {
                           onClick={() => setToolsOpen(false)}
                           className={`flex items-center gap-3 rounded-2xl p-2.5 transition-all ${
                             isActive
-                              ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
-                              : "bg-[#182238] text-slate-200 hover:bg-[#1f2c48] hover:text-white border border-white/5"
+                              ? "bg-gradient-to-r from-[#0B192C] to-[#1e3a8a] text-white shadow-md shadow-blue-950/25 font-semibold"
+                              : "bg-slate-50 text-slate-800 hover:bg-blue-50/60 hover:text-[#0B192C] border border-slate-100/80"
                           }`}
                         >
-                          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-slate-900 text-blue-400 ring-1 ring-white/10">
+                          <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl shadow-sm ${
+                            isActive ? "bg-red-600 text-white" : "bg-white text-[#0B192C] ring-1 ring-slate-200"
+                          }`}>
                             <ToolIcon name={tool.iconName} className="h-4 w-4" />
                           </div>
                           <div className="flex flex-col min-w-0">
                             <span className="text-xs font-bold truncate">
                               {tool.shortName}
                             </span>
-                            <span className="text-[11px] text-slate-400 truncate">
+                            <span className={`text-[11px] truncate ${isActive ? "text-blue-100" : "text-slate-500"}`}>
                               {tool.tagline}
                             </span>
                           </div>
@@ -130,10 +132,10 @@ export const Navbar: React.FC = () => {
 
             <Link
               href={compressorHref}
-              className={`text-sm font-medium transition-colors ${
+              className={`text-sm font-semibold transition-colors ${
                 isCompressorActive
-                  ? "text-blue-400 font-semibold"
-                  : "text-slate-200 hover:text-white"
+                  ? "text-[#0B192C] font-black"
+                  : "text-slate-700 hover:text-[#0B192C]"
               }`}
             >
               Compressor
@@ -141,10 +143,10 @@ export const Navbar: React.FC = () => {
 
             <Link
               href="/articles"
-              className={`text-sm font-medium transition-colors ${
+              className={`text-sm font-semibold transition-colors ${
                 pathname.startsWith("/articles")
-                  ? "text-blue-400 font-semibold"
-                  : "text-slate-200 hover:text-white"
+                  ? "text-[#0B192C] font-black"
+                  : "text-slate-700 hover:text-[#0B192C]"
               }`}
             >
               Guides & Articles
@@ -152,10 +154,10 @@ export const Navbar: React.FC = () => {
 
             <Link
               href="/faq"
-              className={`text-sm font-medium transition-colors ${
+              className={`text-sm font-semibold transition-colors ${
                 pathname === "/faq"
-                  ? "text-blue-400 font-semibold"
-                  : "text-slate-200 hover:text-white"
+                  ? "text-[#0B192C] font-black"
+                  : "text-slate-700 hover:text-[#0B192C]"
               }`}
             >
               FAQ
@@ -163,10 +165,10 @@ export const Navbar: React.FC = () => {
 
             <Link
               href="/contact"
-              className={`text-sm font-medium transition-colors ${
+              className={`text-sm font-semibold transition-colors ${
                 pathname === "/contact"
-                  ? "text-blue-400 font-semibold"
-                  : "text-slate-200 hover:text-white"
+                  ? "text-[#0B192C] font-black"
+                  : "text-slate-700 hover:text-[#0B192C]"
               }`}
             >
               Contact
@@ -177,7 +179,7 @@ export const Navbar: React.FC = () => {
           <div className="flex items-center md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-slate-800 text-slate-300 hover:bg-slate-700"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200"
               aria-label="Toggle Navigation Menu"
             >
               {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -187,11 +189,11 @@ export const Navbar: React.FC = () => {
 
         {/* Mobile Drawer Menu */}
         {mobileMenuOpen && (
-          <div className="border-t border-white/10 px-4 py-5 md:hidden max-h-[75vh] overflow-y-auto rounded-b-3xl bg-[#0f172a] animate-in slide-in-from-top-2">
+          <div className="border-t border-slate-200 px-4 py-5 md:hidden max-h-[75vh] overflow-y-auto rounded-b-3xl bg-white animate-in slide-in-from-top-2">
             <div className="space-y-4">
-              <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-slate-300 px-1">
+              <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-slate-600 px-1">
                 <span>18 Media Tools</span>
-                <span className="text-emerald-400 font-mono text-[10px]">100% Wasm</span>
+                <span className="text-emerald-600 font-mono text-[10px] bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">100% Wasm</span>
               </div>
 
               <div className="grid grid-cols-2 gap-2">
@@ -202,35 +204,35 @@ export const Navbar: React.FC = () => {
                     onClick={() => setMobileMenuOpen(false)}
                     className={`flex items-center gap-2 rounded-xl p-2.5 text-xs font-medium ${
                       pathname === `/tools/${tool.slug}`
-                        ? "bg-blue-600 text-white"
-                        : "bg-[#182238] text-slate-200 hover:bg-[#1f2c48]"
+                        ? "bg-gradient-to-r from-[#0B192C] to-[#1e3a8a] text-white font-bold shadow-sm shadow-blue-950/30"
+                        : "bg-slate-50 text-slate-800 hover:bg-blue-50/60 hover:text-[#0B192C] border border-slate-100"
                     }`}
                   >
-                    <ToolIcon name={tool.iconName} className="h-3.5 w-3.5 text-blue-400 shrink-0" />
+                    <ToolIcon name={tool.iconName} className="h-3.5 w-3.5 text-[#0B192C] shrink-0" />
                     <span className="truncate">{tool.shortName}</span>
                   </Link>
                 ))}
               </div>
 
-              <div className="border-t border-white/10 pt-3 space-y-1.5 text-sm font-medium">
+              <div className="border-t border-slate-200 pt-3 space-y-1.5 text-sm font-medium">
                 <Link
                   href={compressorHref}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between rounded-xl bg-blue-600/20 border border-blue-500/30 p-2.5 text-blue-300 hover:bg-blue-600/30"
+                  className="flex items-center justify-between rounded-xl bg-[#0B192C] text-white p-2.5 shadow-md shadow-blue-950/20 hover:bg-[#1E3E62] transition-colors"
                 >
                   <span className="flex items-center gap-2 font-semibold">
-                    <Sparkles className="h-4 w-4 text-blue-400" />
+                    <Sparkles className="h-4 w-4 text-rose-400" />
                     Smart Video Compressor
                   </span>
-                  <ArrowRight className="h-4 w-4 text-blue-400" />
+                  <ArrowRight className="h-4 w-4 text-white" />
                 </Link>
                 <Link
                   href="/articles"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between rounded-xl bg-[#182238] p-2.5 text-slate-200 hover:bg-white/5"
+                  className="flex items-center justify-between rounded-xl bg-slate-50 border border-slate-100 p-2.5 text-slate-800 hover:bg-red-50 hover:text-red-600"
                 >
                   <span className="flex items-center gap-2">
-                    <BookOpen className="h-4 w-4 text-indigo-400" />
+                    <BookOpen className="h-4 w-4 text-slate-600" />
                     Guides & Articles
                   </span>
                   <ArrowRight className="h-4 w-4 text-slate-400" />
@@ -238,10 +240,10 @@ export const Navbar: React.FC = () => {
                 <Link
                   href="/faq"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between rounded-xl bg-[#182238] p-2.5 text-slate-200 hover:bg-white/5"
+                  className="flex items-center justify-between rounded-xl bg-slate-50 border border-slate-100 p-2.5 text-slate-800 hover:bg-red-50 hover:text-red-600"
                 >
                   <span className="flex items-center gap-2">
-                    <HelpCircle className="h-4 w-4 text-blue-400" />
+                    <HelpCircle className="h-4 w-4 text-slate-600" />
                     FAQ & Help Center
                   </span>
                   <ArrowRight className="h-4 w-4 text-slate-400" />
@@ -249,10 +251,10 @@ export const Navbar: React.FC = () => {
                 <Link
                   href="/contact"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between rounded-xl bg-[#182238] p-2.5 text-slate-200 hover:bg-white/5"
+                  className="flex items-center justify-between rounded-xl bg-slate-50 border border-slate-100 p-2.5 text-slate-800 hover:bg-red-50 hover:text-red-600"
                 >
                   <span className="flex items-center gap-2">
-                    <Mail className="h-4 w-4 text-emerald-400" />
+                    <Mail className="h-4 w-4 text-slate-600" />
                     Contact & Support
                   </span>
                   <ArrowRight className="h-4 w-4 text-slate-400" />

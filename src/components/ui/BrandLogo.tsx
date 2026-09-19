@@ -20,8 +20,8 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
 
   return (
     <div className={`flex items-center gap-2.5 ${className}`}>
-      {/* Brand Icon Image */}
-      <div className={`relative overflow-hidden rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 p-0.5 shadow-lg shadow-blue-500/25 ring-1 ring-white/20 transition-transform group-hover:scale-105 ${iconDimensions.class}`}>
+      {/* Brand Icon Image with Red Theme Border container */}
+      <div className={`relative overflow-hidden rounded-xl bg-gradient-to-br from-red-600 via-rose-500 to-red-600 p-[2px] shadow-md shadow-red-500/20 ring-1 ring-red-500/40 border border-red-500/30 transition-transform group-hover:scale-105 ${iconDimensions.class}`}>
         <Image
           src="/logo.png"
           alt="VideoReduce Logo"
@@ -35,12 +35,12 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       {/* Brand Typography */}
       {showText && (
         <div className="flex flex-col">
-          <span className="font-bold tracking-tight text-white sm:text-lg flex items-center leading-none">
-            Video<span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-violet-400 bg-clip-text text-transparent font-extrabold">Reduce</span>
-            <span className="text-[10px] font-mono text-blue-400/80 ml-1 rounded bg-blue-500/10 px-1 py-0.2">.com</span>
+          <span className="font-extrabold tracking-tight text-[#0B192C] sm:text-lg flex items-center leading-none">
+            Video<span className="bg-gradient-to-r from-red-600 via-rose-500 to-red-600 bg-clip-text text-transparent font-black">Reduce</span>
+            <span className="text-[10px] font-mono text-[#0B192C] font-bold ml-1 rounded bg-blue-50/80 px-1.5 py-0.5 border border-blue-200/80">.com</span>
           </span>
-          <span className="text-[10px] font-medium tracking-wide text-slate-400 flex items-center gap-1 mt-0.5">
-            <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="text-[10px] font-medium tracking-wide text-slate-500 flex items-center gap-1 mt-0.5">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
             100% Private Wasm Suite
           </span>
         </div>

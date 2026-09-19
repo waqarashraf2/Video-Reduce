@@ -38,10 +38,10 @@ export const SocialShareBar: React.FC<SocialShareBarProps> = ({
   };
 
   return (
-    <div className="my-6 rounded-2xl border border-white/10 bg-slate-900/60 p-4 backdrop-blur-md">
+    <div className="my-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
       <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-        <div className="flex items-center gap-2 text-slate-300 font-semibold">
-          <Share2 className="h-4 w-4 text-blue-400" />
+        <div className="flex items-center gap-2 text-slate-800 font-bold">
+          <Share2 className="h-4 w-4 text-red-600" />
           <span>Share this Free Tool:</span>
         </div>
 
@@ -51,7 +51,7 @@ export const SocialShareBar: React.FC<SocialShareBarProps> = ({
             href={`https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 rounded-xl border border-white/10 bg-slate-800/80 px-3 py-1.5 font-medium text-slate-300 transition-colors hover:border-blue-400/40 hover:bg-slate-800 hover:text-white"
+            className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 font-semibold text-slate-700 transition-colors hover:bg-slate-100 hover:text-red-600"
             aria-label="Share on X (Twitter)"
           >
             <span>𝕏 Post</span>
@@ -62,7 +62,7 @@ export const SocialShareBar: React.FC<SocialShareBarProps> = ({
             href={`https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 rounded-xl border border-emerald-500/20 bg-emerald-950/40 px-3 py-1.5 font-medium text-emerald-300 transition-colors hover:bg-emerald-900/50 hover:text-emerald-200"
+            className="flex items-center gap-1.5 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-1.5 font-semibold text-emerald-800 transition-colors hover:bg-emerald-100"
             aria-label="Share on WhatsApp"
           >
             <span>WhatsApp</span>
@@ -73,7 +73,7 @@ export const SocialShareBar: React.FC<SocialShareBarProps> = ({
             href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 rounded-xl border border-blue-500/20 bg-blue-950/40 px-3 py-1.5 font-medium text-blue-300 transition-colors hover:bg-blue-900/50 hover:text-blue-200"
+            className="flex items-center gap-1.5 rounded-xl border border-blue-200 bg-blue-50 px-3 py-1.5 font-semibold text-blue-800 transition-colors hover:bg-blue-100"
             aria-label="Share on LinkedIn"
           >
             <span>LinkedIn</span>
@@ -84,7 +84,7 @@ export const SocialShareBar: React.FC<SocialShareBarProps> = ({
             href={`https://reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 rounded-xl border border-orange-500/20 bg-orange-950/40 px-3 py-1.5 font-medium text-orange-300 transition-colors hover:bg-orange-900/50 hover:text-orange-200"
+            className="flex items-center gap-1.5 rounded-xl border border-orange-200 bg-orange-50 px-3 py-1.5 font-semibold text-orange-800 transition-colors hover:bg-orange-100"
             aria-label="Share on Reddit"
           >
             <span>Reddit</span>
@@ -93,17 +93,17 @@ export const SocialShareBar: React.FC<SocialShareBarProps> = ({
           {/* Copy Link */}
           <button
             onClick={handleCopy}
-            className="flex items-center gap-1.5 rounded-xl border border-white/10 bg-slate-800/80 px-3 py-1.5 font-medium text-slate-300 transition-colors hover:border-slate-600 hover:bg-slate-700 hover:text-white"
+            className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 font-semibold text-slate-700 transition-colors hover:bg-slate-100 hover:text-slate-950"
             aria-label="Copy tool URL"
           >
             {copied ? (
               <>
-                <Check className="h-3.5 w-3.5 text-emerald-400" />
-                <span className="text-emerald-400 font-bold">Copied!</span>
+                <Check className="h-3.5 w-3.5 text-emerald-600" />
+                <span className="text-emerald-700 font-bold">Copied!</span>
               </>
             ) : (
               <>
-                <Copy className="h-3.5 w-3.5 text-slate-400" />
+                <Copy className="h-3.5 w-3.5 text-slate-500" />
                 <span>Copy Link</span>
               </>
             )}

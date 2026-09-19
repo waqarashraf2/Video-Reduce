@@ -13,22 +13,22 @@ export const CompetitorComparison: React.FC<CompetitorComparisonProps> = ({
   const t = getTranslations(lang);
 
   return (
-    <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-slate-900/90 to-[#0b1120]/95 p-6 sm:p-8 shadow-2xl backdrop-blur-xl space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-5">
+    <section className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-lg space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-5">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/15 px-3 py-1 text-xs font-bold text-blue-400 ring-1 ring-blue-500/30 mb-2">
-            <Sparkles className="h-3.5 w-3.5" />
+          <div className="inline-flex items-center gap-2 rounded-full bg-red-50 px-3 py-1 text-xs font-bold text-red-700 ring-1 ring-red-200 mb-2">
+            <Sparkles className="h-3.5 w-3.5 text-red-600" />
             <span>2026 WebAssembly Standard</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
+          <h2 className="text-xl sm:text-2xl font-black tracking-tight text-slate-950">
             {t.vsFreeConvertTitle}
           </h2>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-slate-600 mt-1">
             {t.vsFreeConvertSubtitle}
           </p>
         </div>
-        <div className="flex items-center gap-1.5 rounded-2xl bg-emerald-500/10 px-3.5 py-2 ring-1 ring-emerald-500/30 text-emerald-400 text-xs font-semibold shrink-0">
-          <ShieldCheck className="h-4 w-4" />
+        <div className="flex items-center gap-1.5 rounded-2xl bg-emerald-50 px-3.5 py-2 ring-1 ring-emerald-200 text-emerald-700 text-xs font-bold shrink-0">
+          <ShieldCheck className="h-4 w-4 text-emerald-600" />
           <span>{t.videoReduceAdvantage}</span>
         </div>
       </div>
@@ -36,31 +36,31 @@ export const CompetitorComparison: React.FC<CompetitorComparisonProps> = ({
       <div className="overflow-x-auto">
         <table className="w-full text-left text-xs sm:text-sm border-collapse">
           <thead>
-            <tr className="border-b border-white/10 text-slate-400 text-[11px] sm:text-xs uppercase tracking-wider">
-              <th className="py-3 px-3 sm:px-4 font-semibold">Key Feature</th>
-              <th className="py-3 px-3 sm:px-4 font-bold text-blue-400 bg-blue-500/5 rounded-t-xl">
+            <tr className="border-b border-slate-200 text-slate-500 text-[11px] sm:text-xs uppercase tracking-wider">
+              <th className="py-3 px-3 sm:px-4 font-bold text-slate-700">Key Feature</th>
+              <th className="py-3 px-3 sm:px-4 font-bold text-red-600 bg-red-50/50 rounded-t-xl">
                 VideoReduce (WebAssembly)
               </th>
-              <th className="py-3 px-3 sm:px-4 font-semibold text-slate-400">
+              <th className="py-3 px-3 sm:px-4 font-bold text-slate-500">
                 FreeConvert / Cloud Tools
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/5">
+          <tbody className="divide-y divide-slate-100">
             {t.freeConvertComparison.map((row, idx) => (
-              <tr key={idx} className="hover:bg-white/[0.02] transition-colors">
-                <td className="py-3.5 px-3 sm:px-4 font-medium text-slate-300">
+              <tr key={idx} className="hover:bg-slate-50/80 transition-colors">
+                <td className="py-3.5 px-3 sm:px-4 font-bold text-slate-900">
                   {row.feature}
                 </td>
-                <td className="py-3.5 px-3 sm:px-4 bg-blue-500/5 font-semibold text-emerald-400">
+                <td className="py-3.5 px-3 sm:px-4 bg-red-50/30 font-bold text-emerald-700">
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
+                    <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
                     <span>{row.videoReduce}</span>
                   </div>
                 </td>
-                <td className="py-3.5 px-3 sm:px-4 text-slate-400">
+                <td className="py-3.5 px-3 sm:px-4 text-slate-500">
                   <div className="flex items-center gap-2">
-                    <XCircle className="h-4 w-4 text-rose-400/80 shrink-0" />
+                    <XCircle className="h-4 w-4 text-rose-500 shrink-0" />
                     <span>{row.freeConvert}</span>
                   </div>
                 </td>
@@ -71,33 +71,33 @@ export const CompetitorComparison: React.FC<CompetitorComparisonProps> = ({
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-        <div className="flex items-center gap-3 rounded-2xl bg-slate-900/60 p-3.5 border border-white/5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-500/10 text-blue-400 shrink-0">
+        <div className="flex items-center gap-3 rounded-2xl bg-slate-50 p-3.5 border border-slate-200">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-50 text-red-600 shrink-0">
             <Zap className="h-4 w-4" />
           </div>
           <div>
-            <div className="text-xs font-bold text-white">0 Upload Delay</div>
-            <div className="text-[11px] text-slate-400">Local SIMD execution</div>
+            <div className="text-xs font-bold text-slate-900">0 Upload Delay</div>
+            <div className="text-[11px] text-slate-500">Local SIMD execution</div>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 rounded-2xl bg-slate-900/60 p-3.5 border border-white/5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400 shrink-0">
+        <div className="flex items-center gap-3 rounded-2xl bg-slate-50 p-3.5 border border-slate-200">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 shrink-0">
             <Lock className="h-4 w-4" />
           </div>
           <div>
-            <div className="text-xs font-bold text-white">100% Data Privacy</div>
-            <div className="text-[11px] text-slate-400">Zero cloud storage</div>
+            <div className="text-xs font-bold text-slate-900">100% Data Privacy</div>
+            <div className="text-[11px] text-slate-500">Zero cloud storage</div>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 rounded-2xl bg-slate-900/60 p-3.5 border border-white/5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-400 shrink-0">
+        <div className="flex items-center gap-3 rounded-2xl bg-slate-50 p-3.5 border border-slate-200">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-50 text-red-600 shrink-0">
             <Sparkles className="h-4 w-4" />
           </div>
           <div>
-            <div className="text-xs font-bold text-white">Unlimited Multi-GB</div>
-            <div className="text-[11px] text-slate-400">No paid subscriptions</div>
+            <div className="text-xs font-bold text-slate-900">Unlimited Multi-GB</div>
+            <div className="text-[11px] text-slate-500">No paid subscriptions</div>
           </div>
         </div>
       </div>

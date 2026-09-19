@@ -98,10 +98,10 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
           <Link
             key={langCode}
             href={targetHref}
-            className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-all ${
+            className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-semibold transition-all ${
               isActive
-                ? "bg-blue-600 text-white shadow-md shadow-blue-500/25 ring-1 ring-blue-400"
-                : "bg-slate-900/90 text-slate-300 border border-white/10 hover:border-blue-500/50 hover:text-white"
+                ? "bg-red-600 text-white shadow-sm ring-1 ring-red-500"
+                : "bg-white text-slate-700 border border-slate-200 hover:border-red-300 hover:text-red-600 shadow-sm"
             }`}
           >
             <span>{loc.flag}</span>

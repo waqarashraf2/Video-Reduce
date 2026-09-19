@@ -28,7 +28,8 @@ export function isWebCodecsEligible(toolId: string, file: File): boolean {
     fileType.includes("quicktime") ||
     fileName.endsWith(".mp4") ||
     fileName.endsWith(".mov") ||
-    fileName.endsWith(".m4v");
+    fileName.endsWith(".m4v") ||
+    fileName.endsWith(".3gp");
 
   return isMp4OrMov;
 }

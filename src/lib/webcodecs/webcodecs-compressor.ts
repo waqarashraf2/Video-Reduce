@@ -10,6 +10,12 @@ const getMP4Box = () => {
   if (typeof window !== "undefined" && (window as any).MP4Box) {
     return (window as any).MP4Box;
   }
+  if ((MP4Box as any)?.createFile) {
+    return MP4Box;
+  }
+  if ((MP4Box as any)?.default?.createFile) {
+    return (MP4Box as any).default;
+  }
   return MP4Box;
 };
 
@@ -21,14 +27,20 @@ function getTrackDescription(mp4boxfile: any, track: any): Uint8Array | null {
     const mp4box = getMP4Box();
     const DataStreamClass = mp4box.DataStream || (window as any).DataStream;
 
+    if (!mp4boxfile?.moov?.traks) return null;
+
     for (const entry of mp4boxfile.moov.traks) {
-      if (entry.tkhd.track_id === track.id) {
-        const stsdEntry = entry.mdia.minf.stbl.stsd.entries[0];
+      if (entry.tkhd?.track_id === track.id) {
+        const stsdEntry = entry.mdia?.minf?.stbl?.stsd?.entries?.[0];
+        if (!stsdEntry) continue;
         const box = stsdEntry.avcC || stsdEntry.hvcC || stsdEntry.vpcC;
         if (box && DataStreamClass) {
           const stream = new DataStreamClass(undefined, 0, DataStreamClass.BIG_ENDIAN ?? false);
           box.write(stream);
-          return new Uint8Array(stream.buffer, 8); // Strip 8-byte box header
+          const endPos = stream.position || stream.buffer.byteLength;
+          if (endPos > 8) {
+            return new Uint8Array(stream.buffer.slice(8, endPos));
+          }
         }
       }
     }
@@ -138,6 +150,9 @@ export async function compressVideoWebCodecs(
 ): Promise<WebCodecsCompressResult> {
   const startTime = performance.now();
   const originalSize = file.size;
+  const isMobile =
+    typeof window !== "undefined" &&
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
   return new Promise(async (resolve, reject) => {
     let mp4boxfile: any;
@@ -157,6 +172,9 @@ export async function compressVideoWebCodecs(
     let isFirstAudioChunk = true;
     let lastAudioTimestamp = -1;
     let audioChunkCount = 0;
+
+    let isReady = false;
+    let lastReadProgressTime = 0;
 
     let totalSamples = 0;
     let processedSamples = 0;
@@ -186,8 +204,9 @@ export async function compressVideoWebCodecs(
       reject(new Error(`MP4Box error: ${e?.message || e}`));
     };
 
-    mp4boxfile.onReady = (info: any) => {
+    mp4boxfile.onReady = async (info: any) => {
       try {
+        isReady = true;
         console.log("📦 [WebCodecs] MP4Box onReady triggered. Tracks:", info.tracks?.length);
         videoTrack = info.videoTracks?.[0];
         if (!videoTrack) {
@@ -222,9 +241,69 @@ export async function compressVideoWebCodecs(
           console.log("🔇 [WebCodecs] Audio muted as requested by user options.");
         }
 
-        // H.264 requires even width and height
-        const width = videoTrack.video.width - (videoTrack.video.width % 2);
-        const height = videoTrack.video.height - (videoTrack.video.height % 2);
+        // Original video dimensions (H.264 requires even width and height)
+        const originalWidth = videoTrack.video.width - (videoTrack.video.width % 2);
+        const originalHeight = videoTrack.video.height - (videoTrack.video.height % 2);
+
+        // 1. Calculate Target Dimensions (Aspect Ratio Preserved & GPU friendly)
+        let targetWidth = originalWidth;
+        let targetHeight = originalHeight;
+
+        // Check if resolution is >1080p (e.g. 4K 3840x2160) or mobile device
+        const is4KOrHigher = originalWidth > 1920 || originalHeight > 1920;
+        const isMobileDevice =
+          typeof window !== "undefined" &&
+          /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        if (options.resolution === "720p") {
+          if (originalHeight > 720 || originalWidth > 1280) {
+            const scale = Math.min(1280 / originalWidth, 720 / originalHeight);
+            targetWidth = Math.max(2, Math.round((originalWidth * scale) / 2) * 2);
+            targetHeight = Math.max(2, Math.round((originalHeight * scale) / 2) * 2);
+          }
+        } else if (options.resolution === "480p") {
+          if (originalHeight > 480 || originalWidth > 854) {
+            const scale = Math.min(854 / originalWidth, 480 / originalHeight);
+            targetWidth = Math.max(2, Math.round((originalWidth * scale) / 2) * 2);
+            targetHeight = Math.max(2, Math.round((originalHeight * scale) / 2) * 2);
+          }
+        } else if (
+          options.resolution === "1080p" ||
+          (is4KOrHigher && (options.resolution === "original" || !options.resolution)) ||
+          (isMobileDevice && (originalWidth > 1920 || originalHeight > 1080))
+        ) {
+          // On mobile or when input is 4K, scale to 1080p so mobile GPU hardware encoders NEVER reject it!
+          if (originalHeight > 1080 || originalWidth > 1920) {
+            const scale = Math.min(1920 / originalWidth, 1080 / originalHeight);
+            targetWidth = Math.max(2, Math.round((originalWidth * scale) / 2) * 2);
+            targetHeight = Math.max(2, Math.round((originalHeight * scale) / 2) * 2);
+          }
+        } else {
+          // "original": Direct GPU Zero-Copy Pass
+          targetWidth = originalWidth;
+          targetHeight = originalHeight;
+        }
+
+        const needsScaling = targetWidth !== originalWidth || targetHeight !== originalHeight;
+        console.log(`🎬 [WebCodecs] Dimensions: ${originalWidth}x${originalHeight} -> ${targetWidth}x${targetHeight} (Scaling: ${needsScaling})`);
+
+        // OffscreenCanvas for GPU hardware downscaling
+        let offscreenCanvas: OffscreenCanvas | null = null;
+        let offscreenCtx: OffscreenCanvasRenderingContext2D | null = null;
+        if (needsScaling && typeof OffscreenCanvas !== "undefined") {
+          try {
+            offscreenCanvas = new OffscreenCanvas(targetWidth, targetHeight);
+            offscreenCtx = offscreenCanvas.getContext("2d", {
+              alpha: false,
+              desynchronized: true,
+              willReadFrequently: false,
+            });
+          } catch (scaleErr) {
+            console.warn("[WebCodecs] OffscreenCanvas init failed, using original dimensions:", scaleErr);
+            targetWidth = originalWidth;
+            targetHeight = originalHeight;
+          }
+        }
 
         // Track description extract karein (AVC Parameter Sets)
         trackDescription = getTrackDescription(mp4boxfile, videoTrack);
@@ -237,8 +316,8 @@ export async function compressVideoWebCodecs(
           target: new ArrayBufferTarget(),
           video: {
             codec: "avc",
-            width: width,
-            height: height,
+            width: targetWidth,
+            height: targetHeight,
             ...(videoRotation !== undefined ? { rotation: videoRotation } : {}),
           },
           ...(audioTrack && audioCodec
@@ -257,8 +336,8 @@ export async function compressVideoWebCodecs(
         // Fallback decoder config agar browser na bhejay
         fallbackConfig = {
           codec: "avc1.640034",
-          codedWidth: width,
-          codedHeight: height,
+          codedWidth: targetWidth,
+          codedHeight: targetHeight,
           description: trackDescription || undefined,
           colorSpace: {
             primaries: "bt709",
@@ -269,6 +348,15 @@ export async function compressVideoWebCodecs(
         };
 
         let isFirstOutputChunk = true;
+        let lastProgressTime = 0;
+        let lastVideoTimestamp = -1;
+
+        // Smooth metrics tracking (Rolling FPS & EMA Remaining Time)
+        let encodingStartTime = 0;
+        let windowStartTime = 0;
+        let windowStartCount = 0;
+        let rollingFps = 0;
+        let smoothedRemainingSecs: number | null = null;
 
         // 2. Hardware VideoEncoder
         videoEncoder = new VideoEncoder({
@@ -291,11 +379,69 @@ export async function compressVideoWebCodecs(
                 };
               }
             } else {
-              // For all subsequent chunks, pass metadata directly (usually undefined)
               meta = metadata;
             }
 
-            muxer.addVideoChunk(chunk, meta);
+            // Enforce strictly monotonic timestamps to prevent mp4-muxer DTS validation aborts
+            let videoTimestamp = Math.round(chunk.timestamp);
+            if (videoTimestamp <= lastVideoTimestamp) {
+              videoTimestamp = lastVideoTimestamp + 1000; // at least 1ms advance
+            }
+            lastVideoTimestamp = videoTimestamp;
+
+            try {
+              muxer.addVideoChunk(chunk, meta, videoTimestamp);
+            } catch (muxErr) {
+              console.warn("Muxer video chunk warning:", muxErr);
+            }
+
+            // ⚡ Real-Time Rolling FPS & Smooth EMA Time Estimation
+            const now = performance.now();
+            if (encodingStartTime === 0) {
+              encodingStartTime = now;
+              windowStartTime = now;
+              windowStartCount = encodedCount;
+            }
+
+            // Update rolling FPS every 500ms
+            const windowDt = (now - windowStartTime) / 1000;
+            if (windowDt >= 0.5) {
+              const windowFrames = encodedCount - windowStartCount;
+              const instantFps = Math.round(windowFrames / windowDt);
+              if (rollingFps === 0) {
+                rollingFps = instantFps;
+              } else {
+                rollingFps = Math.round(rollingFps * 0.7 + instantFps * 0.3);
+              }
+              windowStartCount = encodedCount;
+              windowStartTime = now;
+            }
+
+            // Throttled UI Progress: Updates React every 180ms (~5 fps UI refresh) for buttery smooth display
+            if (onProgress && totalSamples > 0 && (now - lastProgressTime > 180 || encodedCount === totalSamples)) {
+              lastProgressTime = now;
+              const ratio = Math.min(0.99, encodedCount / totalSamples);
+              const percent = Math.min(99, Math.round(ratio * 100));
+
+              const displayFps = rollingFps > 0 ? rollingFps : Math.max(1, Math.round(encodedCount / ((now - encodingStartTime) / 1000 || 1)));
+              const remainingFrames = Math.max(0, totalSamples - encodedCount);
+              const rawRemainingSecs = Math.round(remainingFrames / displayFps);
+
+              if (smoothedRemainingSecs === null) {
+                smoothedRemainingSecs = rawRemainingSecs;
+              } else {
+                // Exponential moving average prevents jumpy estimated remaining time
+                smoothedRemainingSecs = Math.round(smoothedRemainingSecs * 0.85 + rawRemainingSecs * 0.15);
+              }
+
+              onProgress({
+                ratio,
+                percent,
+                fps: displayFps,
+                estimatedRemainingSecs: smoothedRemainingSecs,
+                speed: `${displayFps} fps (GPU)`,
+              });
+            }
           },
           error: (e) => {
             console.error("❌ [WebCodecs] Encoder Error:", e);
@@ -304,45 +450,165 @@ export async function compressVideoWebCodecs(
           },
         });
 
-        const targetBitrate = Math.max(100_000, options.targetBitrateKbps * 1000);
+        // Accurate actual duration from track or timescale
+        const actualDurationSecs =
+          videoTrack.duration && videoTrack.timescale && videoTrack.timescale > 0
+            ? videoTrack.duration / videoTrack.timescale
+            : options.durationSecs || 30;
 
-        // Level 5.2 (avc1.640034) supports up to 4K resolution
-        videoEncoder.configure({
-          codec: "avc1.640034",
-          width: width,
-          height: height,
+        // Calculate original video bitrate
+        const originalBitrateKbps = Math.max(
+          100,
+          Math.floor((originalSize * 8) / (actualDurationSecs * 1000))
+        );
+
+        // Minimum safe hardware bitrate floor based on resolution
+        const minHardwareBitrateKbps =
+          targetHeight <= 480 ? 300 : targetHeight <= 720 ? 450 : 600;
+
+        // STRICT BITRATE CEILING:
+        // 1. Must never exceed mobile GPU hardware encoder ceiling (5500 kbps)
+        // 2. Must never drop below hardware safe minimum to avoid MediaCodec stalls
+        const maxHardwareBitrateKbps = 5500;
+        const maxAllowedBitrateKbps = Math.min(
+          maxHardwareBitrateKbps,
+          Math.max(minHardwareBitrateKbps, Math.floor(originalBitrateKbps * 0.75))
+        );
+        const finalTargetBitrateKbps = Math.min(
+          maxAllowedBitrateKbps,
+          Math.max(minHardwareBitrateKbps, options.targetBitrateKbps)
+        );
+        const targetBitrate = Math.max(minHardwareBitrateKbps * 1000, finalTargetBitrateKbps * 1000);
+
+        console.log(
+          `📊 [WebCodecs] Original Bitrate: ${originalBitrateKbps} kbps, Target Bitrate: ${finalTargetBitrateKbps} kbps (Duration: ${actualDurationSecs.toFixed(1)}s, Res: ${targetWidth}x${targetHeight})`
+        );
+
+        // Mobile GPUs (Qualcomm Snapdragon, MediaTek, Exynos, Apple A-series) require "realtime"
+        // latency mode to avoid internal multi-frame lookahead buffering deadlocks.
+        const isMobile =
+          typeof window !== "undefined" &&
+          /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        // Select appropriate AVC Level according to target resolution:
+        // - Level 3.1 (0x1f): Max 720p (1280x720 = 921,600 coded area)
+        // - Level 4.0 / 4.2 (0x28 / 0x2a): Max 1080p (1920x1080 = 2,073,600 coded area)
+        // - Level 5.1 (0x33): Max 4K (3840x2160)
+        // Ensure dimensions are strictly even (macroblock divisible by 2)
+        targetWidth = Math.floor(targetWidth / 2) * 2;
+        targetHeight = Math.floor(targetHeight / 2) * 2;
+
+        const is4K = targetWidth > 1920 || targetHeight > 1080;
+        const is1080p = targetWidth > 1280 || targetHeight > 720;
+
+        const originalCodec = videoTrack.codec ? videoTrack.codec.toLowerCase() : "";
+
+        let candidateCodecs: string[] = [];
+        // Prioritize the container's exact native codec if it's AVC/H.264
+        if (originalCodec.startsWith("avc1.")) {
+          candidateCodecs.push(originalCodec);
+        }
+
+        if (is4K) {
+          candidateCodecs.push("avc1.640033", "avc1.4d0033", "avc1.420033");
+        } else if (is1080p) {
+          candidateCodecs.push(
+            "avc1.4d0029", // Main Profile Level 4.1 (Standard 1080p across Intel/NVIDIA/AMD)
+            "avc1.640029", // High Profile Level 4.1
+            "avc1.420029", // Baseline Profile Level 4.1
+            "avc1.4d002a", // Main Profile Level 4.2
+            "avc1.64002a", // High Profile Level 4.2
+            "avc1.42002a", // Baseline Profile Level 4.2
+            "avc1.4d0028", // Main Profile Level 4.0
+            "avc1.420028"  // Baseline Profile Level 4.0
+          );
+        } else {
+          candidateCodecs.push(
+            "avc1.4d001f", // Main Profile Level 3.1 (720p)
+            "avc1.42001f", // Baseline Profile Level 3.1 (720p)
+            "avc1.4d0029", // Main Profile Level 4.1
+            "avc1.640029",
+            "avc1.4d0028"  // Main Profile Level 4.0
+          );
+        }
+
+        // Deduplicate candidates
+        candidateCodecs = Array.from(new Set(candidateCodecs));
+
+        let encoderConfig: any = {
+          codec: candidateCodecs[0],
+          width: targetWidth,
+          height: targetHeight,
           bitrate: targetBitrate,
-          framerate: options.framerate || 30,
+          bitrateMode: "variable",
+          latencyMode: "realtime",
           hardwareAcceleration: "prefer-hardware",
-        });
+        };
 
-        // 3. Hardware VideoDecoder (Zero-copy GPU direct to encoder)
+        if (typeof VideoEncoder !== "undefined" && "isConfigSupported" in VideoEncoder) {
+          let foundSupported = false;
+
+          // Search combination of acceleration, latency modes, and candidate codecs
+          for (const accel of ["prefer-hardware", "no-preference"] as const) {
+            encoderConfig.hardwareAcceleration = accel;
+            for (const latency of ["realtime", "quality"] as const) {
+              encoderConfig.latencyMode = latency;
+              for (const codec of candidateCodecs) {
+                try {
+                  encoderConfig.codec = codec;
+                  const check = await (VideoEncoder as any).isConfigSupported(encoderConfig);
+                  if (check && check.supported) {
+                    foundSupported = true;
+                    console.log(`🎯 [WebCodecs] Selected verified encoder codec: ${codec} (${accel}, ${latency})`);
+                    break;
+                  }
+                } catch (_) {}
+              }
+              if (foundSupported) break;
+            }
+            if (foundSupported) break;
+          }
+
+          if (!foundSupported) {
+            console.warn("⚠️ [WebCodecs] No verified codec returned from isConfigSupported, using native track codec:", candidateCodecs[0]);
+            encoderConfig.codec = candidateCodecs[0];
+          }
+        }
+
+        videoEncoder.configure(encoderConfig);
+
+        // 3. Hardware VideoDecoder (Zero-copy GPU direct or GPU OffscreenCanvas scale to encoder)
         videoDecoder = new VideoDecoder({
           output: (videoFrame) => {
             try {
-              // Har 60 frames par keyframe generate karein
-              const keyFrame = processedSamples === 0 || processedSamples % 60 === 0;
-              videoEncoder.encode(videoFrame, { keyFrame });
-              videoFrame.close();
+              // Har 120 frames (4s) par keyframe taake GPU par I-frame overhead kam ho
+              const keyFrame = processedSamples === 0 || processedSamples % 120 === 0;
+
+              if (needsScaling && offscreenCanvas && offscreenCtx) {
+                offscreenCtx.drawImage(videoFrame, 0, 0, targetWidth, targetHeight);
+                const scaledFrame = new VideoFrame(offscreenCanvas, {
+                  timestamp: videoFrame.timestamp,
+                  duration: videoFrame.duration || undefined,
+                });
+                try {
+                  videoEncoder.encode(scaledFrame, { keyFrame });
+                } finally {
+                  scaledFrame.close();
+                }
+              } else {
+                videoEncoder.encode(videoFrame, { keyFrame });
+              }
 
               processedSamples++;
-              if (onProgress && totalSamples > 0) {
-                const ratio = Math.min(0.99, processedSamples / totalSamples);
-                const elapsedSecs = (performance.now() - startTime) / 1000;
-                const estimatedTotal = elapsedSecs / (ratio || 0.01);
-                const remainingSecs = Math.max(0, Math.round(estimatedTotal - elapsedSecs));
-
-                onProgress({
-                  ratio,
-                  percent: Math.round(ratio * 100),
-                  fps: Math.round(processedSamples / (elapsedSecs || 1)),
-                  estimatedRemainingSecs: remainingSecs,
-                });
-              }
             } catch (frameErr) {
               console.error("❌ [WebCodecs] Frame Error:", frameErr);
               cleanup();
               reject(frameErr);
+            } finally {
+              // Always guarantee videoFrame is released to prevent GPU VRAM leak & OOM crash
+              try {
+                videoFrame.close();
+              } catch (_) {}
             }
           },
           error: (e) => {
@@ -352,17 +618,24 @@ export async function compressVideoWebCodecs(
           },
         });
 
+        let decoderCodec = videoTrack.codec;
+        if (!decoderCodec || decoderCodec === "avc1") {
+          decoderCodec = "avc1.640034";
+        }
+
         videoDecoder.configure({
-          codec: videoTrack.codec,
-          codedWidth: width,
-          codedHeight: height,
+          codec: decoderCodec,
+          codedWidth: originalWidth,
+          codedHeight: originalHeight,
           description: trackDescription || undefined,
           hardwareAcceleration: "prefer-hardware",
         });
 
-        mp4boxfile.setExtractionOptions(videoTrack.id, null, { nbSamples: 100 });
+        // Use compact sample batches on mobile to prevent memory bloat
+        const sampleBatchSize = isMobile ? 8 : 16;
+        mp4boxfile.setExtractionOptions(videoTrack.id, null, { nbSamples: sampleBatchSize });
         if (audioTrack) {
-          mp4boxfile.setExtractionOptions(audioTrack.id, null, { nbSamples: 100 });
+          mp4boxfile.setExtractionOptions(audioTrack.id, null, { nbSamples: sampleBatchSize });
         }
         mp4boxfile.start();
       } catch (initErr) {
@@ -372,18 +645,98 @@ export async function compressVideoWebCodecs(
       }
     };
 
+    const pendingSamples: any[] = [];
+    let isStreamingComplete = false;
+    let isPumping = false;
+    let pumpResolve: (() => void) | null = null;
+
+    async function pumpSamples() {
+      if (isPumping) return;
+      isPumping = true;
+
+      const maxQueue = isMobile ? 6 : 14;
+      const drainQueue = isMobile ? 2 : 5;
+
+      try {
+        while (!isCleanedUp) {
+          if (pendingSamples.length === 0) {
+            if (isStreamingComplete) break;
+            await new Promise((r) => setTimeout(r, 10));
+            continue;
+          }
+
+          // GPU Queue Backpressure: Wait if decoder or encoder is full
+          if (
+            (videoDecoder && videoDecoder.decodeQueueSize > maxQueue) ||
+            (videoEncoder && videoEncoder.encodeQueueSize > maxQueue)
+          ) {
+            await new Promise<void>((resolve) => {
+              let resolved = false;
+              let timer: any = null;
+              const finish = () => {
+                if (!resolved) {
+                  resolved = true;
+                  if (timer) clearInterval(timer);
+                  if (videoDecoder) videoDecoder.ondequeue = null;
+                  if (videoEncoder) videoEncoder.ondequeue = null;
+                  resolve();
+                }
+              };
+
+              const check = () => {
+                const dec = videoDecoder ? videoDecoder.decodeQueueSize : 0;
+                const enc = videoEncoder ? videoEncoder.encodeQueueSize : 0;
+                if (dec <= drainQueue && enc <= drainQueue) {
+                  finish();
+                }
+              };
+
+              if (videoDecoder) videoDecoder.ondequeue = check;
+              if (videoEncoder) videoEncoder.ondequeue = check;
+              timer = setInterval(check, 10);
+              setTimeout(finish, 1500); // Safety unblock
+            });
+          }
+
+          // Feed small paced batch of 4 samples to hardware decoder
+          const batch = pendingSamples.splice(0, Math.min(4, pendingSamples.length));
+          for (const sample of batch) {
+            const type: EncodedVideoChunkType = sample.is_sync ? "key" : "delta";
+            const chunk = new EncodedVideoChunk({
+              type: type,
+              timestamp: (sample.cts * 1_000_000) / sample.timescale,
+              duration: (sample.duration * 1_000_000) / sample.timescale,
+              data: sample.data,
+            });
+            videoDecoder?.decode(chunk);
+          }
+
+          if (batch.length > 0 && typeof mp4boxfile.releaseUsedSamples === "function") {
+            try {
+              mp4boxfile.releaseUsedSamples(videoTrack.id, batch[batch.length - 1].number);
+            } catch (_) {}
+          }
+          if (mp4boxfile.stream && typeof mp4boxfile.stream.cleanBuffers === "function") {
+            try {
+              mp4boxfile.stream.cleanBuffers();
+            } catch (_) {}
+          }
+        }
+      } finally {
+        isPumping = false;
+        if (pumpResolve) {
+          pumpResolve();
+          pumpResolve = null;
+        }
+      }
+    }
+
     mp4boxfile.onSamples = (trackId: number, ref: any, samples: any[]) => {
       if (videoTrack && trackId === videoTrack.id) {
         for (const sample of samples) {
-          const type: EncodedVideoChunkType = sample.is_sync ? "key" : "delta";
-          const chunk = new EncodedVideoChunk({
-            type: type,
-            timestamp: (sample.cts * 1_000_000) / sample.timescale,
-            duration: (sample.duration * 1_000_000) / sample.timescale,
-            data: sample.data,
-          });
-          videoDecoder?.decode(chunk);
+          pendingSamples.push(sample);
         }
+        pumpSamples();
       } else if (audioTrack && trackId === audioTrack.id && muxer) {
         try {
           for (const sample of samples) {
@@ -415,6 +768,16 @@ export async function compressVideoWebCodecs(
             muxer.addAudioChunkRaw(sample.data, type, timestamp, duration, meta);
             audioChunkCount++;
           }
+          if (samples.length > 0 && typeof mp4boxfile.releaseUsedSamples === "function") {
+            try {
+              mp4boxfile.releaseUsedSamples(trackId, samples[samples.length - 1].number);
+            } catch (_) {}
+          }
+          if (mp4boxfile.stream && typeof mp4boxfile.stream.cleanBuffers === "function") {
+            try {
+              mp4boxfile.stream.cleanBuffers();
+            } catch (_) {}
+          }
         } catch (audioErr) {
           console.warn("⚠️ [WebCodecs] Audio mux warning:", audioErr);
         }
@@ -427,18 +790,59 @@ export async function compressVideoWebCodecs(
       let offset = 0;
 
       while (true) {
+        // Prevent sample queue from growing excessively in memory
+        while (pendingSamples.length > 64 && !isCleanedUp) {
+          await new Promise((r) => setTimeout(r, 15));
+        }
+
         const { done, value } = await reader.read();
         if (done) {
           mp4boxfile.flush();
           break;
         }
+
         const buf: any = value.buffer;
         buf.fileStart = offset;
         offset += buf.byteLength;
         mp4boxfile.appendBuffer(buf);
+
+        // Immediate buffer cleanup
+        if (mp4boxfile.stream && typeof mp4boxfile.stream.cleanBuffers === "function") {
+          try {
+            mp4boxfile.stream.cleanBuffers();
+          } catch (_) {}
+        }
+
+        // Active Reading & Preparing Feedback during startup
+        if (!isReady && onProgress) {
+          const now = performance.now();
+          if (now - lastReadProgressTime > 150) {
+            lastReadProgressTime = now;
+            const mbRead = (offset / (1024 * 1024)).toFixed(0);
+            const mbTotal = (originalSize / (1024 * 1024)).toFixed(0);
+            const readPercent = Math.min(5, Math.round((offset / originalSize) * 5));
+            onProgress({
+              ratio: (offset / originalSize) * 0.05,
+              percent: readPercent,
+              speed: `Reading & Preparing (${mbRead}/${mbTotal} MB)`,
+            });
+          }
+        }
       }
 
-      console.log("⏳ [WebCodecs] File streaming finished, flushing decoders...");
+      console.log("⏳ [WebCodecs] File streaming finished, pumping remaining frames...");
+      isStreamingComplete = true;
+      pumpSamples();
+
+      // Wait until all pending video samples have been fed into decoder
+      if (pendingSamples.length > 0 || isPumping) {
+        await new Promise<void>((resolve) => {
+          pumpResolve = resolve;
+          pumpSamples();
+        });
+      }
+
+      console.log("⏳ [WebCodecs] All samples dispatched to decoder, flushing decoders...");
 
       // Encoding mukammal hone ka intezar
       if (videoDecoder && videoDecoder.state !== "closed") {

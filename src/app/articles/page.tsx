@@ -77,27 +77,24 @@ export default function ArticlesDirectoryPage() {
   };
 
   return (
-    <div className="relative min-h-screen py-12 sm:py-20">
+    <div className="relative min-h-screen bg-white py-12 sm:py-20 text-slate-900">
       {/* JSON-LD Schema */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* Glow Backdrop */}
-      <div className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 h-[500px] w-full max-w-7xl bg-hero-glow blur-3xl opacity-60" />
-
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Header Banner */}
         <div className="text-center space-y-4 max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 text-xs font-semibold text-blue-400">
-            <BookOpen className="h-4 w-4" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-red-200 bg-red-50 px-4 py-1.5 text-xs font-bold text-red-700">
+            <BookOpen className="h-4 w-4 text-red-600" />
             <span>VideoReduce.com Knowledge Hub • By Verse Next</span>
           </div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
+          <h1 className="text-3xl font-black tracking-tight text-slate-950 sm:text-5xl">
             Video Engineering & Privacy Guides
           </h1>
-          <p className="text-base text-slate-300 leading-relaxed">
+          <p className="text-base text-slate-600 leading-relaxed">
             Human-crafted, in-depth research articles on psycho-visual video compression, zero-server privacy, codec optimization, and social media workflows.
           </p>
         </div>
@@ -108,41 +105,41 @@ export default function ArticlesDirectoryPage() {
             <Link
               key={art.slug}
               href={`/articles/${art.slug}`}
-              className="group flex flex-col justify-between rounded-3xl border border-white/10 bg-[#0d1424]/80 p-6 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/40 hover:bg-slate-900/90 hover:shadow-2xl hover:shadow-blue-500/15"
+              className="group flex flex-col justify-between rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-red-300 hover:shadow-xl"
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="rounded-full bg-blue-500/15 px-3 py-0.5 text-xs font-semibold text-blue-400 ring-1 ring-blue-500/30">
+                  <span className="rounded-full bg-red-50 px-3 py-0.5 text-xs font-bold text-red-700 ring-1 ring-red-200">
                     {art.category}
                   </span>
-                  <div className="flex items-center gap-1.5 text-xs text-slate-400">
+                  <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
                     <Clock className="h-3.5 w-3.5" />
                     <span>{art.readTime}</span>
                   </div>
                 </div>
 
-                <h2 className="text-lg font-bold text-white group-hover:text-blue-300 transition-colors leading-snug">
+                <h2 className="text-lg font-bold text-slate-900 group-hover:text-red-600 transition-colors leading-snug">
                   {art.title}
                 </h2>
 
-                <p className="text-xs text-slate-400 leading-relaxed line-clamp-3">
+                <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">
                   {art.summary}
                 </p>
               </div>
 
-              <div className="mt-6 flex items-center justify-between border-t border-white/5 pt-4 text-xs">
+              <div className="mt-6 flex items-center justify-between border-t border-slate-100 pt-4 text-xs">
                 <div className="flex items-center gap-2">
                   <Image
                     src={art.author.avatar}
                     alt={art.author.name}
                     width={24}
                     height={24}
-                    className="h-6 w-6 rounded-full object-cover ring-1 ring-white/20"
+                    className="h-6 w-6 rounded-full object-cover ring-1 ring-red-200"
                   />
-                  <span className="text-slate-300 font-medium">{art.author.name}</span>
+                  <span className="text-slate-700 font-semibold">{art.author.name}</span>
                 </div>
 
-                <div className="flex items-center gap-1 font-semibold text-blue-400 group-hover:translate-x-1 transition-transform">
+                <div className="flex items-center gap-1 font-bold text-red-600 group-hover:translate-x-1 transition-transform">
                   <span>Read Guide</span>
                   <ArrowRight className="h-3.5 w-3.5" />
                 </div>
@@ -152,16 +149,16 @@ export default function ArticlesDirectoryPage() {
         </div>
 
         {/* Verse Next Innovation Banner */}
-        <div className="rounded-3xl border border-blue-500/20 bg-gradient-to-r from-[#0d1627] via-slate-900 to-[#0e1b30] p-8 sm:p-10 backdrop-blur-2xl text-center space-y-4">
-          <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-400">
+        <div className="rounded-3xl border border-slate-200 bg-slate-50 p-8 sm:p-10 shadow-sm text-center space-y-4">
+          <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-red-600">
             <Sparkles className="h-4 w-4" />
             <span>Verse Next Innovation Suite</span>
           </div>
-          <h3 className="text-2xl font-bold text-white sm:text-3xl">
+          <h3 className="text-2xl font-black text-slate-950 sm:text-3xl">
             100% Client-Side Computing for Everyone
           </h3>
-          <p className="text-sm text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            VideoReduce.com is designed and maintained by <strong>Verse Next</strong> to bring free, private, high-performance multimedia WebAssembly tools to billions of creators worldwide.
+          <p className="text-sm text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            VideoReduce.com is designed and maintained by <strong className="text-slate-900 font-bold">Verse Next</strong> to bring free, private, high-performance multimedia WebAssembly tools to billions of creators worldwide.
           </p>
         </div>
       </div>

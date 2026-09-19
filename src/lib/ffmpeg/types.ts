@@ -52,6 +52,9 @@ export interface GifOptions {
   width: number;
   speed: number;
   loop: number;
+  startTime?: number;
+  duration?: number;
+  quality?: "turbo" | "high";
 }
 
 export interface AudioExtractorOptions {
@@ -103,6 +106,9 @@ export interface RotateOptions {
 export interface ReverseOptions {
   reverseAudio: boolean;
   muteAudio: boolean;
+  quality?: "turbo" | "high";
+  maxDuration?: number;
+  startTime?: number;
 }
 
 export interface MergerOptions {

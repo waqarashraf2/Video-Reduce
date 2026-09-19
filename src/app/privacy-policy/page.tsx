@@ -31,23 +31,23 @@ export const metadata: Metadata = {
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="relative min-h-screen py-16 sm:py-24">
+    <div className="relative min-h-screen bg-white py-16 sm:py-24 text-slate-900">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 space-y-10">
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-semibold text-emerald-400">
-            <ShieldCheck className="h-4 w-4" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-1.5 text-xs font-bold text-emerald-800 shadow-sm">
+            <ShieldCheck className="h-4 w-4 text-emerald-600" />
             <span>Zero-Knowledge Data Policy</span>
           </div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
+          <h1 className="text-3xl font-black tracking-tight text-slate-950 sm:text-5xl">
             Privacy Policy
           </h1>
-          <p className="text-sm text-slate-400">Last updated: {new Date().toLocaleDateString()}</p>
+          <p className="text-sm text-slate-500">Last updated: {new Date().toLocaleDateString()}</p>
         </div>
 
-        <div className="space-y-8 rounded-3xl border border-white/10 bg-slate-900/60 p-8 sm:p-10 backdrop-blur-xl text-slate-300 leading-relaxed text-sm sm:text-base">
+        <div className="space-y-8 rounded-3xl border border-slate-200 bg-white p-8 sm:p-10 shadow-xl ring-1 ring-slate-100 text-slate-600 leading-relaxed text-sm sm:text-base">
           <section className="space-y-3">
-            <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <Lock className="h-5 w-5 text-emerald-400" />
+            <h2 className="text-xl font-black text-slate-950 flex items-center gap-2">
+              <Lock className="h-5 w-5 text-emerald-600" />
               1. Our Core Principle: 0 Server Uploads
             </h2>
             <p>
@@ -55,15 +55,15 @@ export default function PrivacyPolicyPage() {
             </p>
           </section>
 
-          <section className="space-y-3 pt-6 border-t border-white/10">
-            <h2 className="text-xl font-bold text-white">2. How Media is Processed</h2>
+          <section className="space-y-3 pt-6 border-t border-slate-100">
+            <h2 className="text-xl font-black text-slate-950">2. How Media is Processed</h2>
             <p>
               VideoReduce.com leverages WebAssembly (Wasm) and HTML5 APIs. When you select a video or audio file, it is loaded exclusively into your browser&apos;s local virtual memory. No data is sent to our servers or any third-party infrastructure.
             </p>
           </section>
 
-          <section className="space-y-3 pt-6 border-t border-white/10">
-            <h2 className="text-xl font-bold text-white">3. Local Storage and Cookies</h2>
+          <section className="space-y-3 pt-6 border-t border-slate-100">
+            <h2 className="text-xl font-black text-slate-950">3. Local Storage and Cookies</h2>
             <p>
               We do not track user identities or store cookies containing personal information. Your media files are automatically discarded from browser RAM once you close the tab or reset the session.
             </p>

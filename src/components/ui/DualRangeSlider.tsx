@@ -62,15 +62,15 @@ export const DualRangeSlider: React.FC<DualRangeSliderProps> = ({
   };
 
   return (
-    <div className="space-y-4 rounded-2xl bg-slate-900/90 p-5 border border-white/10 shadow-lg">
+    <div className="space-y-4 rounded-2xl bg-white p-5 border border-slate-200 shadow-sm">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
-          <Clock className="h-4 w-4 text-blue-400" />
+        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-700">
+          <Clock className="h-4 w-4 text-red-600" />
           <span>Timeline Trimmer</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-slate-400">Selected Length:</span>
-          <span className="rounded-md bg-blue-500/20 px-2 py-0.5 font-mono text-xs font-bold text-blue-400">
+          <span className="text-xs text-slate-500">Selected Length:</span>
+          <span className="rounded-md bg-red-50 border border-red-200 px-2 py-0.5 font-mono text-xs font-bold text-red-600">
             {formatTime(selectedDuration)} ({selectedDuration.toFixed(1)}s)
           </span>
         </div>
@@ -82,18 +82,18 @@ export const DualRangeSlider: React.FC<DualRangeSliderProps> = ({
           ref={trackRef}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
-          className="relative h-10 w-full cursor-pointer rounded-xl bg-slate-950 border border-white/10 overflow-hidden"
+          className="relative h-10 w-full cursor-pointer rounded-xl bg-slate-100 border border-slate-300 overflow-hidden"
         >
           {/* Subtle timeline tick background */}
-          <div className="absolute inset-0 flex justify-between px-2 opacity-20 pointer-events-none">
+          <div className="absolute inset-0 flex justify-between px-2 opacity-40 pointer-events-none">
             {Array.from({ length: 20 }).map((_, i) => (
-              <div key={i} className="h-full w-px bg-white" />
+              <div key={i} className="h-full w-px bg-slate-300" />
             ))}
           </div>
 
           {/* Active Highlight Range */}
           <div
-            className="absolute top-0 bottom-0 bg-gradient-to-r from-blue-600/60 via-indigo-600/60 to-blue-600/60 border-y-2 border-blue-400"
+            className="absolute top-0 bottom-0 bg-gradient-to-r from-red-600/30 via-rose-600/30 to-red-600/30 border-y-2 border-red-600"
             style={{
               left: `${startPercent}%`,
               width: `${Math.max(0, endPercent - startPercent)}%`,
@@ -106,7 +106,7 @@ export const DualRangeSlider: React.FC<DualRangeSliderProps> = ({
             className="absolute top-0 bottom-0 -ml-3 flex w-6 cursor-ew-resize items-center justify-center z-10 touch-none"
             style={{ left: `${startPercent}%` }}
           >
-            <div className="flex h-10 w-3.5 items-center justify-center rounded-l-lg bg-blue-500 border-2 border-white shadow-lg shadow-blue-500/50 hover:bg-blue-400 transition-colors">
+            <div className="flex h-10 w-3.5 items-center justify-center rounded-l-lg bg-red-600 border-2 border-white shadow-lg shadow-red-500/50 hover:bg-red-700 transition-colors">
               <div className="h-4 w-0.5 bg-white rounded-full opacity-80" />
             </div>
           </div>
@@ -117,7 +117,7 @@ export const DualRangeSlider: React.FC<DualRangeSliderProps> = ({
             className="absolute top-0 bottom-0 -ml-0.5 flex w-6 cursor-ew-resize items-center justify-center z-10 touch-none"
             style={{ left: `${endPercent}%` }}
           >
-            <div className="flex h-10 w-3.5 items-center justify-center rounded-r-lg bg-blue-500 border-2 border-white shadow-lg shadow-blue-500/50 hover:bg-blue-400 transition-colors">
+            <div className="flex h-10 w-3.5 items-center justify-center rounded-r-lg bg-red-600 border-2 border-white shadow-lg shadow-red-500/50 hover:bg-red-700 transition-colors">
               <div className="h-4 w-0.5 bg-white rounded-full opacity-80" />
             </div>
           </div>
@@ -127,24 +127,24 @@ export const DualRangeSlider: React.FC<DualRangeSliderProps> = ({
       {/* Manual Fine-Tuning Controls */}
       <div className="grid grid-cols-2 gap-4">
         {/* Start Point Card */}
-        <div className="rounded-xl bg-slate-950/80 p-3 border border-white/5 space-y-1.5">
-          <span className="text-[11px] font-medium text-slate-400">Start Timestamp</span>
+        <div className="rounded-xl bg-slate-50 p-3 border border-slate-200 space-y-1.5">
+          <span className="text-[11px] font-semibold text-slate-500">Start Timestamp</span>
           <div className="flex items-center justify-between">
-            <span className="font-mono text-base font-bold text-white">
+            <span className="font-mono text-base font-bold text-slate-900">
               {formatTime(startTime)}
             </span>
             <div className="flex items-center gap-1">
               <button
                 type="button"
                 onClick={() => onChange(Math.max(0, startTime - 0.5), endTime)}
-                className="rounded bg-slate-800 px-2 py-1 text-xs text-slate-300 hover:bg-slate-700 active:scale-95"
+                className="rounded bg-white border border-slate-200 px-2 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-100 hover:text-slate-900 active:scale-95 shadow-sm"
               >
                 -0.5s
               </button>
               <button
                 type="button"
                 onClick={() => onChange(Math.min(endTime - 0.2, startTime + 0.5), endTime)}
-                className="rounded bg-slate-800 px-2 py-1 text-xs text-slate-300 hover:bg-slate-700 active:scale-95"
+                className="rounded bg-white border border-slate-200 px-2 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-100 hover:text-slate-900 active:scale-95 shadow-sm"
               >
                 +0.5s
               </button>
@@ -153,24 +153,24 @@ export const DualRangeSlider: React.FC<DualRangeSliderProps> = ({
         </div>
 
         {/* End Point Card */}
-        <div className="rounded-xl bg-slate-950/80 p-3 border border-white/5 space-y-1.5">
-          <span className="text-[11px] font-medium text-slate-400">End Timestamp</span>
+        <div className="rounded-xl bg-slate-50 p-3 border border-slate-200 space-y-1.5">
+          <span className="text-[11px] font-semibold text-slate-500">End Timestamp</span>
           <div className="flex items-center justify-between">
-            <span className="font-mono text-base font-bold text-white">
+            <span className="font-mono text-base font-bold text-slate-900">
               {formatTime(endTime)}
             </span>
             <div className="flex items-center gap-1">
               <button
                 type="button"
                 onClick={() => onChange(startTime, Math.max(startTime + 0.2, endTime - 0.5))}
-                className="rounded bg-slate-800 px-2 py-1 text-xs text-slate-300 hover:bg-slate-700 active:scale-95"
+                className="rounded bg-white border border-slate-200 px-2 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-100 hover:text-slate-900 active:scale-95 shadow-sm"
               >
                 -0.5s
               </button>
               <button
                 type="button"
                 onClick={() => onChange(startTime, Math.min(duration, endTime + 0.5))}
-                className="rounded bg-slate-800 px-2 py-1 text-xs text-slate-300 hover:bg-slate-700 active:scale-95"
+                className="rounded bg-white border border-slate-200 px-2 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-100 hover:text-slate-900 active:scale-95 shadow-sm"
               >
                 +0.5s
               </button>

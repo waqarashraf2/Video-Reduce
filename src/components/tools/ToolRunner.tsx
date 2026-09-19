@@ -6,6 +6,8 @@ import {
   ToolId,
   AnyToolOptions,
   CompressionOptions,
+  GifOptions,
+  ReverseOptions,
   ProcessProgress,
   ProcessResult,
 } from "@/lib/ffmpeg/types";
@@ -215,9 +217,13 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
     setFileMeta(meta);
 
     if (tool.id === "video-compressor") {
-      const isMobile = typeof window !== "undefined" && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-      const isLarge = meta.size > 200 * 1024 * 1024;
-      const initialHalfMB = Number(((meta.size * 0.5) / (1024 * 1024)).toFixed(1));
+      const originalMB = Number((meta.size / (1024 * 1024)).toFixed(1));
+      let initialTargetMB = Number((originalMB * 0.5).toFixed(1));
+      // For large videos (>120MB), default target is set to safe 50MB for smooth mobile hardware encoding
+      if (initialTargetMB > 60) {
+        initialTargetMB = 50;
+      }
+      initialTargetMB = Math.max(1, initialTargetMB);
 
       setOptions((prev) => {
         const comp = prev as CompressionOptions;
@@ -225,11 +231,37 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
           ...comp,
           compressionMode: "target-size",
           targetPercent: 50,
-          targetSizeMB: initialHalfMB,
+          targetSizeMB: initialTargetMB,
           durationSecs: meta.durationSecs,
           fileSizeBytes: meta.size,
-          preset: "ultrafast",
-          resolution: isMobile || isLarge ? "720p" : comp.resolution || "1080p",
+          preset: "veryfast",
+          resolution: comp.resolution || "original",
+        };
+      });
+    } else if (tool.id === "video-to-gif") {
+      setOptions((prev) => {
+        const gif = prev as GifOptions;
+        return {
+          ...gif,
+          startTime: 0,
+          duration: meta.durationSecs ? Math.min(meta.durationSecs, 6) : 6,
+          fps: gif.fps || 15,
+          width: gif.width || 480,
+          quality: gif.quality || "high",
+          speed: gif.speed || 1.0,
+          loop: gif.loop ?? 0,
+        };
+      });
+    } else if (tool.id === "video-reverse") {
+      setOptions((prev) => {
+        const rev = prev as ReverseOptions;
+        const dur = meta.durationSecs || 8;
+        return {
+          ...rev,
+          reverseAudio: rev.reverseAudio ?? true,
+          muteAudio: rev.muteAudio ?? false,
+          quality: rev.quality || "turbo",
+          maxDuration: rev.maxDuration || (dur <= 8 ? Math.round(dur) : 8),
         };
       });
     } else if (tool.id === "video-trimmer" && meta.durationSecs) {
@@ -298,10 +330,11 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
         return;
       } catch (gpuErr) {
         console.error("❌ [WebCodecs GPU] Error encountered, falling back to FFmpeg Wasm:", gpuErr);
-        setEngineMode("ffmpeg");
         // Gracefully continue to standard FFmpeg Wasm pipeline below
       }
     }
+
+    setEngineMode("ffmpeg");
 
     try {
       if (!isLoaded) {
@@ -338,13 +371,19 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
       };
 
       const job = buildFFmpegJob(tool.id, fileMeta.file, currentOptions);
+      const targetDuration =
+        tool.id === "video-to-gif"
+          ? (currentOptions as any).duration || 6
+          : tool.id === "video-reverse"
+          ? (currentOptions as any).maxDuration || 8
+          : fileMeta.durationSecs;
 
       const { outputData } = await runFFmpeg(
         { name: job.inputName, buffer: inputBuffer },
         job.outputName,
-        job.args,
+        job.multiCommands || job.args,
         (p) => setProgress(p),
-        fileMeta.durationSecs
+        targetDuration
       );
 
       const processTimeMs = Date.now() - startTime;
@@ -371,8 +410,14 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
       scrollToToolContainer();
     } catch (err: any) {
       console.error("Processing failed:", err);
+      const msg =
+        typeof err === "string"
+          ? err
+          : err?.message || (typeof err === "object" ? JSON.stringify(err) : String(err));
       setErrorMessage(
-        err?.message || "An unexpected error occurred during processing. Please try again with different settings."
+        msg && msg !== "{}"
+          ? msg
+          : "An unexpected error occurred during processing. Please try again with different settings."
       );
       setStatus("error");
     }
@@ -422,22 +467,22 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
           />
 
           {errorMessage && (
-            <div className="flex items-start gap-3 rounded-2xl border border-rose-500/30 bg-rose-500/10 p-4 text-rose-300">
-              <AlertTriangle className="h-5 w-5 shrink-0 mt-0.5" />
+            <div className="flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 p-4 text-red-700 shadow-sm">
+              <AlertTriangle className="h-5 w-5 shrink-0 mt-0.5 text-red-600" />
               <div className="space-y-1">
-                <h4 className="text-sm font-semibold">Processing Failed</h4>
+                <h4 className="text-sm font-bold">Processing Failed</h4>
                 <p className="text-xs">{errorMessage}</p>
               </div>
             </div>
           )}
 
           {isWebCodecsEligible(tool.id, fileMeta.file) && (
-            <div className="flex items-center justify-between px-4 py-2.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-300">
-              <span className="flex items-center gap-2 font-medium">
-                <Zap className="h-4 w-4 text-emerald-400 shrink-0" />
+            <div className="flex items-center justify-between px-4 py-2.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 shadow-sm">
+              <span className="flex items-center gap-2 font-semibold">
+                <Zap className="h-4 w-4 text-emerald-600 shrink-0" />
                 <span>Hardware Acceleration Ready (GPU Engine)</span>
               </span>
-              <span className="text-[11px] font-semibold text-emerald-400 uppercase tracking-wider">
+              <span className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider bg-emerald-100 px-2 py-0.5 rounded-md border border-emerald-300">
                 10x Faster
               </span>
             </div>
@@ -446,7 +491,7 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
           <button
             onClick={handleStartProcessing}
             disabled={isLoading}
-            className="flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600 p-4 text-base font-bold text-white shadow-xl shadow-blue-500/25 transition-all hover:brightness-110 hover:shadow-blue-500/40 active:scale-[0.99] disabled:opacity-50"
+            className="flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-red-600 via-rose-600 to-red-600 p-4 text-base font-bold text-white shadow-xl shadow-red-500/25 transition-all hover:brightness-105 hover:shadow-red-500/40 active:scale-[0.99] disabled:opacity-50"
           >
             {isLoading ? (
               <>
@@ -469,6 +514,7 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
           progress={progress}
           toolName={tool.shortName}
           logs={logs}
+          engineMode={engineMode}
           onCancel={() => setStatus("ready")}
         />
       )}

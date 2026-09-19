@@ -8,7 +8,7 @@ import { AppShell } from "@/components/layout/AppShell";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const viewport: Viewport = {
-  themeColor: "#080c14",
+  themeColor: "#ffffff",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -111,7 +111,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className={`dark ${inter.variable}`} suppressHydrationWarning>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
         {/* Google tag (gtag.js) */}
         <Script
@@ -141,7 +141,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
         />
       </head>
-      <body className="bg-[#080c14] font-sans antialiased text-slate-100 min-h-screen" suppressHydrationWarning>
+      <body className="bg-white font-sans antialiased text-slate-900 min-h-screen selection:bg-red-500 selection:text-white" suppressHydrationWarning>
         <FFmpegProvider>
           <AppShell>{children}</AppShell>
         </FFmpegProvider>

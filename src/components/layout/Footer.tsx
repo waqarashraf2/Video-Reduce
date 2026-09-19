@@ -26,26 +26,26 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="border-t border-white/[0.08] bg-[#05080e] pt-16 pb-12 text-slate-400">
+    <footer className="border-t border-slate-200 bg-[#f8fafc] pt-16 pb-12 text-slate-600">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5">
           {/* Brand & Privacy Statement */}
           <div className="lg:col-span-2 space-y-4">
             <BrandLogo size="md" />
-            <p className="text-sm leading-relaxed text-slate-400 max-w-sm">
+            <p className="text-sm leading-relaxed text-slate-600 max-w-sm">
               High-performance, WebAssembly-powered video compressor and media suite on VideoReduce.com. A product of the{" "}
               <a
                 href="https://versenext.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-semibold text-blue-400 hover:text-blue-300 underline underline-offset-4 decoration-blue-500/40 transition-colors"
+                className="font-semibold text-red-600 hover:text-red-700 underline underline-offset-4 decoration-red-500/40 transition-colors"
               >
                 Verse Next
               </a>{" "}
               innovation ecosystem.
             </p>
-            <div className="flex items-center gap-2 rounded-xl bg-slate-900/80 p-3 ring-1 ring-white/10 text-xs text-slate-300">
-              <Lock className="h-4 w-4 text-emerald-400 shrink-0" />
+            <div className="flex items-center gap-2 rounded-xl bg-white p-3 ring-1 ring-slate-200 text-xs text-slate-700 shadow-sm">
+              <Lock className="h-4 w-4 text-emerald-600 shrink-0" />
               <span>
                 Zero server uploads. Your media files are processed locally inside your browser&apos;s WebAssembly memory.
               </span>
@@ -55,18 +55,18 @@ export const Footer: React.FC = () => {
               href="https://versenext.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-950/60 to-indigo-950/60 p-3 ring-1 ring-blue-500/20 text-xs text-blue-300 hover:ring-blue-400/50 hover:text-white transition-all group"
+              className="inline-flex items-center gap-2 rounded-xl bg-red-50 p-3 ring-1 ring-red-200 text-xs text-red-700 hover:bg-red-100/70 hover:text-red-800 transition-all group"
             >
-              <Sparkles className="h-4 w-4 text-blue-400 shrink-0 group-hover:scale-110 transition-transform" />
+              <Sparkles className="h-4 w-4 text-red-600 shrink-0 group-hover:scale-110 transition-transform" />
               <span>
-                <strong className="text-white">Verse Next Innovation</strong> • 100% Free & Open Web Suite ↗
+                <strong className="text-slate-900">Verse Next Innovation</strong> • 100% Free & Open Web Suite ↗
               </span>
             </a>
           </div>
 
           {/* Format Converters */}
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wider text-white">
+            <p className="text-sm font-black uppercase tracking-wider text-[#0B192C]">
               Format Converters
             </p>
             <ul className="mt-4 space-y-2 text-xs">
@@ -74,7 +74,7 @@ export const Footer: React.FC = () => {
                 <li key={fp.slug}>
                   <Link
                     href={getHref(`/convert/${fp.slug}`)}
-                    className="hover:text-blue-400 transition-colors"
+                    className="hover:text-red-600 transition-colors"
                   >
                     {fp.title}
                   </Link>
@@ -83,7 +83,7 @@ export const Footer: React.FC = () => {
               <li>
                 <Link
                   href="/tools/format-converter"
-                  className="font-semibold text-blue-400 hover:text-blue-300"
+                  className="font-semibold text-red-600 hover:text-red-700"
                 >
                   All 16 Converters ➔
                 </Link>
@@ -93,7 +93,7 @@ export const Footer: React.FC = () => {
 
           {/* Solution Hubs / Compress Presets */}
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wider text-white">
+            <p className="text-sm font-black uppercase tracking-wider text-[#0B192C]">
               Platform Solutions
             </p>
             <ul className="mt-4 space-y-2 text-xs">
@@ -101,7 +101,7 @@ export const Footer: React.FC = () => {
                 <li key={uc.slug}>
                   <Link
                     href={getHref(`/compress/${uc.slug}`)}
-                    className="hover:text-blue-400 transition-colors"
+                    className="hover:text-red-600 transition-colors"
                   >
                     {uc.title}
                   </Link>
@@ -110,7 +110,7 @@ export const Footer: React.FC = () => {
               <li>
                 <Link
                   href="/tools/video-compressor"
-                  className="font-semibold text-blue-400 hover:text-blue-300"
+                  className="font-semibold text-red-600 hover:text-red-700"
                 >
                   All 16 Solution Presets ➔
                 </Link>
@@ -120,43 +120,43 @@ export const Footer: React.FC = () => {
 
           {/* Privacy & Legal */}
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wider text-white">
+            <p className="text-sm font-black uppercase tracking-wider text-[#0B192C]">
               Privacy & Guides
             </p>
             <ul className="mt-4 space-y-2.5 text-xs">
               <li>
-                <Link href="/articles" className="hover:text-blue-400 transition-colors font-semibold text-blue-400">
+                <Link href="/articles" className="hover:text-red-600 transition-colors font-semibold text-red-600">
                   All Knowledge Guides
                 </Link>
               </li>
               <li>
-                <Link href="/tools/video-compressor" className="hover:text-blue-400 transition-colors">
+                <Link href="/tools/video-compressor" className="hover:text-red-600 transition-colors">
                   Smart Video Compressor
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-blue-400 transition-colors">
+                <Link href="/about" className="hover:text-red-600 transition-colors">
                   How WebAssembly Works
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="hover:text-blue-400 transition-colors">
+                <Link href="/faq" className="hover:text-red-600 transition-colors">
                   Frequently Asked Questions (FAQ)
                 </Link>
               </li>
               <li>
-                <Link href="/privacy-policy" className="hover:text-blue-400 transition-colors">
+                <Link href="/privacy-policy" className="hover:text-red-600 transition-colors">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="hover:text-blue-400 transition-colors">
+                <Link href="/terms" className="hover:text-red-600 transition-colors">
                   Terms of Service
                 </Link>
               </li>
               <li className="pt-2">
                 <div className="flex items-center gap-1.5 text-xs text-slate-500">
-                  <Cpu className="h-3.5 w-3.5 text-blue-400" />
+                  <Cpu className="h-3.5 w-3.5 text-red-600" />
                   <span>Powered by FFmpeg v0.12 Wasm</span>
                 </div>
               </li>
@@ -164,11 +164,11 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Global 7-Language Switcher (Dynamic Current Page Preserving) */}
-        <div className="border-t border-white/[0.08] pt-6">
+        {/* Global 7-Language Switcher */}
+        <div className="border-t border-slate-200 pt-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="flex items-center gap-2 text-xs font-semibold text-slate-300">
-              <Globe className="h-4 w-4 text-blue-400" />
+            <div className="flex items-center gap-2 text-xs font-semibold text-slate-800">
+              <Globe className="h-4 w-4 text-red-600" />
               <span>Select Language / Idioma / Sprache / भाषा:</span>
             </div>
             <LanguageSwitcher />
@@ -176,22 +176,22 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Copyright */}
-        <div className="flex flex-col items-center justify-between gap-4 border-t border-white/[0.08] pt-6 sm:flex-row text-xs text-slate-400">
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-slate-200 pt-6 sm:flex-row text-xs text-slate-500">
           <p>
             © {new Date().getFullYear()} VideoReduce.com — An Innovation by{" "}
             <a
               href="https://versenext.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-semibold text-blue-400 hover:text-blue-300 hover:underline"
+              className="font-semibold text-red-600 hover:text-red-700 hover:underline"
             >
               Verse Next
             </a>
             .
           </p>
           <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1 text-slate-400">
-              <Globe className="h-3.5 w-3.5 text-blue-400" />
+            <span className="flex items-center gap-1 text-slate-500">
+              <Globe className="h-3.5 w-3.5 text-red-600" />
               videoreduce.com
             </span>
           </div>
