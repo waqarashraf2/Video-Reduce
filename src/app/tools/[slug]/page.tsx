@@ -145,6 +145,23 @@ export default function ToolPage({ params }: ToolPageProps) {
           </div>
         </header>
 
+        {/* Reciprocal Banner for Quick Reducer */}
+        {tool.id === "video-compressor" && (
+          <div className="mb-6 rounded-2xl border border-blue-100 bg-blue-50/60 p-3.5 px-4 text-xs text-slate-700 flex flex-wrap items-center justify-between gap-2 shadow-sm">
+            <div className="flex items-center gap-2">
+              <span className="font-bold text-[#0B192C]">Pro Tip:</span>
+              <span>Looking for 1-click instant reduction without custom settings?</span>
+            </div>
+            <Link
+              href="/"
+              className="font-bold text-red-600 hover:text-red-700 hover:underline inline-flex items-center gap-1"
+            >
+              <span>Use Instant Quick Reducer on Homepage</span>
+              <ChevronRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+        )}
+
         {/* Interactive Tool Runner Applet */}
         <main className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xl ring-1 ring-slate-100" suppressHydrationWarning>
           <ToolRunner tool={tool} />

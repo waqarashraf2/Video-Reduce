@@ -17,18 +17,21 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://videoreduce.com"),
   title: {
-    default: "VideoReduce — Free Online Video Tools & Privacy Suite",
+    default: "VideoReduce — Free Video Size Reducer & Online Media Suite",
     template: "%s | VideoReduce",
   },
   description:
-    "Reduce video file size online free without losing quality. Private in-browser video compressor & media suite. No uploads, no limits.",
+    "Reduce video size and shrink video file size online for free without losing quality. 100% private in-browser video size reducer & media suite. No uploads, no limits.",
   keywords: [
+    "video size reducer",
+    "shrink video size",
+    "lower video size",
+    "decrease video file size",
     "reduce video size",
     "video compressor",
     "compress video online free",
     "reduce video file size",
     "video to gif converter",
-    "gif to mp4 converter",
     "online video compressor",
     "free video compressor",
   ],

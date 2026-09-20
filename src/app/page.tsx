@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { TOOLS } from "@/config/tools";
 import { ToolIcon } from "@/components/ui/ToolIcon";
 import { SocialShareBar } from "@/components/ui/SocialShareBar";
@@ -21,8 +22,23 @@ import {
   Lock,
 } from "lucide-react";
 
+const ToolRunner = dynamic(
+  () => import("@/components/tools/ToolRunner").then((m) => m.ToolRunner),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex flex-col items-center justify-center p-12 space-y-4">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-red-600 border-t-transparent" />
+        <span className="text-xs text-slate-600 font-medium">Loading Video Compressor Engine...</span>
+      </div>
+    ),
+  }
+);
+
 export default function HomePage() {
   const [activeCategory, setActiveCategory] = useState<string>("All");
+
+  const compressorTool = TOOLS.find((t) => t.id === "video-compressor") || TOOLS[0];
 
   const categories = ["All", "Video", "Audio", "Conversion", "Optimization", "Privacy & Pro"];
 
@@ -40,15 +56,15 @@ export default function HomePage() {
         name: "VideoReduce.com",
         url: "https://videoreduce.com",
         description:
-          "Free online video compressor to reduce video size and file size without losing quality. 100% private WebAssembly MP4 video compressor.",
+          "Free online video size reducer to shrink video file size, lower video size, and compress videos without losing quality. 100% private in-browser WebAssembly.",
       },
       {
         "@type": "WebPage",
         "@id": "https://videoreduce.com/#webpage",
         url: "https://videoreduce.com",
-        name: "VideoReduce — Free Online Video Compressor & Media Suite",
+        name: "VideoReduce — Free Video Size Reducer & Online Media Suite",
         description:
-          "Reduce video file size online for free without losing quality. 18 powerful tools for video compression, GIF conversion, and audio editing — 100% private in your browser.",
+          "Reduce video size online for free without losing quality. Shrink video file size, lower video size for Discord, WhatsApp, and iPhone clips with 18 free tools.",
         isPartOf: { "@id": "https://videoreduce.com/#website" },
         primaryImageOfPage: {
           "@type": "ImageObject",
@@ -57,12 +73,12 @@ export default function HomePage() {
       },
       {
         "@type": "SoftwareApplication",
-        name: "VideoReduce — Free Online Video Compressor & Media Suite",
+        name: "VideoReduce — Free Video Size Reducer & Media Suite",
         url: "https://videoreduce.com",
         image: "https://videoreduce.com/logo.png",
         screenshot: "https://videoreduce.com/og-image.jpg",
         applicationCategory: "MultimediaApplication",
-        applicationSubCategory: "Video Compression & Editing Suite",
+        applicationSubCategory: "Video Size Reducer & Compression Suite",
         operatingSystem: "All (Browser-Based: iOS, Android, Windows, Mac, Linux)",
         softwareRequirements: "Requires WebAssembly Compatible Browser",
         offers: {
@@ -78,7 +94,7 @@ export default function HomePage() {
           worstRating: "1",
         },
         description:
-          "Free online video compressor to reduce video size and file size without losing quality. 100% private WebAssembly MP4 video compressor.",
+          "Free online video size reducer to lower video size and shrink video file size without losing quality. 100% private WebAssembly MP4 video compressor.",
       },
       {
         "@type": "FAQPage",
@@ -88,12 +104,12 @@ export default function HomePage() {
             name: "How to reduce video file size without losing quality?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "Use VideoReduce.com's smart video compressor. It utilizes Constant Rate Factor (CRF) and dynamic bitrate ceilings to reduce file size up to 90% while keeping visual details sharp.",
+              text: "Use VideoReduce.com's instant video size reducer. Drop your video, choose 50% or 70% smaller (or a custom limit), and download. It utilizes Constant Rate Factor (CRF) and dynamic bitrate ceilings to shrink video size up to 90% while keeping visual details sharp.",
             },
           },
           {
             "@type": "Question",
-            name: "How to reduce video size on iPhone or Android phone?",
+            name: "How to lower video size or shrink video on iPhone or Android phone?",
             acceptedAnswer: {
               "@type": "Answer",
               text: "Open VideoReduce.com in Safari or Chrome on your mobile phone, select your video from Photos/Gallery, choose a compression preset (e.g. 70% reduction or 1080p), and click Compress. It processes directly in mobile RAM without installing any app.",
@@ -160,34 +176,64 @@ export default function HomePage() {
           {/* Main Headline */}
           <div className="space-y-4 max-w-4xl mx-auto">
             <h1 className="text-3xl font-extrabold tracking-tight text-slate-950 sm:text-5xl lg:text-6xl leading-[1.15]">
-              Free Video Compressor &{" "}
+              Free Video Size Reducer &{" "}
               <span className="bg-gradient-to-r from-red-600 via-rose-600 to-red-700 bg-clip-text text-transparent">
-                Reduce Video File Size
+                Shrink Video File Size
               </span>
             </h1>
             <p className="text-sm sm:text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed font-normal">
-              Reduce any video size (from 10MB to 10GB+ Unlimited) directly in your browser without losing quality. Fast, private WebAssembly processing for Discord, WhatsApp, iPhone clips, format conversion, and audio editing.
+              The easiest way to lower video size, shrink video file size, and decrease video size up to 90% without losing quality. Drop any video below for instant, 100% free, private browser compression.
             </p>
           </div>
 
-          {/* Quick Action CTAs & Presets */}
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
-            <Link
-              href="/tools/video-compressor"
-              className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-red-600 via-rose-600 to-red-600 px-6 py-3 text-sm sm:text-base font-bold text-white shadow-xl shadow-red-500/25 transition-all hover:brightness-105 hover:shadow-red-500/40 active:scale-95"
-            >
-              <Sparkles className="h-4 w-4" />
-              <span>Compress Video Now</span>
-              <ArrowRight className="h-4 w-4" />
-            </Link>
+          {/* Interactive Video Reducer Runner Applet */}
+          <div className="mx-auto max-w-4xl text-left">
+            <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-8 shadow-xl ring-1 ring-slate-100" suppressHydrationWarning>
+              <div className="flex flex-wrap items-center justify-between border-b border-slate-100 pb-4 mb-6 gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-red-600 to-rose-600 text-white shadow-md shadow-red-500/20">
+                    <ToolIcon name={compressorTool.iconName} className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+                      <span>Instant Video Reducer</span>
+                      <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700 border border-emerald-200">
+                        Drop & Compress
+                      </span>
+                    </h2>
+                    <p className="text-xs text-slate-500">
+                      Reduce video size in 1 click • No uploads • 100% Private in Browser
+                    </p>
+                  </div>
+                </div>
 
-            <Link
-              href="#tools-grid"
-              className="flex items-center gap-2 rounded-2xl border-2 border-[#0B192C] bg-[#0B192C] px-5 py-3 text-sm sm:text-base font-semibold text-white shadow-lg shadow-blue-950/20 transition-all hover:bg-[#1E3E62] hover:shadow-blue-950/30 active:scale-95"
-            >
-              <span>Explore All 18 Tools</span>
-              <ArrowRight className="h-4 w-4 text-blue-200" />
-            </Link>
+                <div className="flex items-center gap-2">
+                  <Link
+                    href="/tools/video-compressor"
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:border-red-300 hover:bg-red-50 hover:text-red-700 transition-colors"
+                  >
+                    <span>Advanced Studio (CRF & Bitrate)</span>
+                    <ArrowRight className="h-3.5 w-3.5 text-red-600" />
+                  </Link>
+                </div>
+              </div>
+
+              <ToolRunner tool={compressorTool} />
+
+              <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="h-4 w-4 text-emerald-600 shrink-0" />
+                  <span>Your video never leaves this device (Processed locally via WebCodecs GPU & WebAssembly)</span>
+                </div>
+                <Link
+                  href="/tools/video-compressor"
+                  className="inline-flex items-center gap-1 text-red-600 font-semibold hover:underline shrink-0"
+                >
+                  <span>Need custom CRF or 4K downscaling? Open Studio</span>
+                  <ArrowRight className="h-3 w-3" />
+                </Link>
+              </div>
+            </div>
           </div>
 
           {/* Popular Instant Shortcuts */}
