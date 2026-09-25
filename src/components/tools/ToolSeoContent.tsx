@@ -253,25 +253,32 @@ export const ToolSeoContent: React.FC<ToolSeoContentProps> = ({ tool }) => {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {ARTICLES.slice(0, 3).map((art) => (
-            <Link
-              key={art.slug}
-              href={`/articles/${art.slug}`}
-              className="group rounded-2xl border border-slate-200 bg-white p-5 transition-all hover:border-red-300 hover:shadow-md"
-            >
-              <span className="rounded bg-slate-100 border border-slate-200 px-2 py-0.5 text-[10px] font-bold text-slate-700">
-                {art.category}
-              </span>
-              <div className="text-xs font-bold text-slate-900 group-hover:text-red-600 transition-colors mt-2 leading-snug">
-                {art.title}
-              </div>
-              <p className="text-[11px] text-slate-500 line-clamp-2 mt-1.5">
-                {art.summary}
-              </p>
-            </Link>
-          ))}
-        </div>
+        {(() => {
+          const matched = ARTICLES.filter((a) => a.toolRecommendation === tool.id);
+          const others = ARTICLES.filter((a) => a.toolRecommendation !== tool.id);
+          const displayed = [...matched, ...others].slice(0, 3);
+          return (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {displayed.map((art) => (
+                <Link
+                  key={art.slug}
+                  href={`/articles/${art.slug}`}
+                  className="group rounded-2xl border border-slate-200 bg-white p-5 transition-all hover:border-red-300 hover:shadow-md"
+                >
+                  <span className="rounded bg-slate-100 border border-slate-200 px-2 py-0.5 text-[10px] font-bold text-slate-700">
+                    {art.category}
+                  </span>
+                  <div className="text-xs font-bold text-slate-900 group-hover:text-red-600 transition-colors mt-2 leading-snug">
+                    {art.title}
+                  </div>
+                  <p className="text-[11px] text-slate-500 line-clamp-2 mt-1.5">
+                    {art.summary}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          );
+        })()}
       </section>
 
       {/* User Reviews, Star Rating & Feedback Recommendations */}

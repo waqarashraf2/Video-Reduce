@@ -1,18 +1,20 @@
-﻿# VideoReduce — Free, Private & Unlimited In-Browser Video Suite
+# VideoReduce — Free, Private & Unlimited In-Browser Video Suite
 
 [![Live Website](https://img.shields.io/badge/Live_Site-videoreduce.com-red?style=for-the-badge&logo=google-chrome)](https://videoreduce.com)
 [![WebAssembly](https://img.shields.io/badge/Engine-WebAssembly_%26_Wasm_SIMD-blue?style=for-the-badge&logo=webassembly)](https://videoreduce.com/tools/video-compressor)
 [![Privacy First](https://img.shields.io/badge/Privacy-100%25_Client--Side_(0_Uploads)-emerald?style=for-the-badge&logo=shield)](https://videoreduce.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
 
-> **Official Website:** [https://videoreduce.com](https://videoreduce.com)  
-> High-performance, private, client-side video processing tools powered by Next.js 14, WebAssembly (Wasm), FFmpeg, and WebCodecs. Process 10MB to 10GB+ videos with **zero file size limits, zero server uploads, and zero subscriptions**.
+> **Official Web App:** [Free Video Size Reducer & Online Video Compressor](https://videoreduce.com)  
+> High-performance, private, client-side video processing tools powered by Next.js 14, WebAssembly (Wasm), FFmpeg, and WebCodecs. [Reduce video size](https://videoreduce.com) and [shrink video size online](https://videoreduce.com) from 10MB to 10GB+ videos with **zero file size limits, zero server uploads, and zero subscriptions**.
 
 ---
 
 ## ⚡ Live Tools & Quick Access
 
-- **🎬 [Free Video Compressor Online (Reduce Video Size)](https://videoreduce.com/tools/video-compressor)**  
+- **🗜️ [Free Video Size Reducer (Reduce Video Size Online)](https://videoreduce.com)**  
+  Instantly [shrink video file size](https://videoreduce.com) online without losing quality. Works directly in your browser on MP4, MOV, WebM, and MKV files with zero server uploads and zero file caps.
+- **🎬 [Free Video Compressor Online](https://videoreduce.com/tools/video-compressor)**  
   Reduce video file sizes up to 90% without visible quality loss. No 500MB upload limits, no wait queues, and 100% free with CRF rate control.
 - **⏪ [Rewind the Video Online (Video Reverse Maker)](https://videoreduce.com/tools/video-reverse)**  
   Play any video backwards with reversed audio or clean mute mode. Perfect for viral TikTok, YouTube Shorts, and Instagram Reels rewind effects.
@@ -41,6 +43,7 @@ Most online video compressors force users to upload their gigabytes over slow in
 
 ## 📚 Technical Articles & Deep Dives
 
+- [5 Best Free Video Reversers Online Without Watermark (2026 Clideo & Ezgif Alternatives)](https://videoreduce.com/articles/best-free-video-reversers-online-without-watermark)
 - [Why We Built a Free Video Size Reducer with No File Limits (1GB, 10GB+)](https://videoreduce.com/articles/free-video-size-reducer-no-file-limits)
 - [How to Reduce Video File Size Without Losing Quality (2026 Guide)](https://videoreduce.com/articles/how-to-compress-video-without-losing-quality)
 - [Why Traditional Online Video Converters Are a Privacy Risk](https://videoreduce.com/articles/why-online-video-converters-are-a-privacy-risk)

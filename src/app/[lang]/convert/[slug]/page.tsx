@@ -296,7 +296,13 @@ export default function LocalizedFormatConverterPage({
             <span className="text-xs text-emerald-700 font-semibold">{t.zeroServerCost}</span>
           </div>
 
-          <ToolRunner tool={tool} />
+          <ToolRunner
+            tool={tool}
+            initialOptions={{
+              targetFormat: (format.targetFormatEnum || "mp4") as any,
+              conversionMode: "fast-copy",
+            }}
+          />
         </main>
 
         {/* Social Share Bar */}

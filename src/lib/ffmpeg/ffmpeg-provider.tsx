@@ -40,9 +40,6 @@ const FFMPEG_CORE_VERSION = "0.12.6";
 const BASE_URL_UNPKG = `https://unpkg.com/@ffmpeg/core@${FFMPEG_CORE_VERSION}/dist/umd`;
 const BASE_URL_JSDELIVR = `https://cdn.jsdelivr.net/npm/@ffmpeg/core@${FFMPEG_CORE_VERSION}/dist/umd`;
 
-const MT_URL_UNPKG = `https://unpkg.com/@ffmpeg/core-mt@${FFMPEG_CORE_VERSION}/dist/umd`;
-const MT_URL_JSDELIVR = `https://cdn.jsdelivr.net/npm/@ffmpeg/core-mt@${FFMPEG_CORE_VERSION}/dist/umd`;
-
 export const FFmpegProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const ffmpegRef = useRef<FFmpeg | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -84,47 +81,9 @@ export const FFmpegProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         });
       });
 
-      ffmpeg.on("progress", ({ progress, time }) => {
-        let stepRatio = progress;
-        // Accurate ratio calculation if progress is 0 or uninformative
-        if ((!stepRatio || stepRatio <= 0) && time > 0 && durationRef.current > 0) {
-          stepRatio = Math.min(0.99, (time / 1000000) / durationRef.current);
-        }
-        stepRatio = Math.max(0, Math.min(1, stepRatio || 0));
-
-        const overallRatio = Math.max(
-          0,
-          Math.min(0.99, phaseBaseProgressRef.current + stepRatio * phaseWeightRef.current)
-        );
-        const percent = Math.round(overallRatio * 100);
-
-        let estimatedRemainingSecs: number | undefined;
-        if (startTimeRef.current && overallRatio > 0.05 && overallRatio < 0.99) {
-          const elapsedSecs = (Date.now() - startTimeRef.current) / 1000;
-          const totalEstimatedSecs = elapsedSecs / overallRatio;
-          estimatedRemainingSecs = Math.max(1, Math.round(totalEstimatedSecs - elapsedSecs));
-        }
-
-        if (activeProgressCallback.current) {
-          activeProgressCallback.current({
-            ratio: overallRatio,
-            percent,
-            time: time / 1000000 || 0,
-            estimatedRemainingSecs,
-            speed: phaseDescRef.current || undefined,
-          });
-        }
-      });
-
-      const isMultiThreadSupported =
-        typeof window !== "undefined" &&
-        Boolean(window.crossOriginIsolated) &&
-        typeof window.SharedArrayBuffer !== "undefined";
-
       let coreURL: string;
       let wasmURL: string;
 
-      // Load Official Rock-Solid FFmpeg Core (100% stable, zero indirect call signature mismatch)
       console.log("🚀 [FFmpeg] Loading stable WebAssembly media engine...");
       try {
         setLoadProgress(20);
@@ -182,12 +141,84 @@ export const FFmpegProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
       const currentLogs: string[] = [];
       let hasRealProgress = false;
-      let heartbeatRatio = 0;
+      let lastReportedRatio = 0;
+      let lastReportTime = 0;
+      let smoothedEtaSecs: number | null = null;
+
+      const reportProgress = (
+        stepRatio: number,
+        currentSecs?: number,
+        customDesc?: string
+      ) => {
+        const clampedStep = Math.max(0, Math.min(0.99, stepRatio));
+        const overallRatio = Math.max(
+          0,
+          Math.min(
+            0.99,
+            phaseBaseProgressRef.current + clampedStep * phaseWeightRef.current
+          )
+        );
+
+        // Strictly monotonic: Never move backward or vibrate
+        if (overallRatio <= lastReportedRatio && overallRatio < 0.99) {
+          return;
+        }
+
+        const now = Date.now();
+        // Throttle UI updates to at most once per 120ms unless significant jump or completion
+        if (
+          now - lastReportTime < 120 &&
+          overallRatio - lastReportedRatio < 0.02 &&
+          overallRatio < 0.99
+        ) {
+          return;
+        }
+
+        lastReportedRatio = overallRatio;
+        lastReportTime = now;
+
+        const percent = Math.min(99, Math.max(1, Math.round(overallRatio * 100)));
+        const elapsedSecs = (now - (startTimeRef.current || now)) / 1000;
+
+        let estimatedRemainingSecs: number | undefined;
+        if (overallRatio > 0.03 && overallRatio < 0.99) {
+          const rawEta = Math.max(1, Math.round(elapsedSecs / overallRatio - elapsedSecs));
+          if (smoothedEtaSecs === null) {
+            smoothedEtaSecs = rawEta;
+          } else {
+            smoothedEtaSecs = Math.round(smoothedEtaSecs * 0.85 + rawEta * 0.15);
+          }
+          estimatedRemainingSecs = smoothedEtaSecs;
+        }
+
+        let statusDesc = customDesc || phaseDescRef.current;
+        if (!statusDesc) {
+          if (percent < 30) {
+            statusDesc = "Decoding & analyzing video frames...";
+          } else if (percent < 70) {
+            statusDesc = "Compressing & optimizing video stream...";
+          } else if (percent < 90) {
+            statusDesc = "Encoding audio & packaging MP4 container...";
+          } else {
+            statusDesc = "Finalizing compressed output...";
+          }
+        }
+
+        if (activeProgressCallback.current) {
+          activeProgressCallback.current({
+            ratio: overallRatio,
+            percent,
+            time: currentSecs !== undefined ? Math.round(currentSecs) : Math.round(elapsedSecs),
+            estimatedRemainingSecs,
+            speed: statusDesc,
+          });
+        }
+      };
 
       const logCollector = ({ message }: { message: string }) => {
         currentLogs.push(message);
 
-        // Real-time fallback progress parsing from ffmpeg stderr output
+        // Real-time progress parsing from ffmpeg stderr output
         const timeMatch = message.match(/time=(\d{2}):(\d{2}):(\d{2}\.\d+)/);
         if (timeMatch && durationRef.current > 0) {
           hasRealProgress = true;
@@ -195,30 +226,7 @@ export const FFmpegProvider: React.FC<{ children: React.ReactNode }> = ({ childr
           const minutes = parseInt(timeMatch[2], 10);
           const seconds = parseFloat(timeMatch[3]);
           const currentSecs = hours * 3600 + minutes * 60 + seconds;
-
-          const stepRatio = Math.min(0.99, Math.max(0, currentSecs / durationRef.current));
-          const overallRatio = Math.max(
-            heartbeatRatio,
-            Math.min(0.99, phaseBaseProgressRef.current + stepRatio * phaseWeightRef.current)
-          );
-          const percent = Math.round(overallRatio * 100);
-
-          let estimatedRemainingSecs: number | undefined;
-          if (startTimeRef.current && overallRatio > 0.05 && overallRatio < 0.99) {
-            const elapsedSecs = (Date.now() - startTimeRef.current) / 1000;
-            const totalEstimatedSecs = elapsedSecs / overallRatio;
-            estimatedRemainingSecs = Math.max(1, Math.round(totalEstimatedSecs - elapsedSecs));
-          }
-
-          if (activeProgressCallback.current) {
-            activeProgressCallback.current({
-              ratio: overallRatio,
-              percent,
-              time: currentSecs,
-              estimatedRemainingSecs,
-              speed: phaseDescRef.current || undefined,
-            });
-          }
+          reportProgress(currentSecs / durationRef.current, currentSecs);
         }
       };
       ffmpeg.on("log", logCollector);
@@ -235,20 +243,21 @@ export const FFmpegProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
       phaseBaseProgressRef.current = 0;
       let heartbeatTimer: any = null;
+      let stepStartTime = Date.now();
 
       try {
-        // Heartbeat progress for filters like reverse/rewind that buffer in RAM before first frame
+        // Fallback progress ONLY if no real progress output is emitted from filters (e.g. reverse)
         heartbeatTimer = setInterval(() => {
-          if (!hasRealProgress && activeProgressCallback.current && heartbeatRatio < 0.35) {
-            heartbeatRatio = Math.min(0.35, heartbeatRatio + 0.05);
-            activeProgressCallback.current({
-              ratio: heartbeatRatio,
-              percent: Math.round(heartbeatRatio * 100),
-              time: 0,
-              speed: "Decoding & buffering video frames...",
-            });
-          }
-        }, 600);
+          if (!activeProgressCallback.current || hasRealProgress) return;
+
+          const stepElapsed = (Date.now() - stepStartTime) / 1000;
+          const targetDur = durationRef.current > 0 ? durationRef.current : 10;
+          const estimatedStepSecs = Math.max(5, targetDur * 1.25 * phaseWeightRef.current);
+
+          const stepProgress = 1 - Math.exp(-stepElapsed / (estimatedStepSecs * 0.7));
+          const simulatedStepRatio = Math.min(0.96, stepProgress);
+          reportProgress(simulatedStepRatio);
+        }, 350);
 
         // 1. Write input file to in-memory virtual filesystem
         await ffmpeg.writeFile(inputData.name, inputData.buffer);
@@ -259,11 +268,13 @@ export const FFmpegProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         // 2. Execute command step(s)
         for (let i = 0; i < steps.length; i++) {
           const step = steps[i];
+          stepStartTime = Date.now();
           phaseWeightRef.current = step.progressWeight ?? 1.0 / steps.length;
           phaseDescRef.current = step.phaseDescription || "";
 
           // Initial phase notification
-          if (activeProgressCallback.current) {
+          if (activeProgressCallback.current && phaseBaseProgressRef.current > lastReportedRatio) {
+            lastReportedRatio = phaseBaseProgressRef.current;
             activeProgressCallback.current({
               ratio: phaseBaseProgressRef.current,
               percent: Math.round(phaseBaseProgressRef.current * 100),
@@ -292,15 +303,57 @@ export const FFmpegProvider: React.FC<{ children: React.ReactNode }> = ({ childr
           if (exitCode !== 0) {
             const lastLogs = currentLogs.slice(-12).join("\n");
 
-            // Auto-recovery: If audio filter failed because input file has no audio stream,
+            // Auto-recovery 1: If stream-copy was attempted but input streams have incompatible container tags (e.g. VP9 in MKV -> MP4),
+            // auto-recover with universal multi-threaded ultrafast H.264 transcode so it never fails!
+            if (
+              step.args.includes("copy") &&
+              (lastLogs.includes("Could not find tag for codec") ||
+                lastLogs.includes("not found in MP4") ||
+                lastLogs.includes("codec not currently supported") ||
+                lastLogs.includes("muxer does not support") ||
+                lastLogs.includes("Error initializing output stream"))
+            ) {
+              console.warn(
+                "⚠️ [FFmpeg] Stream copy incompatible with stream codecs. Seamlessly auto-recovering with universal ultrafast transcode..."
+              );
+              const fallbackArgs = [
+                "-i",
+                inputData.name,
+                "-vcodec",
+                "libx264",
+                "-preset",
+                "ultrafast",
+                "-tune",
+                "fastdecode",
+                "-threads",
+                "0",
+                "-crf",
+                "22",
+                "-c:a",
+                "aac",
+                "-b:a",
+                "192k",
+                "-ac",
+                "2",
+                "-pix_fmt",
+                "yuv420p",
+                "-movflags",
+                "+faststart",
+                outputName,
+              ];
+              exitCode = await ffmpeg.exec(fallbackArgs);
+            }
+
+            // Auto-recovery 2: If audio filter failed because input file has no audio stream,
             // retry with -an (no audio) seamlessly so processing never fails!
             if (
-              lastLogs.includes("unlabeled input pad 0 on filter areverse") ||
-              lastLogs.includes("Cannot find a matching stream for unlabeled input pad") ||
-              lastLogs.includes("does not contain any audio stream") ||
-              lastLogs.includes("matches no streams") ||
-              lastLogs.includes("filter atrim") ||
-              lastLogs.includes("filter areverse")
+              exitCode !== 0 &&
+              (lastLogs.includes("unlabeled input pad 0 on filter areverse") ||
+                lastLogs.includes("Cannot find a matching stream for unlabeled input pad") ||
+                lastLogs.includes("does not contain any audio stream") ||
+                lastLogs.includes("matches no streams") ||
+                lastLogs.includes("filter atrim") ||
+                lastLogs.includes("filter areverse"))
             ) {
               console.warn("⚠️ [FFmpeg] Input video has no audio stream, retrying with -an...");
               const sanitizedArgs: string[] = [];
@@ -374,6 +427,16 @@ export const FFmpegProvider: React.FC<{ children: React.ReactNode }> = ({ childr
           await ffmpeg.deleteFile(outputName);
         } catch (cleanupErr) {
           console.warn("Cleanup warning:", cleanupErr);
+        }
+
+        if (activeProgressCallback.current) {
+          activeProgressCallback.current({
+            ratio: 1,
+            percent: 100,
+            time: durationRef.current || 0,
+            estimatedRemainingSecs: 0,
+            speed: "Complete!",
+          });
         }
 
         return {

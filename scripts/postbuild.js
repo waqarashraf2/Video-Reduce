@@ -17,21 +17,31 @@ if (fs.existsSync(htaccessSrc)) {
   console.log('✅ Copied public/.htaccess to out/.htaccess');
 }
 
-// 2. For any directory in out/ that has a corresponding .html file in out/,
-// ensure that directory has an index.html so both /route and /route/ work seamlessly on Apache!
-const items = fs.readdirSync(outDir);
-for (const item of items) {
-  const fullPath = path.join(outDir, item);
-  if (fs.statSync(fullPath).isDirectory()) {
-    const matchingHtml = path.join(outDir, `${item}.html`);
-    const indexInDir = path.join(fullPath, 'index.html');
-    
-    if (fs.existsSync(matchingHtml) && !fs.existsSync(indexInDir)) {
-      fs.copyFileSync(matchingHtml, indexInDir);
-      console.log(`✅ Created ${item}/index.html from ${item}.html to prevent Apache 403 Forbidden on trailing slashes!`);
+// 2. Recursively ensure every page has both a .html file and a matching folder/index.html
+// This guarantees that BOTH /path and /path/ ALWAYS return HTTP 200 OK across all servers!
+function ensureFolderIndices(dir) {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      if (entry.name !== '_next') {
+        ensureFolderIndices(fullPath);
+      }
+    } else if (entry.isFile() && entry.name.endsWith('.html') && entry.name !== 'index.html' && entry.name !== '404.html') {
+      const baseName = entry.name.replace(/\.html$/, '');
+      const folderPath = path.join(dir, baseName);
+      if (!fs.existsSync(folderPath)) {
+        fs.mkdirSync(folderPath, { recursive: true });
+      }
+      const targetIndex = path.join(folderPath, 'index.html');
+      if (!fs.existsSync(targetIndex)) {
+        fs.copyFileSync(fullPath, targetIndex);
+      }
     }
   }
 }
+ensureFolderIndices(outDir);
+console.log('✅ Created dual-route index.html mirrors for all tools, articles, and pages!');
 
 // 3. Remove legacy out/en directory if present to prevent duplicate English routes
 const enDir = path.join(outDir, 'en');

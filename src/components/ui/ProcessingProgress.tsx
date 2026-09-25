@@ -96,7 +96,7 @@ export const ProcessingProgress: React.FC<ProcessingProgressProps> = ({
       <div className="space-y-1.5">
         <div className="relative h-3 w-full overflow-hidden rounded-full bg-slate-100 ring-1 ring-slate-200/80">
           <div
-            className="h-full bg-gradient-to-r from-red-600 via-rose-500 to-red-600 transition-all duration-300 ease-out"
+            className="h-full bg-gradient-to-r from-red-600 via-rose-500 to-red-600 transition-[width] duration-200 ease-out"
             style={{ width: `${Math.max(3, Math.min(100, progress.percent))}%` }}
           />
         </div>

@@ -18,9 +18,9 @@ export const TOOLS: ToolMetadata[] = [
     outputExtension: "mp4",
     outputMimeType: "video/mp4",
     estimatedSpeed: "Ultra-Fast (Wasm SIMD)",
-    seoTitle: "Smart Video Compressor Online (Custom CRF & Bitrate Scaler) – VideoReduce",
+    seoTitle: "Smart Video Compressor (Custom CRF & Bitrate)",
     seoDescription:
-      "Advanced online video compressor with custom CRF rate factor (18-35), target MB limits, and resolution downscaling (4K to 1080p/720p). 100% private in-browser WebAssembly.",
+      "Advanced online video compressor with custom CRF (18-35), target MB limits, and 4K to 1080p resolution scaling. 100% private in-browser WebAssembly.",
     seoKeywords: [
       "smart video compressor",
       "advanced video compressor",
@@ -864,28 +864,30 @@ export const TOOLS: ToolMetadata[] = [
     outputExtension: "mp4",
     outputMimeType: "video/mp4",
     estimatedSpeed: "Fast (Wasm)",
-    seoTitle: "Free Video Reverse Online",
+    seoTitle: "Rewind the Video Online — Free Video Reverse & Backwards",
     seoDescription:
-      "Reverse video online for free. Play any video backwards with reversed or muted audio. Create viral rewind effects, loop videos in reverse, and edit reversed clips — no app install needed.",
+      "Rewind the video online for free. Play any video backwards with audio, create reverse video loops, and download fast — 100% private with no file limits.",
     seoKeywords: [
+      "rewind the video",
+      "rewind video",
+      "videoreverse",
       "video reverse",
-      "video reverse online",
+      "clideo video reverser",
+      "clideo reverse video",
+      "reverse video maker",
+      "reverse loop video online",
+      "play video backwards online",
+      "reverse video without watermark",
+      "video reverser without watermark",
+      "rewind video online",
+      "how to rewind a video",
+      "rewinding video",
+      "video reverser",
+      "reverse video online",
       "video reverse search",
-      "video reverse search engine",
       "how to make a video reverse",
-      "video reverse app",
-      "video reverse image search",
-      "google video reverse search",
-      "how to make video reverse",
-      "search by video reverse",
-      "video reverse lookup",
-      "search video reverse",
-      "loop video reverse",
-      "video reverse tool",
       "edit video reverse",
-      "video reverse editor",
-      "video reverse prompt generator",
-      "how to play video reverse",
+      "loop video reverse",
     ],
     features: [
       {
@@ -899,8 +901,8 @@ export const TOOLS: ToolMetadata[] = [
         icon: "Volume2",
       },
       {
-        title: "Loop Video in Reverse",
-        description: "Create seamless forward-then-reverse loop effects for mesmerizing boomerang-style social media content.",
+        title: "Reverse Loop Video Online",
+        description: "Create seamless forward-then-reverse loop video effects for mesmerizing boomerang-style social media content.",
         icon: "RefreshCw",
       },
       {
@@ -928,9 +930,9 @@ export const TOOLS: ToolMetadata[] = [
     ],
     faqs: [
       {
-        question: "How to make a video reverse online for free?",
+        question: "How to rewind the video online for free?",
         answer:
-          "Upload your video to VideoReduce.com's Video Reverse tool, select whether to reverse audio or mute it, and click Reverse. The WebAssembly engine processes the video entirely in your browser — no server upload, no file size limits, completely free.",
+          "Upload your video to VideoReduce's Rewind Video tool, select whether to reverse audio or mute it, and click Reverse. The WebAssembly engine processes the video entirely in your browser — no server upload, no file size limits, completely free.",
       },
       {
         question: "Can I reverse any size video, not just 8MB or 10MB?",
@@ -938,19 +940,19 @@ export const TOOLS: ToolMetadata[] = [
           "Yes! Unlike Discord compressors or other tools that cap files at 8MB or 10MB, VideoReduce.com processes videos of any size — even 1GB+ 4K footage — directly in your browser's memory with zero file restrictions.",
       },
       {
-        question: "How to play a video in reverse with audio?",
+        question: "How to play video backwards online with audio?",
         answer:
-          "Select 'Reverse Audio' mode in VideoReduce's reverse tool. The engine will reverse both the video frames and the audio track, creating a genuine rewind effect where speech and music play backwards.",
+          "Select 'Reverse Audio' mode in VideoReduce's reverse tool. The engine will reverse both the video frames and the audio track, creating an authentic rewind effect where speech and music play backwards.",
       },
       {
-        question: "Can I loop a video in reverse (boomerang effect)?",
+        question: "Can I reverse loop video online for TikTok and Reels?",
         answer:
-          "Yes! Use the loop reverse option to create a forward-then-backward seamless loop. This is perfect for boomerang-style effects on Instagram, TikTok, and YouTube Shorts.",
+          "Yes! Use the loop reverse option to create a forward-then-backward seamless loop. This boomerang rewind effect is perfect for TikTok, YouTube Shorts, and Instagram Reels.",
       },
       {
-        question: "Is this video reverse tool better than a phone app?",
+        question: "Is this a free alternative to Clideo video reverser without watermark?",
         answer:
-          "VideoReduce.com works instantly in any browser (Safari, Chrome, Edge) without installing apps, creating accounts, or dealing with ads and watermarks. It also handles much larger files than most mobile reverse video apps.",
+          "Yes! Unlike tools like Clideo that place intrusive watermarks on free exports or require paid subscriptions, VideoReduce reverses videos 100% free with NO watermark, zero server uploads, and no file size limits.",
       },
     ],
   },
@@ -1168,14 +1170,18 @@ export const TOOLS: ToolMetadata[] = [
     outputExtension: "mp4",
     outputMimeType: "video/mp4",
     estimatedSpeed: "Fast (Wasm SIMD)",
-    seoTitle: "Free GIF to MP4 Converter Online",
+    seoTitle: "Free GIF to MP4 Video Converter — Fast Ezgif Alternative",
     seoDescription:
-      "Convert GIF to MP4 online free with looping and 95% size reduction. Best tool for Twitter, Photoshop, Mac, and PC GIFs with zero uploads.",
+      "Convert GIF to MP4 video online for free. Fast, private Ezgif alternative with 95% size reduction, instant looping, no file limits, and zero server uploads.",
     seoKeywords: [
+      "ezgif gif to mp4 converter",
+      "ezgif gif to video",
+      "ezgif gif to mp4",
+      "gif to video",
+      "convert gif to video",
       "gif to mp4",
       "convert gif to mp4",
       "gif to mp4 converter",
-      "ezgif gif to mp4",
       "how to convert gif to mp4",
       "twitter gif to mp4",
       "gif to mp4 converter free",
@@ -1254,9 +1260,9 @@ export const TOOLS: ToolMetadata[] = [
           "Yes! Instead of using heavy desktop software like Adobe Photoshop, VideoReduce.com runs entirely in your Mac browser (Safari, Chrome, Firefox) without needing any software installations or subscriptions.",
       },
       {
-        question: "How does VideoReduce compare to Ezgif GIF to MP4?",
+        question: "How does VideoReduce compare to Ezgif GIF to MP4 & Video?",
         answer:
-          "Ezgif uploads your file to their remote web server with upload queues and file size restrictions. VideoReduce processes your GIF locally in your browser memory via WebAssembly — offering faster processing, zero file caps, and complete data privacy.",
+          "Ezgif requires uploading your files to remote cloud servers with file size caps (50MB-100MB) and queue waiting times. VideoReduce processes animated GIFs directly in your browser memory via WebAssembly — giving you faster conversion, unlimited file sizes, zero server uploads, and 100% privacy.",
       },
     ],
   },

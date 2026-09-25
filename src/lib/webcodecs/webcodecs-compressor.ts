@@ -541,17 +541,18 @@ export async function compressVideoWebCodecs(
           height: targetHeight,
           bitrate: targetBitrate,
           bitrateMode: "variable",
-          latencyMode: "realtime",
+          latencyMode: "quality",
           hardwareAcceleration: "prefer-hardware",
         };
 
+        // Search combination of acceleration, latency modes, and candidate codecs
         if (typeof VideoEncoder !== "undefined" && "isConfigSupported" in VideoEncoder) {
           let foundSupported = false;
 
-          // Search combination of acceleration, latency modes, and candidate codecs
           for (const accel of ["prefer-hardware", "no-preference"] as const) {
             encoderConfig.hardwareAcceleration = accel;
-            for (const latency of ["realtime", "quality"] as const) {
+            // "quality" enables unthrottled maximum-throughput offline GPU hardware encoding (100-300+ FPS)
+            for (const latency of ["quality", "realtime"] as const) {
               encoderConfig.latencyMode = latency;
               for (const codec of candidateCodecs) {
                 try {
@@ -572,7 +573,10 @@ export async function compressVideoWebCodecs(
           if (!foundSupported) {
             console.warn("⚠️ [WebCodecs] No verified codec returned from isConfigSupported, using native track codec:", candidateCodecs[0]);
             encoderConfig.codec = candidateCodecs[0];
+            encoderConfig.latencyMode = "quality";
           }
+        } else {
+          encoderConfig.latencyMode = "quality";
         }
 
         videoEncoder.configure(encoderConfig);
@@ -581,8 +585,8 @@ export async function compressVideoWebCodecs(
         videoDecoder = new VideoDecoder({
           output: (videoFrame) => {
             try {
-              // Har 120 frames (4s) par keyframe taake GPU par I-frame overhead kam ho
-              const keyFrame = processedSamples === 0 || processedSamples % 120 === 0;
+              // Keyframe every 150 frames to minimize I-frame size overhead
+              const keyFrame = processedSamples === 0 || processedSamples % 150 === 0;
 
               if (needsScaling && offscreenCanvas && offscreenCtx) {
                 offscreenCtx.drawImage(videoFrame, 0, 0, targetWidth, targetHeight);
@@ -631,8 +635,8 @@ export async function compressVideoWebCodecs(
           hardwareAcceleration: "prefer-hardware",
         });
 
-        // Use compact sample batches on mobile to prevent memory bloat
-        const sampleBatchSize = isMobile ? 8 : 16;
+        // Use larger extraction batch size to keep hardware pipeline saturated at high FPS
+        const sampleBatchSize = isMobile ? 16 : 64;
         mp4boxfile.setExtractionOptions(videoTrack.id, null, { nbSamples: sampleBatchSize });
         if (audioTrack) {
           mp4boxfile.setExtractionOptions(audioTrack.id, null, { nbSamples: sampleBatchSize });
@@ -654,14 +658,14 @@ export async function compressVideoWebCodecs(
       if (isPumping) return;
       isPumping = true;
 
-      const maxQueue = isMobile ? 6 : 14;
-      const drainQueue = isMobile ? 2 : 5;
+      const maxQueue = isMobile ? 16 : 96;
+      const drainQueue = isMobile ? 4 : 24;
 
       try {
         while (!isCleanedUp) {
           if (pendingSamples.length === 0) {
             if (isStreamingComplete) break;
-            await new Promise((r) => setTimeout(r, 10));
+            await new Promise((r) => setTimeout(r, 4));
             continue;
           }
 
@@ -693,13 +697,14 @@ export async function compressVideoWebCodecs(
 
               if (videoDecoder) videoDecoder.ondequeue = check;
               if (videoEncoder) videoEncoder.ondequeue = check;
-              timer = setInterval(check, 10);
-              setTimeout(finish, 1500); // Safety unblock
+              timer = setInterval(check, 8);
+              setTimeout(finish, 800); // Safety unblock
             });
           }
 
-          // Feed small paced batch of 4 samples to hardware decoder
-          const batch = pendingSamples.splice(0, Math.min(4, pendingSamples.length));
+          // Feed high-throughput batch of samples to hardware decoder
+          const batchSize = isMobile ? 8 : 24;
+          const batch = pendingSamples.splice(0, Math.min(batchSize, pendingSamples.length));
           for (const sample of batch) {
             const type: EncodedVideoChunkType = sample.is_sync ? "key" : "delta";
             const chunk = new EncodedVideoChunk({

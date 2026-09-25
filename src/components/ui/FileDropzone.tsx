@@ -4,6 +4,8 @@ import React, { useRef, useState, useCallback } from "react";
 import { UploadCloud, FileVideo, Music, AlertCircle, File, X } from "lucide-react";
 import { formatBytes, formatTime } from "@/lib/utils";
 
+import { probeMkvDuration } from "@/lib/media/mkv-probe";
+
 export interface FileMetadata {
   file: File;
   name: string;
@@ -39,11 +41,24 @@ export const FileDropzone: React.FC<FileDropzoneProps> = ({
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const processFile = useCallback(
-    (file: File) => {
+    async (file: File) => {
       setErrorMsg(null);
       const url = URL.createObjectURL(file);
+      const isVideo =
+        file.type.startsWith("video/") ||
+        /\.(mp4|mov|mkv|webm|avi|flv|wmv|3gp|m4v|ts|vob|ogv)$/i.test(file.name);
+      const isAudio =
+        file.type.startsWith("audio/") ||
+        /\.(mp3|wav|aac|m4a|ogg|flac|wma)$/i.test(file.name);
 
-      if (file.type.startsWith("video/")) {
+      if (isVideo) {
+        let detectedDuration: number | undefined;
+
+        // For MKV/WebM files, probe header for exact duration instantly
+        if (/\.(mkv|webm)$/i.test(file.name)) {
+          detectedDuration = await probeMkvDuration(file);
+        }
+
         const video = document.createElement("video");
         video.preload = "metadata";
         video.src = url;
@@ -56,8 +71,8 @@ export const FileDropzone: React.FC<FileDropzoneProps> = ({
             file,
             name: file.name,
             size: file.size,
-            type: file.type,
-            durationSecs: dur,
+            type: file.type || "video/mp4",
+            durationSecs: dur ?? detectedDuration,
             width: w,
             height: h,
             previewUrl: url,
@@ -67,24 +82,24 @@ export const FileDropzone: React.FC<FileDropzoneProps> = ({
         video.onloadedmetadata = () => {
           let dur: number | undefined = video.duration;
           if (!isFinite(dur) || isNaN(dur) || dur <= 0) {
-            dur = undefined;
+            dur = detectedDuration;
           }
           triggerSelected(dur, video.videoWidth || undefined, video.videoHeight || undefined);
         };
 
         video.onerror = () => {
-          triggerSelected();
+          triggerSelected(detectedDuration);
         };
 
         try {
           video.load();
         } catch (_) {}
 
-        // Fallback for mobile browsers that delay/skip metadata probe
+        // Fallback for mobile browsers or formats without native player support
         setTimeout(() => {
-          triggerSelected();
+          triggerSelected(detectedDuration);
         }, 1200);
-      } else if (file.type.startsWith("audio/")) {
+      } else if (isAudio) {
         const audio = document.createElement("audio");
         audio.preload = "metadata";
         audio.src = url;

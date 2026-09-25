@@ -1,31 +1,27 @@
-# Set default directory index
+# Default directory index
 DirectoryIndex index.html index.php
 
-# Options: Disable directory listing and follow symlinks
-Options -Indexes +FollowSymLinks
+# Options
+Options -Indexes +FollowSymLinks -MultiViews
 
-# Prevent Apache mod_dir from forcing trailing slashes on folders
-DirectorySlash Off
-
-# Force UTF-8 charset
+# Default Charset
 AddDefaultCharset UTF-8
 
 # ==============================================================================
 # 1. OPTIMAL BROWSER CACHING (mod_expires)
-# Recommended by Google Web.dev & Core Web Vitals for maximum performance & SEO
 # ==============================================================================
 <IfModule mod_expires.c>
     ExpiresActive On
     ExpiresDefault "access plus 1 month"
 
-    # HTML Pages: Cache for 1 hour with instant revalidation (allows bfcache & fast back/forward)
+    # HTML Pages: Cache for 1 hour with revalidation
     ExpiresByType text/html "access plus 1 hour"
 
-    # Data / JSON
+    # Data / JSON / Manifest
     ExpiresByType application/json "access plus 1 hour"
     ExpiresByType application/manifest+json "access plus 1 week"
 
-    # Hashed JS & CSS: Next.js bundles have unique hashes, safe to cache 1 year
+    # Hashed JS & CSS (Next.js static assets have unique hashes, safe to cache 1 year)
     ExpiresByType text/css "access plus 1 year"
     ExpiresByType application/javascript "access plus 1 year"
     ExpiresByType text/javascript "access plus 1 year"
@@ -45,18 +41,17 @@ AddDefaultCharset UTF-8
 </IfModule>
 
 # ==============================================================================
-# 2. HTTP CACHE-CONTROL HEADERS (mod_headers)
+# 2. HTTP CACHE-CONTROL & SECURITY HEADERS (mod_headers)
 # ==============================================================================
 <IfModule mod_headers.c>
     Header set Cross-Origin-Opener-Policy "same-origin"
-    Header set Cross-Origin-Embedder-Policy "require-corp"
-    # Enable HSTS (Strict-Transport-Security) for 1 year
+    Header set Cross-Origin-Embedder-Policy "credentialless"
     Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
     Header set X-Content-Type-Options "nosniff"
     Header set X-Frame-Options "SAMEORIGIN"
     Header set Referrer-Policy "strict-origin-when-cross-origin"
 
-    # 1. HTML Pages: Stale-While-Revalidate (Instant navigation + background refresh)
+    # 1. HTML Pages: Stale-While-Revalidate
     <FilesMatch "\.(html|htm)$">
         Header set Cache-Control "public, max-age=3600, stale-while-revalidate=86400"
     </FilesMatch>
@@ -84,6 +79,10 @@ AddDefaultCharset UTF-8
     RewriteEngine On
     RewriteBase /
 
+    # Stop processing if this is already an internal sub-request (prevents loops & 500 errors)
+    RewriteCond %{ENV:REDIRECT_STATUS} !^$
+    RewriteRule ^ - [L]
+
     # Force www to non-www redirect (canonical domain)
     RewriteCond %{HTTP_HOST} ^www\.videoreduce\.com [NC]
     RewriteRule ^(.*)$ https://videoreduce.com/$1 [R=301,L]
@@ -92,34 +91,33 @@ AddDefaultCharset UTF-8
     RewriteCond %{HTTPS} off
     RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
-    # 1. 301 Redirect: Remove trailing slash from all URLs for SEO canonicalization (e.g. /articles/ -> /articles)
-    # Excludes root '/' because '.+' requires at least one character before the slash
-    RewriteCond %{REQUEST_URI} ^(.+)/+$
-    RewriteRule ^ %1 [R=301,L,QSA]
-
-    # 2. 301 Redirect: Consolidate legacy /en/ routes to clean canonical English URLs (transfers 100% SEO link juice)
+    # Consolidate legacy /en/ routes to canonical URLs
     RewriteRule ^en/(.*)$ https://videoreduce.com/$1 [R=301,L]
     RewriteRule ^en/?$ https://videoreduce.com/ [R=301,L]
 
-    # 3. Serve existing files directly (CSS, JS, images, etc.)
+    # Force 301 Canonical: Strip trailing slashes from any subpage URLs
+    # (e.g. https://videoreduce.com/tools/video-compressor/ -> https://videoreduce.com/tools/video-compressor)
+    RewriteCond %{REQUEST_METHOD} !POST
+    RewriteCond %{THE_REQUEST} \s+/(.+?)/+[?\s]
+    RewriteRule ^ https://videoreduce.com/%1 [R=301,L]
+
+    # 1. Serve existing physical files directly (CSS, JS, images, favicon, robots.txt, etc.)
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
 
-    # 4. Clean URL rewrite: /about -> /about.html or /articles -> /articles.html
-    RewriteCond %{DOCUMENT_ROOT}/$1.html -f
-    RewriteRule ^(.*)$ $1.html [L]
-
-    # 5. Clean URL rewrite for folders with index.html: /folder -> /folder/index.html
+    # 2. If a folder with index.html exists, serve it
     RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
-    RewriteRule ^(.*)$ $1/index.html [L]
+    RewriteRule ^(.*?)/?$ /$1/index.html [L]
 
-    # 6. If requesting a directory that has neither an index.html nor a matching .html, show 404 instead of 403 Forbidden
-    RewriteCond %{REQUEST_FILENAME} -d
-    RewriteCond %{REQUEST_FILENAME}/index.html !-f
-    RewriteRule ^ 404.html [L]
+    # 3. Clean URL rewrite: /tools/video-compressor or /articles -> .html
+    RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+    RewriteRule ^(.*?)/?$ /$1.html [L]
 
-    # 7. Fallback to 404.html for any other non-existent resource
+    # 4. Fallback to 404.html if resource does not exist
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^ 404.html [L]
+    RewriteRule ^ /404.html [L]
 </IfModule>
+
+# Fallback Error Document
+ErrorDocument 404 /404.html

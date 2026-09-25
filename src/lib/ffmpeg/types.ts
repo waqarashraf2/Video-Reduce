@@ -79,7 +79,9 @@ export interface MuteOptions {
 
 export interface FormatOptions {
   targetFormat: VideoFormat;
-  quality: "high" | "medium" | "low";
+  conversionMode?: "fast-copy" | "re-encode";
+  quality?: "high" | "medium" | "low";
+  resolution?: ResolutionOption;
 }
 
 export interface AspectRatioOptions {

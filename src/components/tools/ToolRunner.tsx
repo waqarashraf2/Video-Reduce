@@ -8,6 +8,7 @@ import {
   CompressionOptions,
   GifOptions,
   ReverseOptions,
+  FormatOptions,
   ProcessProgress,
   ProcessResult,
 } from "@/lib/ffmpeg/types";
@@ -30,6 +31,7 @@ import { useWebCodecsCompressor } from "@/lib/webcodecs/useWebCodecsCompressor";
 
 interface ToolRunnerProps {
   tool: ToolMetadata;
+  initialOptions?: Partial<AnyToolOptions>;
 }
 
 function getDefaultOptions(toolId: ToolId): AnyToolOptions {
@@ -54,7 +56,7 @@ function getDefaultOptions(toolId: ToolId): AnyToolOptions {
     case "video-mute":
       return { fastCopy: true };
     case "format-converter":
-      return { targetFormat: "mp4", quality: "medium" };
+      return { targetFormat: "mp4", conversionMode: "fast-copy", quality: "high" };
     case "aspect-ratio-resizer":
       return { ratio: "9:16", mode: "crop", padColor: "black" };
     case "video-watermark":
@@ -89,14 +91,26 @@ function getDefaultOptions(toolId: ToolId): AnyToolOptions {
   }
 }
 
-export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
+export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool, initialOptions }) => {
   const { runFFmpeg, isLoaded, isLoading, loadProgress, loadFFmpeg, logs } = useFFmpeg();
   const { isEligible: isWebCodecsEligible, compress: compressWebCodecs } = useWebCodecsCompressor();
   const [engineMode, setEngineMode] = useState<"webcodecs" | "ffmpeg">("webcodecs");
 
   const [mounted, setMounted] = React.useState(false);
   const [fileMeta, setFileMeta] = useState<FileMetadata | null>(null);
-  const [options, setOptions] = useState<AnyToolOptions>(() => getDefaultOptions(tool.id));
+  const [options, setOptions] = useState<AnyToolOptions>(() => {
+    const defaults = getDefaultOptions(tool.id);
+    return (initialOptions ? { ...defaults, ...initialOptions } : defaults) as AnyToolOptions;
+  });
+
+  React.useEffect(() => {
+    if (initialOptions) {
+      setOptions((prev) => ({
+        ...prev,
+        ...initialOptions,
+      } as AnyToolOptions));
+    }
+  }, [initialOptions]);
   const [status, setStatus] = useState<"idle" | "ready" | "processing" | "completed" | "error">("idle");
   const [progress, setProgress] = useState<ProcessProgress>({ ratio: 0, percent: 0, time: 0 });
   const [result, setResult] = useState<ProcessResult | null>(null);
@@ -132,7 +146,7 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
         if ("wakeLock" in navigator && !wakeLockRef.current) {
           wakeLockRef.current = await (navigator as any).wakeLock.request("screen");
         }
-      } catch (_) {}
+      } catch (_) { }
     };
 
     const startAudioHeartbeat = () => {
@@ -148,20 +162,20 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
           osc.start();
           audioHeartbeatRef.current = ctx;
         }
-      } catch (_) {}
+      } catch (_) { }
     };
 
     const releaseWakeLockAndHeartbeat = () => {
       if (wakeLockRef.current) {
         try {
           wakeLockRef.current.release();
-        } catch (_) {}
+        } catch (_) { }
         wakeLockRef.current = null;
       }
       if (audioHeartbeatRef.current) {
         try {
           audioHeartbeatRef.current.close();
-        } catch (_) {}
+        } catch (_) { }
         audioHeartbeatRef.current = null;
       }
     };
@@ -208,8 +222,6 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
       document.title = `(${Math.round(progress.percent)}%) Compressing... | VideoReduce`;
     } else if (status === "completed") {
       document.title = `(✓ Complete) ${tool.name} | VideoReduce`;
-    } else {
-      document.title = `${tool.name} | VideoReduce`;
     }
   }, [status, progress.percent, tool.name]);
 
@@ -261,7 +273,7 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
           reverseAudio: rev.reverseAudio ?? true,
           muteAudio: rev.muteAudio ?? false,
           quality: rev.quality || "turbo",
-          maxDuration: rev.maxDuration || (dur <= 8 ? Math.round(dur) : 8),
+          maxDuration: rev.maxDuration !== undefined ? rev.maxDuration : (dur <= 8 ? Math.round(dur) : 8),
         };
       });
     } else if (tool.id === "video-trimmer" && meta.durationSecs) {
@@ -274,6 +286,20 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
       setOptions({
         timestampSecs: Math.min(1.0, meta.durationSecs),
         format: "png",
+      });
+    } else if (tool.id === "format-converter") {
+      const ext = meta.name.split(".").pop()?.toLowerCase() || "";
+      setOptions((prev) => {
+        const fmt = prev as FormatOptions;
+        const targetFormat = fmt.targetFormat || (ext === "mp4" ? "webm" : "mp4");
+        const isRemuxEligible =
+          ["mkv", "mov", "m4v", "ts", "mp4"].includes(ext) &&
+          (targetFormat === "mp4" || targetFormat === "mov" || targetFormat === "mkv");
+        return {
+          ...fmt,
+          targetFormat,
+          conversionMode: fmt.conversionMode || (isRemuxEligible ? "fast-copy" : "re-encode"),
+        };
       });
     }
     setStatus("ready");
@@ -307,22 +333,90 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     const isGpuEligible = isWebCodecsEligible(tool.id, fileMeta.file);
+    const isDirectMp4Mov =
+      /\.(mp4|mov|m4v|3gp)$/i.test(fileMeta.file.name) ||
+      fileMeta.file.type.includes("mp4") ||
+      fileMeta.file.type.includes("quicktime");
 
     // ⚡ 1. Ultra-Fast WebCodecs Hardware Acceleration Pipeline (GPU Engine)
     if (isGpuEligible) {
       console.log("⚡ [WebCodecs GPU] Initiating hardware-accelerated compression for:", fileMeta.file.name);
       try {
         setEngineMode("webcodecs");
+        let targetFileForGpu = fileMeta.file;
+
+        // If file is MKV, WebM, TS, or AVI, fast-remux to MP4 container in memory (<1s) to unlock GPU Hardware Encoder!
+        if (!isDirectMp4Mov) {
+          setProgress({
+            ratio: 0.05,
+            percent: 5,
+            time: 0,
+            speed: "Preparing GPU hardware pipeline...",
+          });
+
+          if (!isLoaded) {
+            const loaded = await loadFFmpeg();
+            if (!loaded) throw new Error("Could not initialize remux engine.");
+          }
+
+          const arrayBuf = await fileMeta.file.arrayBuffer();
+          const ext = fileMeta.file.name.split(".").pop()?.toLowerCase() || "mkv";
+          const tempInputName = `remux_in_${Date.now()}.${ext}`;
+          const tempOutputName = `remux_out_${Date.now()}.mp4`;
+
+          const { outputData } = await runFFmpeg(
+            { name: tempInputName, buffer: new Uint8Array(arrayBuf) },
+            tempOutputName,
+            [
+              "-i",
+              tempInputName,
+              "-c:v",
+              "copy",
+              "-c:a",
+              "aac",
+              "-b:a",
+              "192k",
+              "-ac",
+              "2",
+              "-sn",
+              "-movflags",
+              "+faststart",
+              tempOutputName,
+            ],
+            undefined,
+            fileMeta.durationSecs
+          );
+
+          const standaloneBuffer = outputData.buffer.slice(
+            outputData.byteOffset,
+            outputData.byteOffset + outputData.byteLength
+          ) as ArrayBuffer;
+
+          targetFileForGpu = new File(
+            [standaloneBuffer],
+            fileMeta.file.name.replace(/\.[^.]+$/, ".mp4"),
+            { type: "video/mp4" }
+          );
+        }
+
         const compOptions: CompressionOptions = {
           ...(options as CompressionOptions),
           durationSecs: fileMeta.durationSecs,
           fileSizeBytes: fileMeta.size,
         };
+
         const res = await compressWebCodecs(
-          fileMeta.file,
+          targetFileForGpu,
           compOptions,
           (p) => setProgress(p)
         );
+
+        // Keep the original filename base
+        const finalBaseName = fileMeta.file.name.substring(0, fileMeta.file.name.lastIndexOf(".")) || "video";
+        res.outputFileName = `${finalBaseName}_compressed.mp4`;
+        res.originalSize = fileMeta.size;
+        res.reductionPercentage = Math.round(((fileMeta.size - res.outputSize) / fileMeta.size) * 100);
+
         console.log("✅ [WebCodecs GPU] Finished successfully in", res.processTimeMs, "ms!");
         setResult(res);
         setStatus("completed");
@@ -348,7 +442,7 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
       if (videoPreviewRef.current) {
         try {
           videoPreviewRef.current.pause();
-        } catch (_) {}
+        } catch (_) { }
       }
 
       // 2. Safe ArrayBuffer reading with graceful memory allocation
@@ -375,8 +469,8 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool }) => {
         tool.id === "video-to-gif"
           ? (currentOptions as any).duration || 6
           : tool.id === "video-reverse"
-          ? (currentOptions as any).maxDuration || 8
-          : fileMeta.durationSecs;
+            ? (currentOptions as any).maxDuration || 8
+            : fileMeta.durationSecs;
 
       const { outputData } = await runFFmpeg(
         { name: job.inputName, buffer: inputBuffer },

@@ -93,25 +93,28 @@ export function buildFFmpegJob(
       } else if (opt.resolution === "360p") {
         filters.push("scale=-2:360");
       } else if (opt.resolution === "original" || !opt.resolution) {
-        // Automatic downscaling for optimal mobile performance & guaranteed reduction
-        if (videoBitrateKbps < 450 || originalBitrateKbps < 600) {
+        // Automatic downscaling for optimal browser performance & guaranteed size reduction
+        if (videoBitrateKbps < 500 || originalBitrateKbps < 700) {
           filters.push("scale=-2:480");
-        } else if (videoBitrateKbps < 900 || originalSize > 120 * 1024 * 1024) {
+        } else if (videoBitrateKbps < 1200 || originalSize > 60 * 1024 * 1024) {
           filters.push("scale=-2:720");
-        } else if (originalSize > 350 * 1024 * 1024) {
+        } else if (originalSize > 200 * 1024 * 1024) {
           filters.push("scale=-2:1080");
         }
       }
-
-      // Smooth 30fps normalization
-      filters.push("fps=30");
 
       if (filters.length > 0) {
         args.push("-vf", filters.join(","));
       }
 
-      // Choose efficient preset: veryfast provides 35% smaller file size than ultrafast with identical speed
-      const chosenPreset = opt.preset === "ultrafast" ? "veryfast" : (opt.preset || "veryfast");
+      // Smooth 30fps normalization without heavy filter graph overhead
+      args.push("-r", "30");
+
+      // Choose efficient preset: ultrafast for maximum throughput and low memory footprint in WebAssembly
+      const chosenPreset = opt.preset || "ultrafast";
+
+      // Explicitly map primary video and optional audio, strip incompatible subtitle tracks from MKV
+      args.push("-map", "0:v:0", "-map", "0:a:0?", "-sn");
 
       if (opt.compressionMode === "manual-crf") {
         args.push(
@@ -127,7 +130,7 @@ export function buildFFmpegJob(
           (opt.crf || 28).toString()
         );
       } else {
-        // Target Bitrate Mode (Strictly bounded so output file is always smaller)
+        // Target Bitrate Mode (High throughput 1-pass encoding)
         args.push(
           "-vcodec",
           "libx264",
@@ -139,8 +142,6 @@ export function buildFFmpegJob(
           "0",
           "-b:v",
           `${videoBitrateKbps}k`,
-          "-minrate",
-          `${Math.floor(videoBitrateKbps * 0.85)}k`,
           "-maxrate",
           `${maxRateKbps}k`,
           "-bufsize",
@@ -400,25 +401,106 @@ export function buildFFmpegJob(
       const opt = options as FormatOptions;
       const targetFormat = opt.targetFormat || "mp4";
       const outputName = `${baseName}.${targetFormat}`;
+      const mode = opt.conversionMode || "fast-copy";
 
       let mimeType = "video/mp4";
       const args = ["-i", inputName];
 
+      const isDirectStreamCompatible =
+        ["mkv", "mov", "m4v", "ts", "mp4"].includes(extension) &&
+        (targetFormat === "mp4" || targetFormat === "mov" || targetFormat === "mkv");
+
       if (targetFormat === "mp4") {
         mimeType = "video/mp4";
-        args.push("-vcodec", "libx264", "-acodec", "aac", "-preset", "veryfast", "-crf", "22", "-movflags", "+faststart");
+        if (mode === "fast-copy" && isDirectStreamCompatible) {
+          // ⚡ Ultra-fast Lossless Remux: Copy video stream without re-encoding, transcode audio to AAC for universal Apple/Smart TV/Browser playback
+          args.push("-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-ac", "2", "-movflags", "+faststart");
+        } else {
+          // Universal Multi-Threaded Transcode
+          args.push(
+            "-vcodec",
+            "libx264",
+            "-preset",
+            "ultrafast",
+            "-tune",
+            "fastdecode",
+            "-threads",
+            "0",
+            "-crf",
+            "22",
+            "-c:a",
+            "aac",
+            "-b:a",
+            "192k",
+            "-ac",
+            "2",
+            "-pix_fmt",
+            "yuv420p",
+            "-movflags",
+            "+faststart"
+          );
+        }
       } else if (targetFormat === "webm") {
         mimeType = "video/webm";
-        args.push("-vcodec", "libvpx", "-acodec", "libvorbis", "-crf", "24", "-b:v", "1M");
+        args.push(
+          "-vcodec",
+          "libvpx",
+          "-preset",
+          "ultrafast",
+          "-threads",
+          "0",
+          "-crf",
+          "24",
+          "-b:v",
+          "1.5M",
+          "-c:a",
+          "libvorbis"
+        );
       } else if (targetFormat === "mkv") {
         mimeType = "video/x-matroska";
-        args.push("-vcodec", "libx264", "-acodec", "aac", "-preset", "veryfast", "-crf", "22");
+        if (mode === "fast-copy") {
+          args.push("-c", "copy");
+        } else {
+          args.push(
+            "-vcodec",
+            "libx264",
+            "-preset",
+            "ultrafast",
+            "-tune",
+            "fastdecode",
+            "-threads",
+            "0",
+            "-crf",
+            "22",
+            "-c:a",
+            "aac"
+          );
+        }
       } else if (targetFormat === "mov") {
         mimeType = "video/quicktime";
-        args.push("-vcodec", "libx264", "-acodec", "aac", "-preset", "veryfast", "-crf", "22");
+        if (mode === "fast-copy" && isDirectStreamCompatible) {
+          args.push("-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart");
+        } else {
+          args.push(
+            "-vcodec",
+            "libx264",
+            "-preset",
+            "ultrafast",
+            "-tune",
+            "fastdecode",
+            "-threads",
+            "0",
+            "-crf",
+            "22",
+            "-c:a",
+            "aac",
+            "-movflags",
+            "+faststart"
+          );
+        }
       } else if (targetFormat === "avi") {
         mimeType = "video/x-msvideo";
-        args.push("-vcodec", "libx264", "-acodec", "mp3", "-preset", "veryfast");
+        args.push("-vcodec", "libx264", "-preset", "ultrafast", "-tune", "fastdecode", "-threads", "0", "-acodec", "mp3");
       }
 
       args.push(outputName);
@@ -607,9 +689,17 @@ export function buildFFmpegJob(
 
       const args: string[] = ["-i", inputName];
 
-      // Safe clip duration (default 10s, bounded to max 15s)
-      const clipDuration = Math.min(15, opt.maxDuration && opt.maxDuration > 0 ? opt.maxDuration : 10);
-      args.push("-t", clipDuration.toString());
+      // Clip duration handling:
+      // If opt.maxDuration > 0, clip to user-selected duration (5s, 8s, 10s, 15s).
+      // If opt.maxDuration === 0, process the full original video without -t clipping.
+      if (opt.maxDuration && opt.maxDuration > 0) {
+        args.push("-t", opt.maxDuration.toString());
+      } else if (opt.maxDuration === 0) {
+        // Full original video: no -t limit added
+      } else {
+        // Safe default fallback
+        args.push("-t", "10");
+      }
 
       args.push("-vf", vf);
 

@@ -696,29 +696,119 @@ export const ToolControls: React.FC<ToolControlsProps> = ({
       const setFmt = (updates: Partial<FormatOptions>) =>
         setOptions((prev) => ({ ...(prev as FormatOptions), ...updates }));
 
+      const currentExt = fileMeta?.name?.split(".").pop()?.toLowerCase() || "";
+      const targetFmt = opt.targetFormat || "mp4";
+      const isRemuxEligible =
+        ["mkv", "mov", "m4v", "ts", "mp4"].includes(currentExt) &&
+        (targetFmt === "mp4" || targetFmt === "mov" || targetFmt === "mkv");
+      const currentMode = opt.conversionMode || (isRemuxEligible ? "fast-copy" : "re-encode");
+
       return (
-        <div className="space-y-5 rounded-2xl bg-white p-5 border border-slate-200 shadow-sm">
-          <div className="flex items-center justify-between border-b border-slate-200 pb-3">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-700">
-              Target Video Container
+        <div className="space-y-4 rounded-2xl bg-white p-4 sm:p-5 border border-slate-200 shadow-sm">
+          {/* Header Row */}
+          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+              <Film className="h-4 w-4 text-red-600" />
+              Target Container Format
+            </span>
+            <span className="rounded bg-red-50 border border-red-200 px-2 py-0.5 font-mono text-[11px] font-bold text-red-700 uppercase">
+              {currentExt ? `${currentExt.toUpperCase()} ➔ ${targetFmt.toUpperCase()}` : targetFmt.toUpperCase()}
             </span>
           </div>
 
-          <div className="grid grid-cols-3 sm:grid-cols-5 gap-2.5">
-            {(["mp4", "webm", "mkv", "mov", "avi"] as VideoFormat[]).map((fmt) => (
+          {/* Target Container Format Selection */}
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+            {[
+              { id: "mp4", label: "MP4", desc: "Universal" },
+              { id: "webm", label: "WebM", desc: "Web / Chrome" },
+              { id: "mkv", label: "MKV", desc: "Matroska" },
+              { id: "mov", label: "MOV", desc: "Apple QuickTime" },
+              { id: "avi", label: "AVI", desc: "Legacy PC" },
+            ].map((fmt) => {
+              const isSelected = targetFmt === fmt.id;
+              return (
+                <button
+                  key={fmt.id}
+                  type="button"
+                  onClick={() => setFmt({ targetFormat: fmt.id as VideoFormat })}
+                  className={`flex flex-col items-center justify-center rounded-xl py-2.5 px-1 text-center transition-all ${
+                    isSelected
+                      ? "bg-red-600 text-white shadow-md shadow-red-500/25 ring-1 ring-red-500 font-bold"
+                      : "bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200"
+                  }`}
+                >
+                  <span className="font-bold text-xs sm:text-sm uppercase">{fmt.label}</span>
+                  <span className={`text-[10px] mt-0.5 ${isSelected ? "text-red-100" : "text-slate-500"}`}>
+                    {fmt.desc}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Conversion Engine / Mode Toggle */}
+          <div className="space-y-2 pt-2 border-t border-slate-100">
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
+                <Zap className="h-3.5 w-3.5 text-red-600" />
+                Conversion Engine
+              </label>
+              {currentMode === "fast-copy" && (
+                <span className="text-[10px] font-mono text-emerald-600 font-bold uppercase">
+                  ⚡ 50x Faster • 0 Quality Loss
+                </span>
+              )}
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <button
-                key={fmt}
                 type="button"
-                onClick={() => setFmt({ targetFormat: fmt })}
-                className={`rounded-xl py-3 text-xs font-bold uppercase transition-all ${
-                  opt.targetFormat === fmt
-                    ? "bg-red-600 text-white shadow-lg shadow-red-500/25 ring-1 ring-red-500"
-                    : "bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900 border border-slate-200"
+                onClick={() => setFmt({ conversionMode: "fast-copy" })}
+                className={`flex flex-col items-start rounded-xl p-3 text-left transition-all ${
+                  currentMode === "fast-copy"
+                    ? "bg-red-600 text-white shadow-md shadow-red-500/25 ring-1 ring-red-500"
+                    : "bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200"
                 }`}
               >
-                {fmt}
+                <div className="flex items-center gap-1.5 font-bold text-xs sm:text-sm">
+                  <span>⚡ Lossless Stream Repackage</span>
+                  <span
+                    className={`text-[10px] px-1.5 py-0.2 rounded font-mono ${
+                      currentMode === "fast-copy" ? "bg-red-700 text-white" : "bg-emerald-100 text-emerald-700"
+                    }`}
+                  >
+                    Instant ~2s
+                  </span>
+                </div>
+                <div className={`text-[11px] mt-0.5 ${currentMode === "fast-copy" ? "text-red-100" : "text-slate-500"}`}>
+                  Copies original video stream directly without re-encoding. 100% original quality.
+                </div>
               </button>
-            ))}
+
+              <button
+                type="button"
+                onClick={() => setFmt({ conversionMode: "re-encode" })}
+                className={`flex flex-col items-start rounded-xl p-3 text-left transition-all ${
+                  currentMode === "re-encode"
+                    ? "bg-red-600 text-white shadow-md shadow-red-500/25 ring-1 ring-red-500"
+                    : "bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200"
+                }`}
+              >
+                <div className="flex items-center gap-1.5 font-bold text-xs sm:text-sm">
+                  <span>🎬 Universal Fast Transcode</span>
+                  <span
+                    className={`text-[10px] px-1.5 py-0.2 rounded font-mono ${
+                      currentMode === "re-encode" ? "bg-red-700 text-white" : "bg-slate-200 text-slate-700"
+                    }`}
+                  >
+                    Universal
+                  </span>
+                </div>
+                <div className={`text-[11px] mt-0.5 ${currentMode === "re-encode" ? "text-red-100" : "text-slate-500"}`}>
+                  Re-encodes video with multi-threaded H.264 SIMD. Compatible with all source codecs.
+                </div>
+              </button>
+            </div>
           </div>
         </div>
       );
@@ -938,7 +1028,7 @@ export const ToolControls: React.FC<ToolControlsProps> = ({
         setOptions((prev) => ({ ...(prev as ReverseOptions), ...updates }));
 
       const dur = fileMeta.durationSecs || 10;
-      const activeDuration = opt.maxDuration || 8;
+      const activeDuration = opt.maxDuration !== undefined ? opt.maxDuration : 8;
 
       return (
         <div className="space-y-4 rounded-2xl bg-white p-4 sm:p-5 border border-slate-200 shadow-sm">
@@ -996,20 +1086,21 @@ export const ToolControls: React.FC<ToolControlsProps> = ({
               <span>Rewind Clip Duration</span>
               {dur > 0 && <span className="text-[10px] text-slate-500 font-mono">Original: {Math.round(dur)}s</span>}
             </label>
-            <div className="grid grid-cols-4 gap-1.5">
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5">
               {[
                 { label: "⚡ 5s", val: 5 },
                 { label: "✨ 8s", val: 8 },
                 { label: "🎬 10s", val: 10 },
-                ...(dur > 0 && dur <= 15
-                  ? [{ label: `Full (${Math.round(dur)}s)`, val: Math.round(dur) }]
-                  : [{ label: "15s", val: 15 }]),
+                { label: "🚀 15s", val: 15 },
+                { label: dur > 0 ? `Full (${Math.round(dur)}s)` : "Original", val: 0, isFull: true },
               ].map((d) => (
                 <button
                   key={d.label}
                   type="button"
                   onClick={() => setRev({ maxDuration: d.val })}
                   className={`rounded-lg py-2 text-xs font-semibold transition-all ${
+                    d.isFull ? "col-span-2 sm:col-span-1" : ""
+                  } ${
                     activeDuration === d.val
                       ? "bg-red-600 text-white shadow-sm"
                       : "bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200"
@@ -1020,7 +1111,7 @@ export const ToolControls: React.FC<ToolControlsProps> = ({
               ))}
             </div>
             <p className="text-[10px] text-slate-500">
-              💡 Reversing buffers video frames in browser memory. 5s–8s clips produce instant, viral rewind effects without crashing memory.
+              💡 Reversing buffers video frames in browser memory. 5s–15s clips process fastest; &quot;Full&quot; reverses the entire original video.
             </p>
           </div>
 

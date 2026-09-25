@@ -249,7 +249,13 @@ export default function FormatConverterPage({ params }: FormatPageProps) {
             <span className="text-xs text-emerald-700 font-semibold">0 Server Cost • Unlimited</span>
           </div>
 
-          <ToolRunner tool={tool} />
+          <ToolRunner
+            tool={tool}
+            initialOptions={{
+              targetFormat: (formatPair.targetFormatEnum || "mp4") as any,
+              conversionMode: "fast-copy",
+            }}
+          />
         </main>
 
         {/* Social Share Bar */}

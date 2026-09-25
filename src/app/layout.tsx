@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     template: "%s | VideoReduce",
   },
   description:
-    "Reduce video size and shrink video file size online for free without losing quality. 100% private in-browser video size reducer & media suite. No uploads, no limits.",
+    "Reduce video size and shrink video file size online for free without losing quality. 100% private in-browser video size reducer. No uploads, no limits.",
   keywords: [
     "video size reducer",
     "shrink video size",
