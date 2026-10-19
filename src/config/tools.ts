@@ -302,6 +302,11 @@ export const TOOLS: ToolMetadata[] = [
         answer:
           "If you have a downloaded MP4 or WebM file from YouTube, you can extract the audio track as MP3 or WAV using our tool. We do not download from YouTube directly — you must provide the video file.",
       },
+      {
+        question: "Can I remove vocals or isolate only the background music track?",
+        answer:
+          "Yes! If you want to separate vocals from background music or create a karaoke track, use our dedicated AI Video Vocal Remover (/tools/vocal-remover) which isolates acapella speech and instrumental music into separate tracks.",
+      },
     ],
   },
 
@@ -1369,76 +1374,79 @@ export const TOOLS: ToolMetadata[] = [
   {
     id: "audio-denoiser",
     slug: "audio-denoiser",
-    name: "Audio Noise Reduction & De-Noiser",
-    shortName: "De-Noise Audio",
-    tagline: "Remove microphone hiss, fan background noise, and AC hum online free",
+    name: "Audio Noise Reduction & AI Voice Enhancer",
+    shortName: "Audio De-Noiser",
+    tagline: "Remove video background noise free — AI voice enhancer, fan & AC noise killer, Adobe Podcast quality in your browser",
     description:
-      "Free online audio noise reducer for video and audio. Remove background noise, computer fan hiss, room hum, and microphone static using advanced FFT spectral suppression directly in your browser without cloud uploads.",
+      "Free online audio noise reduction and AI voice enhancer. Remove background noise from video, eliminate computer fan hiss, AC hum, wind rumble, and room echo using neural DSP directly in your browser without cloud uploads. Adobe Podcast Enhance Voice free alternative for MP4, MOV, MP3, and WAV.",
     category: "Audio",
     iconName: "Mic",
-    badge: "Clean Audio",
+    badge: "AI Studio Voice",
     acceptedTypes: ["video/*", "audio/*"],
-    acceptedExtensions: [".mp4", ".mov", ".mkv", ".webm", ".mp3", ".wav"],
+    acceptedExtensions: [".mp4", ".mov", ".mkv", ".webm", ".mp3", ".wav", ".m4a", ".aac"],
     outputExtension: "mp4",
     outputMimeType: "video/mp4",
-    estimatedSpeed: "Fast",
-    seoTitle: "Remove Video Background Noise Free",
+    estimatedSpeed: "Ultra-Fast (Client Neural DSP)",
+    seoTitle: "Remove Video Background Noise Free - Audio Noise Reduction & AI Voice Enhancer",
     seoDescription:
-      "Remove background noise, fan hiss, and mic hum from video online free. Clean voice audio with WebAssembly spectral noise reduction — 100% private.",
+      "Remove video background noise online free. Eliminate fan hiss, AC hum, room echo, and enhance voice with AI studio quality — 100% private in your browser.",
     seoKeywords: [
+      "remove video background noise free",
       "remove background noise from video",
-      "remove background noise from video online",
-      "audio denoiser online",
-      "clean mic hiss",
-      "noise reduction video",
+      "audio noise reduction",
+      "audio denoiser",
+      "remove noise from audio",
+      "remove background noise online",
+      "video noise reduction free",
+      "denoise mp4 online",
+      "audio de-noiser",
+      "ai audio denoiser",
+      "ai voice enhancer",
+      "adobe podcast enhance voice free",
+      "adobe podcast ai alternative",
+      "vocal isolator online",
+      "clean mic hiss ai",
+      "noise reduction video ai",
       "remove fan noise from video",
-      "audio noise removal free",
-      "remove static from audio",
-      "clean up audio online",
-      "background noise remover video",
-      "reduce background noise in video",
-      "audio cleaner online free",
-      "voice clarity enhancer",
-      "remove hum from audio",
-      "podcast audio denoiser",
-      "clean microphone noise",
-      "video audio noise filter",
-      "remove wind noise from video",
-      "audio denoise tool online",
-      "best free video noise remover",
+      "studio voice enhancer",
+      "clean audio online free",
+      "podcast audio denoiser ai",
+      "speech clarity enhancer",
+      "remove room echo from audio",
+      "de reverb audio online",
     ],
     features: [
       {
-        title: "FFT Spectral Noise Suppression",
-        description: "Intelligently identifies and removes continuous static, fan noise, electrical hum, and microphone hiss.",
+        title: "Adobe Podcast AI Studio Voice",
+        description: "Transforms smartphone or webcam audio into warm, broadcast-grade studio microphone sound with de-reverb.",
         icon: "Mic",
       },
       {
-        title: "Sensitivity Level Adjustments",
-        description: "Choose between Light, Balanced, and Aggressive noise suppression to match your recording conditions.",
-        icon: "Sliders",
+        title: "Extreme Fan, AC & Wind Killer",
+        description: "Wipes out stationary computer fan noise, loud room air conditioners, and outdoor wind rumble.",
+        icon: "Wind",
       },
       {
-        title: "Enhanced Vocal Clarity",
-        description: "Isolates spoken voice frequencies to ensure dialog remains crisp and natural for podcasts, courses, and webinars.",
-        icon: "CheckCircle",
+        title: "Live A/B Studio Comparison",
+        description: "Instantly toggle between Raw Noisy and AI Cleaned Studio Sound with zero latency while listening.",
+        icon: "Radio",
       },
       {
-        title: "100% Private Processing",
-        description: "Clean sensitive audio recordings entirely in your browser RAM without sending audio data to third-party servers.",
+        title: "100% Private In-Browser DSP",
+        description: "Zero cloud uploads. All neural DSP voice isolation runs locally inside your device memory.",
         icon: "ShieldCheck",
       },
     ],
     steps: [
-      { step: 1, title: "Upload Recording", description: "Select the video or audio file containing unwanted background noise or hiss." },
-      { step: 2, title: "Set Noise Threshold", description: "Select Light (subtle), Balanced (recommended), or Deep noise suppression." },
-      { step: 3, title: "Download Clean Media", description: "Save your crystal-clear, noise-free video or audio file." },
+      { step: 1, title: "Upload Video or Audio", description: "Select the video or audio file containing unwanted background noise or hiss." },
+      { step: 2, title: "Select AI Preset or Fine-Tune", description: "Choose Adobe Podcast AI Voice, Fan/AC Killer, or tweak sliders to your taste." },
+      { step: 3, title: "Export Clean Media", description: "Download your crystal-clear video (MP4) or audio with zero background noise." },
     ],
     faqs: [
       {
         question: "How to remove background noise from a video online for free?",
         answer:
-          "Upload your video to VideoReduce.com's Audio De-Noiser, choose your desired suppression strength (Balanced is recommended), and click Clean Audio. The spectral filter removes background hums and hisses in seconds.",
+          "Upload your video to VideoReduce.com's Audio Noise Reduction tool, choose your desired AI enhancement profile (such as Adobe Podcast Voice or Fan Killer), audition with the live A/B toggle, and click Export Clean Video. Your video is exported in MP4 with pristine clean sound.",
       },
       {
         question: "What types of noise can this tool remove?",
@@ -1459,6 +1467,21 @@ export const TOOLS: ToolMetadata[] = [
         question: "Is there a file size limit for noise reduction?",
         answer:
           "Because processing happens entirely in your local browser memory, VideoReduce imposes no strict file size limits — even long podcast recordings can be cleaned.",
+      },
+      {
+        question: "Can I get Adobe Podcast style studio voice enhancement for free?",
+        answer:
+          "Yes! Select the 'Adobe Podcast AI Voice' preset. It automatically isolates spoken voice, dampens room echo (de-reverb), boosts speech articulation, and applies optical compression for consistent broadcast warmth.",
+      },
+      {
+        question: "Can I remove background music or separate vocals from a video?",
+        answer:
+          "Yes! While the de-noiser removes room noise, hum, and hiss, if you want to split vocals from musical instruments or create karaoke, use our dedicated AI Video Vocal Remover & Karaoke Maker (/tools/vocal-remover).",
+      },
+      {
+        question: "How do I censor curse words or bleep profanity in my video?",
+        answer:
+          "If your video contains swearing, profanity, or sensitive words you need to bleep out to protect YouTube monetization, use our dedicated AI Video Profanity Bleeper & Auto Censor (/tools/video-censor) to automatically add classic 1kHz TV bleeps or audio mutes.",
       },
     ],
   },
@@ -1658,8 +1681,807 @@ export const TOOLS: ToolMetadata[] = [
       },
     ],
   },
+
+  // 20. AI Auto-Subtitles & Animated Captions
+  {
+    id: "auto-subtitles",
+    slug: "auto-subtitles",
+    name: "AI Auto-Subtitles & Animated Captions",
+    shortName: "AI Subtitles",
+    tagline: "Generate and style viral CapCut-like animated subtitles with karaoke effects, custom fonts, and zero cloud uploads",
+    description:
+      "Free AI auto-subtitles generator and animated caption creator for videos. Choose viral CapCut typography styles, word-by-word karaoke highlighting, custom fonts, and export .SRT or burned subtitle MP4 directly in your browser with 100% data privacy.",
+    category: "Video",
+    iconName: "Subtitles",
+    badge: "AI Viral Studio",
+    acceptedTypes: ["video/*"],
+    acceptedExtensions: [".mp4", ".mov", ".mkv", ".webm", ".avi"],
+    outputExtension: "srt",
+    outputMimeType: "text/plain",
+    estimatedSpeed: "Instant (Client-Side AI)",
+    seoTitle: "Free AI Auto Subtitles & Animated Captions Generator (CapCut Style)",
+    seoDescription:
+      "Generate viral CapCut-style animated subtitles, karaoke word highlights, and custom fonts for your videos. 100% free, private in-browser AI with SRT export.",
+    seoKeywords: [
+      "ai auto subtitles",
+      "auto captions generator",
+      "capcut subtitles online",
+      "animated subtitles generator",
+      "video speech to text",
+      "generate srt online",
+      "karaoke subtitles",
+      "add captions to video free",
+      "tiktok caption generator",
+      "instagram reels captions",
+    ],
+    features: [
+      {
+        title: "Automatic AI Speech-to-Text",
+        description: "Convert spoken dialogue into synchronized, readable subtitle segments in seconds directly on your device.",
+        icon: "Wand2",
+      },
+      {
+        title: "CapCut & MrBeast Viral Styling",
+        description: "Choose high-impact typography, vibrant yellow strokes, neon cyber glow, or sleek translucent dark pill backdrops.",
+        icon: "Type",
+      },
+      {
+        title: "Karaoke Word Highlighting",
+        description: "Dynamically illuminate and enlarge each word as it is spoken in real-time to maximize viewer engagement.",
+        icon: "Sparkles",
+      },
+      {
+        title: "Multi-Format Export & Video Burning",
+        description: "Download standard .SRT and .VTT subtitle files or export high-resolution video with burned-in animated captions.",
+        icon: "Download",
+      },
+    ],
+    steps: [
+      { step: 1, title: "Select Video File", description: "Upload any MP4, MOV, WebM, or MKV video from your computer or phone." },
+      { step: 2, title: "Auto-Generate & Style Captions", description: "Click Auto-Generate Captions, adjust timing, and customize font, colors, and animation styles." },
+      { step: 3, title: "Export SRT or Rendered Video", description: "Download standard .SRT / .VTT files or export a video with permanent burned captions." },
+    ],
+    faqs: [
+      {
+        question: "How does the AI Auto-Subtitles generator work?",
+        answer:
+          "VideoReduce.com uses client-side speech recognition and intelligent audio analysis to listen to your video and segment speech into synchronized caption timestamps. It runs 100% inside your web browser without sending your private footage to external servers.",
+      },
+      {
+        question: "Can I customize fonts, colors, and CapCut styles?",
+        answer:
+          "Yes! You can choose from popular creator fonts (Impact, Montserrat, Bebas Neue, Inter), select viral themes like MrBeast Yellow, Cyber Neon, or Clean Pill, adjust font size, vertical positioning, and enable dynamic word-by-word karaoke animations.",
+      },
+      {
+        question: "Can I edit the subtitle text and timing manually?",
+        answer:
+          "Absolutely. Our interactive timeline editor lets you click on any subtitle chunk to fix typos, change wording, adjust start/end timestamps, or add and delete lines with instant real-time video preview.",
+      },
+      {
+        question: "Can I download standard .SRT or .VTT files for YouTube and Premiere?",
+        answer:
+          "Yes! You can download standardized .SRT and .VTT subtitle files with one click, ready to upload to YouTube, Adobe Premiere Pro, DaVinci Resolve, or Final Cut.",
+      },
+      {
+        question: "Is there any watermark or file duration limit?",
+        answer:
+          "No watermarks, no paywalls, and no hidden subscriptions. VideoReduce.com is 100% free and open-source.",
+      },
+    ],
+  },
+
+  // 21. AI Video Background Remover
+  {
+    id: "video-background-remover",
+    slug: "video-background-remover",
+    name: "AI Video Background Remover",
+    shortName: "Background Remover",
+    tagline: "Remove video backgrounds without a green screen: transparent WebM, studio chroma key, custom backdrop photo, or DSLR blur",
+    description:
+      "Online AI video background remover. Strip or replace any video background without green screen hardware. Choose studio chroma green, custom image backgrounds, transparent alpha channel, or cinematic portrait blur 100% in your browser.",
+    category: "Video",
+    iconName: "Wand2",
+    badge: "AI Studio",
+    acceptedTypes: ["video/*"],
+    acceptedExtensions: [".mp4", ".mov", ".mkv", ".webm"],
+    outputExtension: "webm",
+    outputMimeType: "video/webm",
+    estimatedSpeed: "Real-Time AI Canvas",
+    seoTitle: "Free AI Video Background Remover Online (No Green Screen)",
+    seoDescription:
+      "Remove or replace video background with AI without green screen. Add custom image backdrop, studio chroma green, or DSLR bokeh blur. 100% free & private.",
+    seoKeywords: [
+      "ai video background remover",
+      "remove video background online",
+      "video background changer",
+      "remove background without green screen",
+      "free video green screen maker",
+      "video background blur online",
+      "transparent video background",
+      "replace video backdrop free",
+    ],
+    features: [
+      {
+        title: "Zero Green Screen Required",
+        description: "Intelligent segmentation algorithms isolate human subjects and remove backgrounds without physical green backdrops.",
+        icon: "Wand2",
+      },
+      {
+        title: "Custom Backdrop Photos & Colors",
+        description: "Upload your own office, scenic landscape, or neon gradient photo to composite behind your video in real-time.",
+        icon: "Image",
+      },
+      {
+        title: "Studio Chroma Key (#00FF00)",
+        description: "Export pure chroma green screen video ready for compositing in CapCut, Premiere, or OBS Studio.",
+        icon: "Layers",
+      },
+      {
+        title: "Cinematic DSLR Bokeh Blur",
+        description: "Apply adjustable portrait blur to your background while keeping your subject in razor-sharp focus.",
+        icon: "Eye",
+      },
+    ],
+    steps: [
+      { step: 1, title: "Select Video File", description: "Upload any portrait or landscape video clip from your device." },
+      { step: 2, title: "Choose Replacement Mode", description: "Select Studio Green Screen, DSLR Bokeh Blur, Custom Image, or Solid Color." },
+      { step: 3, title: "Inspect Split View & Export", description: "Use the live comparison slider to verify edge sharpness and download your processed video." },
+    ],
+    faqs: [
+      {
+        question: "Do I need a green screen physical backdrop to use this tool?",
+        answer:
+          "No physical green screen is needed! Our AI segmentation engine analyzes video pixels directly in your browser to separate foreground subjects from backgrounds automatically.",
+      },
+      {
+        question: "Can I replace the background with my own custom image?",
+        answer:
+          "Yes! You can upload any JPEG or PNG photo (like an executive office, beach, modern studio, or tech background) and the tool will composite you directly in front of it.",
+      },
+      {
+        question: "What output formats are supported?",
+        answer:
+          "You can export high-quality WebM video with the new background, green screen, or transparent alpha channel.",
+      },
+      {
+        question: "Are my video files uploaded to any external server?",
+        answer:
+          "Zero bytes ever leave your device. All video processing and background segmentation run locally in your web browser memory.",
+      },
+    ],
+  },
+  // 22. AI Auto-Reframe (16:9 to 9:16 Shorts / Reels)
+  {
+    id: "auto-reframe",
+    slug: "auto-reframe",
+    name: "AI Auto-Reframe (16:9 to 9:16 Shorts)",
+    shortName: "Auto-Reframe",
+    tagline: "Automatically convert horizontal 16:9 videos into vertical 9:16 Shorts, Reels, and TikTok clips with AI speaker tracking",
+    description:
+      "Smart AI video auto-reframe online. Convert 16:9 widescreen footage into 9:16 vertical TikToks, YouTube Shorts, and Instagram Reels with intelligent speaker tracking, portrait bokeh blur, and smart pan smoothing directly in your browser.",
+    category: "Video",
+    iconName: "Smartphone",
+    badge: "AI Studio",
+    acceptedTypes: ["video/*"],
+    acceptedExtensions: [".mp4", ".mov", ".mkv", ".webm"],
+    outputExtension: "webm",
+    outputMimeType: "video/webm",
+    estimatedSpeed: "Real-Time AI Canvas",
+    seoTitle: "Free AI Auto-Reframe Online (16:9 to 9:16 Shorts & Reels)",
+    seoDescription:
+      "Auto-reframe 16:9 videos into vertical 9:16 Shorts, Reels, and TikTok clips with AI speaker face tracking. 100% free, private in-browser, no watermark.",
+    seoKeywords: [
+      "ai auto reframe",
+      "convert 16:9 to 9:16 online",
+      "horizontal to vertical video ai",
+      "ai shorts maker",
+      "auto reframe tiktok reels",
+      "smart video cropper ai",
+      "speaker tracking video reframe",
+      "free auto reframe online",
+    ],
+    features: [
+      {
+        title: "AI Speaker Tracking",
+        description: "Google MediaPipe vision tracking keeps active speakers centered automatically without manual keyframing.",
+        icon: "Scan",
+      },
+      {
+        title: "Shorts, Reels & TikTok Presets",
+        description: "One-click aspect ratio conversion for 9:16 vertical, 1:1 square, and 4:5 portrait feeds.",
+        icon: "Smartphone",
+      },
+      {
+        title: "Dynamic Fill & Bokeh Blur Modes",
+        description: "Choose smart cropped fill, aesthetic DSLR background blur, or clean letterbox backdrops.",
+        icon: "Layers",
+      },
+      {
+        title: "Manual Pan Control & Smoothing",
+        description: "Adjust smoothing damping or click manual snap presets (Left 15%, Center 50%, Right 85%).",
+        icon: "Sliders",
+      },
+    ],
+    steps: [
+      { step: 1, title: "Upload Landscape Video", description: "Drop any 16:9 widescreen or horizontal video clip into the studio." },
+      { step: 2, title: "Select Aspect Ratio & Framing", description: "Choose 9:16 vertical format and select Smart Fill Crop or Bokeh Blur Fit." },
+      { step: 3, title: "Preview AI Tracking & Export", description: "Preview real-time speaker tracking in the phone mockup and download your vertical video." },
+    ],
+    faqs: [
+      {
+        question: "How does AI Auto-Reframe keep the speaker centered?",
+        answer:
+          "Our AI vision model detects the position of human subjects frame-by-frame and applies smooth camera interpolation to keep the primary speaker in frame without sudden jarring cuts.",
+      },
+      {
+        question: "Can I use this for YouTube Shorts, Instagram Reels, and TikTok?",
+        answer:
+          "Yes! The 9:16 aspect ratio preset is optimized specifically for TikTok, YouTube Shorts, and Instagram Reels with zero letterbox black bars.",
+      },
+      {
+        question: "Can I manually adjust the crop position?",
+        answer:
+          "Yes, you can disable AI auto-tracking at any time and use the horizontal pan slider or quick presets (Left, Center, Right) to frame your subject.",
+      },
+      {
+        question: "Is my video uploaded to a remote server?",
+        answer:
+          "No, all AI computer vision and frame rendering occur 100% locally in your web browser memory.",
+      },
+      {
+        question: "Can I also fix the speaker's eye contact while reframing vertical shorts?",
+        answer:
+          "Yes! If the speaker is looking down at notes or a teleprompter, you can use our dedicated AI Video Eye Contact Fixer (/tools/eye-contact-fixer) to naturally redirect their gaze into the camera lens.",
+      },
+    ],
+  },
+  // 23. AI Silence Remover & Auto Jump-Cut
+  {
+    id: "silence-remover",
+    slug: "silence-remover",
+    name: "AI Silence Remover & Auto Jump-Cut",
+    shortName: "Silence Remover",
+    tagline: "Automatically detect and cut dead air, pauses, and awkward silence from speaking videos and podcasts",
+    description:
+      "Free online AI silence remover and auto jump-cutter. Detect dead air, hesitations, and silent gaps from podcasts, YouTube videos, lectures, and gaming streams with interactive audio waveform visualization and instant export.",
+    category: "Audio",
+    iconName: "Scissors",
+    badge: "AI Studio",
+    acceptedTypes: ["video/*"],
+    acceptedExtensions: [".mp4", ".mov", ".mkv", ".webm"],
+    outputExtension: "webm",
+    outputMimeType: "video/webm",
+    estimatedSpeed: "Instant Waveform Analysis",
+    seoTitle: "Free AI Silence Remover & Auto Jump-Cut Online (Podcast & Video Trimmer)",
+    seoDescription:
+      "Automatically remove dead air, hesitations, and silent gaps from videos with AI. Instant audio waveform, jump-cut preview, and 100% private in-browser export.",
+    seoKeywords: [
+      "ai silence remover",
+      "remove silence from video online",
+      "auto jump cut editor",
+      "podcast silence remover free",
+      "cut dead air from video",
+      "automatic video jump cut",
+      "remove awkward pauses ai",
+      "audio pause cutter online",
+    ],
+    features: [
+      {
+        title: "Smart Dead-Air Detection",
+        description: "Web Audio engine scans audio frequencies in milliseconds to pinpoint silent pauses and hesitations.",
+        icon: "Scissors",
+      },
+      {
+        title: "Interactive Waveform & Scrubbing",
+        description: "Visualize speech vs dead air on a responsive canvas waveform with instant seek and gap toggles.",
+        icon: "Radio",
+      },
+      {
+        title: "Pre-tuned Pacing Presets",
+        description: "One-click presets for Podcasts, YouTube Vlogs, Lectures, and Fast-Paced Shorts.",
+        icon: "Sliders",
+      },
+      {
+        title: "Safety Word Padding",
+        description: "Preserves natural breathing pauses and word endings so speech never sounds robotic or clipped.",
+        icon: "ShieldCheck",
+      },
+    ],
+    steps: [
+      { step: 1, title: "Upload Speech Video", description: "Upload any podcast, tutorial, interview, or talking-head video file." },
+      { step: 2, title: "Tune Silence Threshold", description: "Choose a pacing preset (Podcast, Vlog, Lecture) or adjust volume threshold and pause duration." },
+      { step: 3, title: "Preview Jump-Cuts & Export", description: "Enable jump-cut playback to test pacing, then export your cleaned, high-energy video." },
+    ],
+    faqs: [
+      {
+        question: "How does the AI detect silence in my video?",
+        answer:
+          "The tool decodes your video's audio track locally using Web Audio API, measuring decibel levels across millisecond windows to isolate pauses that fall below your custom threshold.",
+      },
+      {
+        question: "Will my words get cut off or sound unnatural?",
+        answer:
+          "No. The safety padding buffer (default 100ms) preserves the natural sound of breaths and word endings before and after every cut.",
+      },
+      {
+        question: "Can I preview how the jump cuts feel before downloading?",
+        answer:
+          "Yes! Turn on 'Preview With Jump-Cuts' in the player and the video will skip past all silent dead-air segments in real-time.",
+      },
+      {
+        question: "Are my audio files uploaded anywhere?",
+        answer:
+          "No, all audio decoding, waveform rendering, and video cutting execute entirely inside your browser.",
+      },
+    ],
+  },
+  // 24. AI Text-to-Speech & Voiceover Studio
+  {
+    id: "text-to-speech",
+    slug: "text-to-speech",
+    name: "AI Text-to-Speech & Voiceover Studio",
+    shortName: "Text to Speech",
+    tagline: "Turn scripts into natural human voiceovers in Urdu, Hindi, English & 40+ languages with custom accents, pitch tuning, and video dubbing",
+    description:
+      "Free online AI Text to Speech (TTS) and voiceover generator. Convert scripts and subtitles into realistic human voices across Urdu, Hindi, US/UK English, and 40+ languages with speed/pitch controls, MP3 download, and 1-click video overlay.",
+    category: "Audio",
+    iconName: "Mic",
+    badge: "AI Studio",
+    acceptedTypes: ["video/*", "audio/*"],
+    acceptedExtensions: [".mp4", ".mov", ".mkv", ".webm", ".mp3", ".wav"],
+    outputExtension: "mp3",
+    outputMimeType: "audio/mpeg",
+    estimatedSpeed: "Instant Neural Speech",
+    seoTitle: "Free AI Text to Speech Online (Urdu, Hindi, English Voiceovers)",
+    seoDescription:
+      "Convert text to speech online for free in Urdu, Hindi, US/UK English & 40+ languages. Realistic human AI voiceover generator with speed tuning, MP3 download, and video dubbing.",
+    seoKeywords: [
+      "text to speech online free",
+      "ai voiceover generator free",
+      "urdu text to speech online",
+      "hindi text to speech ai",
+      "free ai text to speech no watermark",
+      "elevenlabs free alternative",
+      "text to speech for youtube shorts",
+      "tiktok text to speech online",
+      "ai voice generator free online",
+      "realistic text to speech mp3 download",
+    ],
+    features: [
+      {
+        title: "Multi-Lingual (Urdu, Hindi, English)",
+        description: "Generate fluent, authentic speech across Urdu (اردو), Hindi (हिंदी), US/UK English, and 40+ international languages.",
+        icon: "Globe",
+      },
+      {
+        title: "Speed & Pitch Customization",
+        description: "Fine-tune tempo from slow narration (0.5x) to fast TikTok speech (2.0x), plus deep baritone and high-energy pitch tuning.",
+        icon: "Sliders",
+      },
+      {
+        title: "Instant MP3 Download",
+        description: "Download crystal-clear audio files directly to your device with zero subscriptions, paywalls, or token limits.",
+        icon: "Download",
+      },
+      {
+        title: "Synchronized Video Dubbing",
+        description: "Upload your video to preview, balance background audio, and export video with your AI voiceover cleanly mixed in.",
+        icon: "Film",
+      },
+    ],
+    steps: [
+      { step: 1, title: "Type or Paste Script", description: "Write your voiceover script or choose a pre-loaded prompt in Urdu, Hindi, or English." },
+      { step: 2, title: "Choose Language & Pacing", description: "Select your desired language, accent, speaking speed (0.5x–2.0x), and voice pitch." },
+      { step: 3, title: "Play & Download MP3", description: "Click 'Generate & Play Voiceover' to listen in real-time, or download the clean MP3 audio." },
+    ],
+    faqs: [
+      {
+        question: "Does this AI Text-to-Speech support Urdu and Hindi?",
+        answer:
+          "Yes! Full natural pronunciation support is built-in for Urdu (Pakistan/India) and Hindi, as well as multiple English accents (US, UK, Australia, India) and 40+ global languages.",
+      },
+      {
+        question: "Is there any character limit or monthly subscription fee?",
+        answer:
+          "No. VideoReduce provides this tool 100% free with zero monthly subscriptions, zero token fees, and no mandatory registration.",
+      },
+      {
+        question: "Can I download the generated voiceover as an MP3 file?",
+        answer:
+          "Yes! You can click 'Download MP3 Audio' to immediately save your voiceover audio file to your computer or phone.",
+      },
+      {
+        question: "Can I add the voiceover directly onto my video?",
+        answer:
+          "Yes. Switch to 'Video Dubbing Mode', drop your video, and the studio will sync your script with the video playback and let you export the final dubbed video.",
+      },
+      {
+        question: "Are my scripts or voice recordings uploaded to a remote server?",
+        answer:
+          "All voice synthesis and video dubbing run client-side in your web browser. Your private scripts and personal footage never leave your device.",
+      },
+    ],
+  },
+  // 25. AI Text-to-Video & Faceless Shorts Generator
+  {
+    id: "text-to-video",
+    slug: "text-to-video",
+    name: "AI Text to Video & Faceless Shorts Generator",
+    shortName: "Text to Video",
+    tagline: "Turn text prompts, voiceovers, or MP4 videos into viral 9:16 vertical shorts with AI stock clips, in-browser Whisper speech-to-text, and dynamic subtitles",
+    description:
+      "Free online AI Text to Video generator. Convert scripts, voiceovers, and story prompts into viral YouTube Shorts, TikToks, and Instagram Reels with HD stock video clips, in-browser Whisper AI speech-to-text, clip trimming controls, and auto-animated subtitles.",
+    category: "Video",
+    iconName: "Sparkles",
+    badge: "AI Creator",
+    acceptedTypes: ["video/*", "image/*", "audio/*"],
+    acceptedExtensions: [".mp4", ".mov", ".mkv", ".webm", ".mp3", ".wav", ".jpg", ".png"],
+    outputExtension: "mp4",
+    outputMimeType: "video/mp4",
+    estimatedSpeed: "Instant Browser Render",
+    seoTitle: "Free AI Text to Video Generator Online (Faceless Shorts & Reels Maker)",
+    seoDescription:
+      "Create viral faceless YouTube Shorts and TikToks from text prompts or voiceovers for free. AI text to video generator with HD stock video clips, in-browser Whisper speech-to-text, trimming, and animated subtitles.",
+    seoKeywords: [
+      "text to video ai free",
+      "ai faceless shorts generator",
+      "text to video online no watermark",
+      "ai reel generator free",
+      "invideo ai free alternative",
+      "prompt to video generator",
+      "faceless youtube channel video maker",
+      "convert text to video online free",
+      "tiktok text to video ai",
+      "whisper ai speech to text video",
+      "extract audio from video online free",
+      "viral shorts script to video maker",
+      "stock video clips generator ai",
+    ],
+    features: [
+      {
+        title: "Multi-Scene Script & Stock Video Clips",
+        description: "Automatically split scripts into scenes and match curated HD video clips & images across Cars, Wealth, Space, Tech, and Nature.",
+        icon: "FileText",
+      },
+      {
+        title: "Voiceover & Video Audio Extraction",
+        description: "Upload any audio file (MP3, WAV) or video file (MP4, WebM, MOV) to automatically extract the voice track client-side.",
+        icon: "Film",
+      },
+      {
+        title: "In-Browser Whisper AI Speech-to-Text",
+        description: "Transcribe spoken audio into sentences 100% locally with WebAssembly Whisper AI—zero API keys or privacy leaks.",
+        icon: "Mic",
+      },
+      {
+        title: "Clip Trimming & Synced Audio Export",
+        description: "Adjust video start offsets with interactive sliders and export clean 9:16 videos with full Web Audio synchronization.",
+        icon: "Layers",
+      },
+    ],
+    steps: [
+      { step: 1, title: "Enter Script or Upload Voiceover", description: "Type your script, pick a viral preset, or upload an audio/video file (MP3, MP4) for automatic Whisper transcription." },
+      { step: 2, title: "Customize Clips & Subtitle Style", description: "Review matched stock clips, trim scene video offsets, and pick viral caption styles (MrBeast, Hormozi, Neon)." },
+      { step: 3, title: "Preview & Export 9:16 Video", description: "Play live in the phone player and download your watermark-free short with fully synchronized audio." },
+    ],
+    faqs: [
+      {
+        question: "Can I create faceless YouTube Shorts and TikToks with this tool?",
+        answer:
+          "Yes! This tool is specially designed for faceless content creators. It combines trending background visuals, AI voiceover narration, and dynamic animated subtitles into a vertical 9:16 video ready to post.",
+      },
+      {
+        question: "Can I upload a video (MP4) to extract audio and create a short?",
+        answer:
+          "Yes! Uploading an MP4, MOV, or WebM automatically extracts the audio track in your browser, transcribes it into sentences using in-browser Whisper AI, and matches stock video clips.",
+      },
+      {
+        question: "Is this AI Text-to-Video tool completely free with no watermark?",
+        answer:
+          "Yes! VideoReduce generates all videos 100% free with no watermark, no credit card required, and no monthly subscription fees.",
+      },
+      {
+        question: "Can I trim individual video clips in each scene?",
+        answer:
+          "Yes, each scene card includes a Start-Offset slider and 'Preview Trim' button so you can choose the exact portion of the video clip you want to play.",
+      },
+      {
+        question: "Does the exported video include sound?",
+        answer:
+          "Yes! The studio mixes audio directly into the canvas video recorder using the Web Audio API, so your downloaded video has crystal-clear synchronized audio.",
+      },
+      {
+        question: "Are my generated videos or prompts uploaded to any server?",
+        answer:
+          "No. All script generation, audio synthesis, visual composition, and MP4 video rendering happen entirely in your local web browser.",
+      },
+    ],
+  },
+
+  // 25. AI Video Vocal Remover & Karaoke Stem Splitter
+  {
+    id: "vocal-remover",
+    slug: "vocal-remover",
+    name: "AI Video Vocal Remover & Karaoke Maker",
+    shortName: "AI Vocal Remover",
+    tagline: "Remove vocals or isolate background music from video online free — split into karaoke music & acapella speech in your browser",
+    description:
+      "Free online AI video vocal remover and karaoke stem splitter. Remove singing or voiceover from video files, or isolate clean vocal acapellas while muting background music. Download full instrumental videos (MP4) or audio tracks (WAV) with 100% private in-browser neural DSP.",
+    category: "Video",
+    iconName: "Music",
+    badge: "AI Stem Splitter",
+    acceptedTypes: ["video/*", "audio/*"],
+    acceptedExtensions: [".mp4", ".mov", ".mkv", ".webm", ".mp3", ".wav", ".m4a", ".aac"],
+    outputExtension: "mp4",
+    outputMimeType: "video/mp4",
+    estimatedSpeed: "Ultra-Fast (Client Neural DSP)",
+    seoTitle: "AI Video Vocal Remover Online Free - Karaoke & Acapella Stem Splitter",
+    seoDescription:
+      "Remove vocals from video online free. Extract background music or isolate speech with in-browser AI. Download instrumental video (MP4) or acapella — 100% private.",
+    seoKeywords: [
+      "remove vocals from video",
+      "remove vocals from video online free",
+      "ai vocal remover",
+      "ai vocal remover free",
+      "video vocal remover",
+      "extract background music from video",
+      "karaoke maker online",
+      "remove voice from video",
+      "isolate vocals from video",
+      "acapella extractor online",
+      "separate music and voice from video",
+      "stem splitter online free",
+      "vocal remover mp4",
+      "remove song from video keep voice",
+      "karaoke video maker",
+      "vocal isolation online",
+      "mute singing keep music video",
+    ],
+    features: [
+      {
+        title: "Download Clean Video (MP4)",
+        description: "Unlike audio-only converters, export the full HD video with the instrumental music or vocal speech track perfectly synchronized.",
+        icon: "Film",
+      },
+      {
+        title: "Center-Channel Vocal Cancellation",
+        description: "Neural DSP extracts and suppresses center-panned speech and singing while preserving full bass, kick drums, and stereo ambient width.",
+        icon: "Music",
+      },
+      {
+        title: "Acapella & Dialogue Isolation",
+        description: "Mutes background music, score, and ambient noise to isolate clean human dialogue for sampling, podcasts, and video dubbing.",
+        icon: "Mic",
+      },
+      {
+        title: "100% Private In-Browser DSP",
+        description: "Zero cloud uploads. All audio stem separation and video muxing run entirely inside your browser memory with WebAssembly.",
+        icon: "ShieldCheck",
+      },
+    ],
+    steps: [
+      { step: 1, title: "Upload Video or Song", description: "Select any video (MP4, MOV, WebM) or audio file (MP3, WAV, M4A) from your device." },
+      { step: 2, title: "Audition Tracks in Real-Time", description: "Toggle between 'Music Only', 'Vocals Only', and 'Original Mix' in the live player monitor." },
+      { step: 3, title: "Download Clean Video or Audio", description: "Export your instrumental video (MP4), acapella video, or extracted WAV audio stems." },
+    ],
+    faqs: [
+      {
+        question: "How do I remove vocals from a video while keeping the video file?",
+        answer:
+          "Upload your video to VideoReduce.com's AI Vocal Remover. Our in-browser DSP cancels the center vocal frequencies while keeping the background music, and then remuxes the clean audio back into your MP4 video stream.",
+      },
+      {
+        question: "Can I remove background music from a video and keep only the talking voice?",
+        answer:
+          "Yes! Select the 'Dialogue & Voice Isolator' preset or click 'Vocals Only' in the player. The AI isolates speech and dialogue while muting background soundtracks.",
+      },
+      {
+        question: "Is this video vocal remover completely free?",
+        answer:
+          "Yes, 100% free with no subscription, no watermark, and unlimited file exports.",
+      },
+      {
+        question: "Can I download audio-only stems (MP3 or WAV)?",
+        answer:
+          "Yes! Alongside the MP4 video download, you can click 'Download Instrumental (WAV)' or 'Download Vocals (WAV)' to get lossless 16-bit audio tracks.",
+      },
+      {
+        question: "Are my private videos uploaded to remote servers?",
+        answer:
+          "No. All DSP processing and video re-muxing happen locally in your web browser with zero server uploads, keeping your videos 100% private.",
+      },
+      {
+        question: "Can I bleep out swear words in isolated vocals or music videos?",
+        answer:
+          "Yes! If your video contains explicit lyrics or spoken profanity, you can use our AI Video Profanity Bleeper & Auto Censor (/tools/video-censor) to add TV bleeps, audio mutes, or mouth blur.",
+      },
+    ],
+  },
+
+  // 26. AI Video Eye Contact Fixer & Teleprompter Corrector
+  {
+    id: "eye-contact-fixer",
+    slug: "eye-contact-fixer",
+    name: "AI Video Eye Contact Fixer & Teleprompter Corrector",
+    shortName: "Eye Contact Fixer",
+    tagline: "Automatically redirect eye gaze to the camera lens in videos — fix looking down at script, notes or teleprompter 100% free",
+    description:
+      "Free online AI video eye contact corrector and teleprompter fixer. Automatically realign off-center eye gaze directly towards the camera lens using client-side facial landmark tracking. Perfect for creators, presentations, podcasts, and webinars looking down at scripts or phone screens.",
+    category: "Video",
+    iconName: "Eye",
+    badge: "AI Eye Contact",
+    acceptedTypes: ["video/*"],
+    acceptedExtensions: [".mp4", ".mov", ".mkv", ".webm"],
+    outputExtension: "mp4",
+    outputMimeType: "video/mp4",
+    estimatedSpeed: "Fast (Local AI Vision)",
+    seoTitle: "Free AI Video Eye Contact Fixer Online (NVIDIA Broadcast Web Alternative)",
+    seoDescription:
+      "Fix eye contact in videos online for free. Automatically redirect gaze to camera lens when reading scripts or notes. Natural blinking, no RTX GPU needed, 100% private.",
+    seoKeywords: [
+      "ai eye contact fixer",
+      "fix eye contact in video online free",
+      "nvidia broadcast eye contact online",
+      "ai eye contact corrector free",
+      "teleprompter eye contact fixer",
+      "redirect eye gaze video ai",
+      "captions ai eye contact free alternative",
+      "descript eye contact free",
+      "look at camera ai video",
+      "ai gaze correction online",
+      "fix looking down in video",
+      "eye contact tool for shorts and reels",
+      "online eye contact ai free no watermark",
+    ],
+    features: [
+      {
+        title: "Subtle Iris & Pupil Re-alignment",
+        description: "Intelligently shifts iris position towards the camera optical axis while preserving natural eye shape and corneal catchlights.",
+        icon: "Eye",
+      },
+      {
+        title: "Teleprompter & Screen Correction",
+        description: "Optimized presets for reading notes below the camera lens, looking at laptop screens during Zoom calls, or glancing at phones.",
+        icon: "Sliders",
+      },
+      {
+        title: "Natural Blink & Glance Retention",
+        description: "Eye Aspect Ratio (EAR) detection automatically preserves natural blinks and micro-glances so eyes never look frozen or robotic.",
+        icon: "ShieldCheck",
+      },
+      {
+        title: "100% Private In-Browser Vision",
+        description: "Zero cloud uploads. All facial landmarking and video rendering occur locally in your browser memory via WebAssembly.",
+        icon: "Lock",
+      },
+    ],
+    steps: [
+      { step: 1, title: "Upload Talking Video", description: "Upload any portrait or landscape video where you are looking at notes, screen, or teleprompter." },
+      { step: 2, title: "Tune Mode & Intensity", description: "Select Teleprompter / Looking Down or Zoom Gaze and adjust correction strength (50% to 100%)." },
+      { step: 3, title: "Preview Split-View & Export", description: "Use the live comparison slider to check natural eye alignment and download your clean MP4 video." },
+    ],
+    faqs: [
+      {
+        question: "How does the AI Eye Contact Fixer redirect my gaze?",
+        answer:
+          "VideoReduce's computer vision engine tracks 478 3D facial landmarks and isolates iris contours frame-by-frame. It calculates the vertical/horizontal gaze offset and applies subtle spherical mesh repositioning so your pupils align with the camera lens.",
+      },
+      {
+        question: "Will my eyes look unnatural or robotic?",
+        answer:
+          "No. Our engine incorporates active Eye Aspect Ratio (EAR) monitoring. When you blink, gaze adjustments instantly bypass to maintain 100% natural blinking cadence, preventing the creepy 'frozen stare' common in uncalibrated filters.",
+      },
+      {
+        question: "Do I need an expensive NVIDIA RTX graphics card?",
+        answer:
+          "No! Unlike NVIDIA Broadcast which requires a dedicated RTX 3060/4090 GPU, VideoReduce's neural computer vision engine runs directly inside your web browser on standard laptop CPUs (Intel Core i5/i7, AMD Ryzen, Apple Silicon).",
+      },
+      {
+        question: "Is this tool free and watermark-free?",
+        answer:
+          "Yes, 100% free with zero watermarks, no sign-up required, and unlimited exports.",
+      },
+      {
+        question: "Are my personal videos uploaded to any external server?",
+        answer:
+          "Zero bytes ever leave your computer. All computer vision tracking, eye alignment, and video encoding occur entirely in your local browser memory.",
+      },
+    ],
+  },
+
+  // 27. AI Video Profanity Bleeper & Auto Censor
+  {
+    id: "video-censor",
+    slug: "video-censor",
+    name: "AI Video Profanity Bleeper & Auto Censor",
+    shortName: "Video Censor",
+    tagline: "Automatically detect and bleep out profanity, swearing & sensitive words with TV bleep tone and mouth blur — avoid YouTube demonetization",
+    description:
+      "Free online AI video profanity bleeper and auto censor. Automatically detect curse words, swearing, and sensitive speech in YouTube videos, TikToks, and podcasts. Apply classic 1kHz TV bleeps, audio mutes, and optional mouth blur to protect ad monetization without video re-editing.",
+    category: "Video",
+    iconName: "VolumeX",
+    badge: "Monetization Shield",
+    acceptedTypes: ["video/*"],
+    acceptedExtensions: [".mp4", ".mov", ".mkv", ".webm"],
+    outputExtension: "mp4",
+    outputMimeType: "video/mp4",
+    estimatedSpeed: "Fast (Local Speech DSP)",
+    seoTitle: "Free AI Video Profanity Bleeper & Auto Censor Online (TV Bleep Sound)",
+    seoDescription:
+      "Automatically bleep out curse words and profanity from videos online free. Classic 1kHz TV censor bleep, mouth blur, and audio mute. Protect YouTube monetization.",
+    seoKeywords: [
+      "ai video profanity bleeper",
+      "bleep out words in video online free",
+      "auto censor video ai",
+      "bleep curse words in video free",
+      "video profanity censor online",
+      "youtube monetization swearing fix",
+      "tv bleep sound generator video",
+      "remove bad words from video ai",
+      "mouth blur censor video online",
+      "censor audio in video free",
+      "podcast profanity bleeper",
+      "automatic video bleeper online",
+      "censor swear words video maker",
+    ],
+    features: [
+      {
+        title: "Automatic Speech & Swear Detection",
+        description: "Scans audio tracks locally to flag profanity, vulgarity, and sensitive words across English, Hindi, and Urdu.",
+        icon: "Mic",
+      },
+      {
+        title: "Classic 1kHz TV Bleep & Audio Mute",
+        description: "Choose iconic broadcast 1,000Hz censor bleep tone, smooth volume ducking, retro 8-bit buzz, or total silence.",
+        icon: "VolumeX",
+      },
+      {
+        title: "Optional Mouth Blur & Censor Bar",
+        description: "Apply automatic facial mosaic pixelation or classic black censor bar over the speaker's mouth to prevent lip-reading.",
+        icon: "Eye",
+      },
+      {
+        title: "100% Private In-Browser DSP",
+        description: "Zero cloud uploads. Speech decoding, bleep frequency synthesis, and video re-muxing run entirely inside your browser.",
+        icon: "ShieldCheck",
+      },
+    ],
+    steps: [
+      { step: 1, title: "Upload Video", description: "Select any video (MP4, MOV, WebM) containing swearing or sensitive words." },
+      { step: 2, title: "Review Flagged Timestamps", description: "Inspect flagged words on the timeline, choose TV Bleep Tone or Mute, and toggle mouth blur." },
+      { step: 3, title: "Export Monetization-Safe Video", description: "Download your clean, broadcast-ready MP4 video with zero watermarks." },
+    ],
+    faqs: [
+      {
+        question: "How does the AI detect profanity and swear words in my video?",
+        answer:
+          "VideoReduce's in-browser speech engine decodes the audio track and compares acoustic phonemes and speech transcripts against a comprehensive multi-lingual profanity dictionary, flagging exact start and end timestamps down to the millisecond.",
+      },
+      {
+        question: "Will bleeping bad words protect my YouTube and TikTok monetization?",
+        answer:
+          "Yes! YouTube and Meta algorithms enforce strict 'Yellow Dollar' demonetization penalties for profanity spoken in the first 30 seconds of a video. Replacing swear words with a 1kHz bleep or audio mute prevents algorithmic content strikes.",
+      },
+      {
+        question: "Can I customize the words to bleep or add my own timestamps?",
+        answer:
+          "Yes! You can toggle individual flagged words on or off, add custom words to the filter list (e.g. brand names or sensitive topics), and manually adjust bleep duration on the interactive timeline.",
+      },
+      {
+        question: "What censor sound effects are supported?",
+        answer:
+          "You can select the Classic 1,000Hz TV Broadcast Bleep, Clean Audio Mute (silence), 8-Bit Retro Glitch Buzz, or 90% Audio Ducking.",
+      },
+      {
+        question: "Are my video files uploaded to any external server?",
+        answer:
+          "No. All audio transcription, bleep tone synthesis, and video muxing happen 100% locally in your web browser memory with zero server uploads.",
+      },
+    ],
+  },
 ];
 
 export function getToolBySlug(slug: string): ToolMetadata | undefined {
   return TOOLS.find((tool) => tool.slug === slug || tool.id === slug);
 }
+

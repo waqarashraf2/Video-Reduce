@@ -49,3 +49,12 @@ next-env.d.ts
 *.sqlite
 *.sqlite-journal
 
+# Desktop App builds & binaries
+/desktop-app/dist/
+/desktop-app/node_modules/
+
+# Standalone executable binaries (>100MB exceeds GitHub limits)
+*.exe
+/public/downloads/*.exe
+/out/downloads/*.exe
+

@@ -13,9 +13,9 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   className = "",
 }) => {
   const iconDimensions = {
-    sm: { w: 32, h: 32, class: "h-8 w-8" },
-    md: { w: 40, h: 40, class: "h-10 w-10" },
-    lg: { w: 52, h: 52, class: "h-13 w-13" },
+    sm: { w: 32, h: 32, class: "h-8 w-8", src: "/icons/icon-48.png" },
+    md: { w: 40, h: 40, class: "h-10 w-10", src: "/icons/icon-96.png" },
+    lg: { w: 52, h: 52, class: "h-13 w-13", src: "/icons/icon-96.png" },
   }[size];
 
   return (
@@ -23,7 +23,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       {/* Brand Icon Image with Red Theme Border container */}
       <div className={`relative overflow-hidden rounded-xl bg-gradient-to-br from-red-600 via-rose-500 to-red-600 p-[2px] shadow-md shadow-red-500/20 ring-1 ring-red-500/40 border border-red-500/30 transition-transform group-hover:scale-105 ${iconDimensions.class}`}>
         <Image
-          src="/logo.png"
+          src={iconDimensions.src}
           alt="VideoReduce Logo"
           width={iconDimensions.w}
           height={iconDimensions.h}

@@ -9,13 +9,13 @@ import dynamic from "next/dynamic";
 import { parseArticleMarkdown } from "@/lib/markdown";
 import { SocialShareBar } from "@/components/ui/SocialShareBar";
 
-const ToolRunner = dynamic(
-  () => import("@/components/tools/ToolRunner").then((m) => m.ToolRunner),
+const ArticleToolEmbed = dynamic(
+  () => import("@/components/articles/ArticleToolEmbed").then((m) => m.ArticleToolEmbed),
   {
     ssr: false,
     loading: () => (
       <div className="flex flex-col items-center justify-center p-8 space-y-3">
-        <div className="h-6 w-6 animate-spin rounded-full border-2 border-blue-500 border-t-transparent" />
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-red-600 border-t-transparent" />
         <span className="text-xs text-slate-400">Loading Interactive Tool...</span>
       </div>
     ),
@@ -251,17 +251,9 @@ export default function ArticleDetailPage({ params }: ArticlePageProps) {
           </div>
         </header>
 
-        {/* Embedded Interactive Tool Applet */}
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xl space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-200 pb-3">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-red-600">
-              <Sparkles className="h-4 w-4" />
-              <span>Try Live in Browser: {recommendedTool.name}</span>
-            </div>
-            <span className="text-xs text-emerald-700 font-bold">100% Free Wasm</span>
-          </div>
-
-          <ToolRunner tool={recommendedTool} />
+        {/* Embedded Interactive Tool / AI Studio Launcher */}
+        <section className="space-y-4">
+          <ArticleToolEmbed tool={recommendedTool} />
         </section>
 
         {/* Social Share Bar */}

@@ -1,0 +1,12 @@
+{
+  "monetized": false,
+  "type": "google-adsense",
+  "googleAdSense": true,
+  "adUrl": "https://videoreduce.com/desktop-ads.html",
+  "publisherId": "ca-pub-XXXXXXXXXXXXXXXX",
+  "badge": "Ad",
+  "title": "Sponsored",
+  "description": "",
+  "ctaText": "Visit",
+  "ctaUrl": ""
+}

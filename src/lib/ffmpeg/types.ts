@@ -17,7 +17,16 @@ export type ToolId =
   | "volume-booster"
   | "audio-denoiser"
   | "metadata-stripper"
-  | "ffmpeg-terminal";
+  | "ffmpeg-terminal"
+  | "auto-subtitles"
+  | "video-background-remover"
+  | "auto-reframe"
+  | "silence-remover"
+  | "text-to-speech"
+  | "text-to-video"
+  | "vocal-remover"
+  | "eye-contact-fixer"
+  | "video-censor";
 
 export type ResolutionOption = "original" | "1080p" | "720p" | "480p" | "360p";
 export type AudioFormat = "mp3" | "wav" | "aac";
@@ -156,6 +165,19 @@ export interface FFmpegTerminalOptions {
   customCommand: string;
 }
 
+export interface AutoSubtitlesOptions {
+  fontSize?: number;
+  fontFamily?: string;
+  theme?: string;
+  animation?: string;
+}
+
+export interface VideoBackgroundRemoverOptions {
+  mode?: "transparent" | "color" | "image" | "blur";
+  bgColor?: string;
+  blurRadius?: number;
+}
+
 export type AnyToolOptions =
   | CompressionOptions
   | GifOptions
@@ -175,7 +197,9 @@ export type AnyToolOptions =
   | VolumeOptions
   | AudioDenoiserOptions
   | MetadataStripperOptions
-  | FFmpegTerminalOptions;
+  | FFmpegTerminalOptions
+  | AutoSubtitlesOptions
+  | VideoBackgroundRemoverOptions;
 
 export interface ToolMetadata {
   id: ToolId;

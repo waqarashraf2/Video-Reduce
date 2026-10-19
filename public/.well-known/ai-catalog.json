@@ -1,0 +1,279 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "VideoReduce",
+    "identifier": "did:web:videoreduce.com",
+    "documentationUrl": "https://videoreduce.com/faq",
+    "logoUrl": "https://videoreduce.com/logo.png",
+    "trustManifest": {
+      "identity": "https://videoreduce.com",
+      "identityType": "https"
+    }
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:videoreduce.com:tool:video-compressor",
+      "displayName": "Smart Video Compressor & File Size Reducer",
+      "type": "application/mcp-server-card+json",
+      "url": "https://videoreduce.com/tools/video-compressor",
+      "description": "Reduce video file sizes up to 90% without quality loss using client-side WebAssembly CRF rate control. Presets for Discord (8MB/25MB), WhatsApp (16MB), and Email.",
+      "capabilities": [
+        "VideoCompression",
+        "CRFRateControl",
+        "TargetFileSizeShrink",
+        "DiscordVideoCompressor",
+        "WhatsAppVideoCompressor"
+      ],
+      "representativeQueries": [
+        "How to reduce video file size without losing quality?",
+        "Compress 4K MP4 video for Discord under 10MB",
+        "Shrink video storage size online free"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-10-16T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:videoreduce.com:tool:video-censor",
+      "displayName": "AI Video Profanity Bleeper & Auto Censor",
+      "type": "application/mcp-server-card+json",
+      "url": "https://videoreduce.com/tools/video-censor",
+      "description": "Automatically detect and bleep out profanity, curse words, and sensitive speech with 1,000Hz TV censor bleeps and mouth mosaic blur to avoid YouTube demonetization.",
+      "capabilities": [
+        "ProfanityDetection",
+        "TVBleepSynthesis",
+        "AudioMuting",
+        "MouthMosaicBlur",
+        "DemonetizationProtection"
+      ],
+      "representativeQueries": [
+        "How to bleep out curse words in a video online free?",
+        "Auto censor swearing in video for YouTube monetization",
+        "Add 1kHz TV censor bleep to video"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-10-16T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:videoreduce.com:tool:auto-subtitles",
+      "displayName": "AI Auto Subtitles & Whisper Captions Studio",
+      "type": "application/mcp-server-card+json",
+      "url": "https://videoreduce.com/tools/auto-subtitles",
+      "description": "Automatically generate and burn animated karaoke captions and subtitles onto videos with 99+ languages supported in browser.",
+      "capabilities": [
+        "SpeechToText",
+        "AutoSubtitles",
+        "AnimatedCaptions",
+        "SRTExport",
+        "VTTExport"
+      ],
+      "representativeQueries": [
+        "Auto generate subtitles for TikTok and Reels video",
+        "Add animated captions to video free",
+        "Extract SRT subtitle file from video"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-10-16T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:videoreduce.com:tool:video-background-remover",
+      "displayName": "AI Video Background Remover (Green Screen Free)",
+      "type": "application/mcp-server-card+json",
+      "url": "https://videoreduce.com/tools/video-background-remover",
+      "description": "Remove and replace video backgrounds without green screen using real-time client-side neural segmentation.",
+      "capabilities": [
+        "BackgroundRemoval",
+        "ChromaKeyFree",
+        "TransparentVideo",
+        "VirtualBackgrounds"
+      ],
+      "representativeQueries": [
+        "Remove video background without green screen online free",
+        "Make video background transparent",
+        "Replace video background with custom image"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-10-16T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:videoreduce.com:tool:auto-reframe",
+      "displayName": "AI Auto-Reframe (Horizontal to Vertical 9:16)",
+      "type": "application/mcp-server-card+json",
+      "url": "https://videoreduce.com/tools/auto-reframe",
+      "description": "Automatically track subjects and crop landscape 16:9 widescreen videos into vertical 9:16 Shorts, Reels, and TikToks.",
+      "capabilities": [
+        "SubjectTracking",
+        "AutoCropping",
+        "AspectReframe",
+        "SocialShortsMaker"
+      ],
+      "representativeQueries": [
+        "Convert horizontal video to vertical 9:16 for TikTok",
+        "Smart face tracking crop for YouTube Shorts",
+        "Auto reframe 16:9 to 9:16 online free"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-10-16T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:videoreduce.com:tool:silence-remover",
+      "displayName": "AI Silence Remover & Jump-Cut Editor",
+      "type": "application/mcp-server-card+json",
+      "url": "https://videoreduce.com/tools/silence-remover",
+      "description": "Automatically detect and cut awkward pauses, dead air, and silence from video and podcast recordings.",
+      "capabilities": [
+        "SilenceDetection",
+        "JumpCutAutomation",
+        "AudioGateTrimming",
+        "PodcastFastPacing"
+      ],
+      "representativeQueries": [
+        "Remove silent pauses from video automatically",
+        "Cut out dead air in podcast video online free",
+        "Speed up video by removing silent gaps"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-10-16T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:videoreduce.com:tool:audio-denoiser",
+      "displayName": "Audio Noise Reduction & AI Voice Enhancer",
+      "type": "application/mcp-server-card+json",
+      "url": "https://videoreduce.com/tools/audio-denoiser",
+      "description": "Eliminate fan hiss, AC hum, room echo, and enhance speech clarity with Adobe Podcast studio warmth in browser.",
+      "capabilities": [
+        "SpectralDenoising",
+        "DeReverb",
+        "VoiceEnhancement",
+        "FanNoiseRemoval"
+      ],
+      "representativeQueries": [
+        "Remove background noise from video online free",
+        "Eliminate computer fan hum and hiss from audio",
+        "Adobe Podcast voice enhance free alternative"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-10-16T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:videoreduce.com:tool:vocal-remover",
+      "displayName": "AI Video Vocal Remover & Karaoke Maker",
+      "type": "application/mcp-server-card+json",
+      "url": "https://videoreduce.com/tools/vocal-remover",
+      "description": "Separate vocals and speech from background music in video and audio files using neural audio DSP.",
+      "capabilities": [
+        "VocalSeparation",
+        "KaraokeTrackCreation",
+        "InstrumentalExtraction",
+        "AcapellaIsolation"
+      ],
+      "representativeQueries": [
+        "Remove vocals from video while keeping music",
+        "Create karaoke instrumental from video online free",
+        "Isolate talking voice and mute background music"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-10-16T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:videoreduce.com:tool:eye-contact-fixer",
+      "displayName": "AI Video Eye Contact Fixer & Teleprompter Corrector",
+      "type": "application/mcp-server-card+json",
+      "url": "https://videoreduce.com/tools/eye-contact-fixer",
+      "description": "Realign off-center eye gaze towards the camera lens with 478 3D facial landmarks and natural blink cadence retention.",
+      "capabilities": [
+        "GazeRedirection",
+        "TeleprompterCorrection",
+        "PupilTracking",
+        "BlinkCadencePreservation"
+      ],
+      "representativeQueries": [
+        "Fix eye contact in video online free without Nvidia RTX",
+        "Look at camera while reading script teleprompter",
+        "Correct downward gaze in video recording"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-10-16T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:videoreduce.com:tool:format-converter",
+      "displayName": "Universal Video & Audio Format Converter",
+      "type": "application/mcp-server-card+json",
+      "url": "https://videoreduce.com/tools/format-converter",
+      "description": "Transcode video and audio files between MP4, MOV, WebM, MKV, AVI, MP3, WAV, and AAC without server uploads.",
+      "capabilities": [
+        "Transcoding",
+        "ContainerMuxing",
+        "MOVtoMP4",
+        "MKVtoMP4",
+        "WebMtoMP4"
+      ],
+      "representativeQueries": [
+        "Convert MOV to MP4 online free without upload",
+        "Convert MKV to MP4 with audio",
+        "Convert WebM to MP4 video"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-10-16T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:videoreduce.com:tool:video-to-gif",
+      "displayName": "Video to High-Quality GIF Converter",
+      "type": "application/mcp-server-card+json",
+      "url": "https://videoreduce.com/tools/video-to-gif",
+      "description": "Convert video clips to crisp animated GIFs using two-pass color palette generation with custom FPS and resolution.",
+      "capabilities": [
+        "PalettegenGIF",
+        "CustomFrameRate",
+        "DitheringOptions",
+        "OptimizedGIFSize"
+      ],
+      "representativeQueries": [
+        "Convert MP4 video to animated GIF high quality",
+        "Turn video clip into GIF without watermark",
+        "Make Discord animated GIF from video"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-10-16T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:videoreduce.com:tool:audio-extractor",
+      "displayName": "High-Fidelity Audio Extractor",
+      "type": "application/mcp-server-card+json",
+      "url": "https://videoreduce.com/tools/audio-extractor",
+      "description": "Rip and extract crystal-clear 320kbps MP3, AAC, or lossless WAV audio from video files in seconds.",
+      "capabilities": [
+        "AudioExtraction",
+        "MP3Encoding",
+        "LosslessWAVExtract",
+        "BitrateSelection"
+      ],
+      "representativeQueries": [
+        "Extract MP3 audio from MP4 video online free",
+        "Convert video to audio WAV without losing quality",
+        "Rip sound from video file"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-10-16T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:videoreduce.com:tool:metadata-stripper",
+      "displayName": "Video Metadata Stripper & Privacy Cleaner",
+      "type": "application/mcp-server-card+json",
+      "url": "https://videoreduce.com/tools/metadata-stripper",
+      "description": "Strip GPS location coordinates, camera model, date/time, and creator tags from video files to protect personal privacy.",
+      "capabilities": [
+        "ExifStripping",
+        "GPSRemoval",
+        "DeviceMetadataPurge",
+        "PrivacyProtection"
+      ],
+      "representativeQueries": [
+        "Remove GPS coordinates from video file free",
+        "Strip Exif metadata from MP4 before uploading",
+        "Clean camera and phone metadata from video"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-10-16T00:00:00Z"
+    }
+  ]
+}

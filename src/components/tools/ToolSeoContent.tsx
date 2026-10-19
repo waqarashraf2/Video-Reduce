@@ -187,6 +187,46 @@ export const ToolSeoContent: React.FC<ToolSeoContentProps> = ({ tool }) => {
         </div>
       </section>
 
+      {/* Internal Linking: Dedicated Format Converters Grid */}
+      {tool.id === "format-converter" && (
+        <section className="space-y-6 rounded-3xl border border-red-100 bg-red-50/40 p-6 sm:p-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-red-200/60 pb-4">
+            <div className="space-y-1">
+              <div className="text-lg font-bold text-slate-950 flex items-center gap-2">
+                <RefreshCw className="h-5 w-5 text-red-600" />
+                <span>Dedicated Format Converters</span>
+              </div>
+              <p className="text-xs text-slate-600">
+                100% private, client-side WebAssembly video conversion for every major format.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {FORMAT_PAIRS.map((fp) => (
+              <Link
+                key={fp.slug}
+                href={`/convert/${fp.slug}`}
+                className="group rounded-2xl border border-slate-200 bg-white p-4 transition-all hover:border-red-300 hover:shadow-md"
+              >
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="rounded bg-red-50 border border-red-200 px-2 py-0.5 text-[10px] font-bold text-red-700">
+                    {fp.badge}
+                  </span>
+                  <ArrowRight className="h-3.5 w-3.5 text-slate-400 group-hover:text-red-600 group-hover:translate-x-0.5 transition-transform" />
+                </div>
+                <div className="text-xs font-bold text-slate-900 group-hover:text-red-600 transition-colors">
+                  {fp.title}
+                </div>
+                <p className="text-[11px] text-slate-500 line-clamp-2 mt-1">
+                  {fp.tagline}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Internal Linking: Platform Solution Hubs & Presets */}
       <section className="space-y-6 rounded-3xl border border-slate-200 bg-slate-50 p-6 sm:p-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">

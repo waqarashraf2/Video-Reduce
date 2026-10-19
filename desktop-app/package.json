@@ -1,0 +1,52 @@
+{
+  "name": "videoreduce-desktop",
+  "version": "1.0.0",
+  "description": "Ultra-Fast Desktop Video Compressor & Converter powered by Native FFmpeg & GPU Acceleration",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build:win": "electron-builder --win && node copy-build.js",
+    "build:portable": "electron-builder --win portable && node copy-build.js",
+    "dist": "electron-builder && node copy-build.js"
+  },
+  "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "@ffprobe-installer/ffprobe": "^2.1.2",
+    "fluent-ffmpeg": "^2.1.3"
+  },
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.videoreduce.desktop",
+    "productName": "VideoReduce",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "ffmpeg-engine.js",
+      "index.html",
+      "package.json",
+      "node_modules/**/*"
+    ],
+    "win": {
+      "target": [
+        "portable"
+      ],
+      "signAndEditExecutable": false,
+      "forceCodeSigning": false,
+      "icon": "../public/icons/icon-512.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "VideoReduce"
+    }
+  }
+}

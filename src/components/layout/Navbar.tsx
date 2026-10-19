@@ -16,6 +16,8 @@ import {
   BookOpen,
   HelpCircle,
   Mail,
+  Laptop,
+  Download,
 } from "lucide-react";
 
 export const Navbar: React.FC = () => {
@@ -88,7 +90,7 @@ export const Navbar: React.FC = () => {
                   <div className="flex items-center justify-between mb-3 px-2 pb-2.5 border-b border-slate-100 text-xs font-semibold uppercase tracking-wider text-slate-500">
                     <span className="flex items-center gap-2 text-[#0B192C] font-black">
                       <Sparkles className="h-3.5 w-3.5 text-red-600" />
-                      All 18 Media Tools
+                      All {TOOLS.length} Media Tools
                     </span>
                     <span className="text-emerald-700 text-[11px] font-mono font-bold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
                       100% In-Browser Wasm
@@ -102,6 +104,7 @@ export const Navbar: React.FC = () => {
                         <Link
                           key={tool.id}
                           href={`/tools/${tool.slug}`}
+                          prefetch={false}
                           onClick={() => setToolsOpen(false)}
                           className={`flex items-center gap-3 rounded-2xl p-2.5 transition-all ${
                             isActive
@@ -173,13 +176,27 @@ export const Navbar: React.FC = () => {
             >
               Contact
             </Link>
+
+            {/* Desktop App 1-Click Download Button */}
+            <a
+              href="/downloads/VideoReduce-Setup.exe"
+              download
+              title="Download Free Desktop App for 100GB+ Files without RAM Limits"
+              className="group relative inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-red-600 via-rose-600 to-red-700 px-3.5 py-1.5 text-xs font-bold text-white shadow-md shadow-red-600/25 transition-all hover:scale-105 hover:shadow-lg hover:shadow-red-600/35 active:scale-95"
+            >
+              <Laptop className="h-3.5 w-3.5 text-white/90" />
+              <span>PC App</span>
+              <span className="rounded-full bg-white/20 px-1.5 py-0.2 text-[10px] font-extrabold uppercase tracking-tight text-white">
+                100GB+
+              </span>
+            </a>
           </nav>
 
           {/* Mobile Right Controls: Hamburger */}
           <div className="flex items-center md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200 active:scale-95 transition-transform"
               aria-label="Toggle Navigation Menu"
             >
               {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -191,8 +208,27 @@ export const Navbar: React.FC = () => {
         {mobileMenuOpen && (
           <div className="border-t border-slate-200 px-4 py-5 md:hidden max-h-[75vh] overflow-y-auto rounded-b-3xl bg-white animate-in slide-in-from-top-2">
             <div className="space-y-4">
+              {/* Mobile Desktop App Callout Banner */}
+              <a
+                href="/downloads/VideoReduce-Setup.exe"
+                download
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-between rounded-2xl bg-gradient-to-r from-red-600 via-rose-600 to-red-700 p-3 text-white shadow-md shadow-red-600/20"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-white/20">
+                    <Laptop className="h-4 w-4 text-white" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-black">Download Windows App (.exe)</div>
+                    <div className="text-[10px] text-red-100">Zero RAM Limit • 100GB+ Video Support</div>
+                  </div>
+                </div>
+                <Download className="h-4 w-4 text-white" />
+              </a>
+
               <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-slate-600 px-1">
-                <span>18 Media Tools</span>
+                <span>{TOOLS.length} Media Tools</span>
                 <span className="text-emerald-600 font-mono text-[10px] bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">100% Wasm</span>
               </div>
 
@@ -201,6 +237,7 @@ export const Navbar: React.FC = () => {
                   <Link
                     key={tool.id}
                     href={`/tools/${tool.slug}`}
+                    prefetch={false}
                     onClick={() => setMobileMenuOpen(false)}
                     className={`flex items-center gap-2 rounded-xl p-2.5 text-xs font-medium ${
                       pathname === `/tools/${tool.slug}`

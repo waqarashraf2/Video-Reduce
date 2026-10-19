@@ -95,6 +95,10 @@ AddDefaultCharset UTF-8
     RewriteRule ^en/(.*)$ https://videoreduce.com/$1 [R=301,L]
     RewriteRule ^en/?$ https://videoreduce.com/ [R=301,L]
 
+    # Redirect German Breadcrumb Scraped URLs to live canonical pages
+    RewriteRule ^Startseite/Konvertieren/?$ https://videoreduce.com/de/convert/mov-to-mp4 [R=301,L,NC]
+    RewriteRule ^Startseite/?$ https://videoreduce.com/ [R=301,L,NC]
+
     # Force 301 Canonical: Strip trailing slashes from any subpage URLs
     # (e.g. https://videoreduce.com/tools/video-compressor/ -> https://videoreduce.com/tools/video-compressor)
     RewriteCond %{REQUEST_METHOD} !POST
@@ -113,10 +117,15 @@ AddDefaultCharset UTF-8
     RewriteCond %{DOCUMENT_ROOT}/$1.html -f
     RewriteRule ^(.*?)/?$ /$1.html [L]
 
-    # 4. Fallback to 404.html if resource does not exist
+    # 4. Never serve HTML for missing static assets (JS, CSS, WASM, images, fonts, maps)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_URI} \.(js|mjs|css|wasm|json|png|jpg|jpeg|gif|webp|svg|ico|woff|woff2|ttf|eot|map|txt|mp4|webm|mp3)$ [NC]
+    RewriteRule ^ - [R=404,L]
+
+    # 5. Fallback for non-existent routes/pages -> Return true 404 (Apache ErrorDocument 404 serves /404.html)
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^ /404.html [L]
+    RewriteRule ^ - [R=404,L]
 </IfModule>
 
 # Fallback Error Document

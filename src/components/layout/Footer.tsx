@@ -9,7 +9,7 @@ import { FORMAT_PAIRS } from "@/config/formats";
 import { SUPPORTED_LOCALES, SupportedLocale } from "@/config/i18n/locales";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 import { BrandLogo } from "@/components/ui/BrandLogo";
-import { Cpu, Lock, Globe, Sparkles } from "lucide-react";
+import { Cpu, Lock, Globe, Sparkles, Laptop } from "lucide-react";
 
 export const Footer: React.FC = () => {
   const pathname = usePathname() || "/";
@@ -67,7 +67,7 @@ export const Footer: React.FC = () => {
           {/* Format Converters */}
           <div>
             <p className="text-sm font-black uppercase tracking-wider text-[#0B192C]">
-              Format Converters
+              {currentLang === "de" ? "Video-Konverter" : "Format Converters"}
             </p>
             <ul className="mt-4 space-y-2 text-xs">
               {FORMAT_PAIRS.slice(0, 10).map((fp) => (
@@ -76,7 +76,7 @@ export const Footer: React.FC = () => {
                     href={getHref(`/convert/${fp.slug}`)}
                     className="hover:text-red-600 transition-colors"
                   >
-                    {fp.title}
+                    {currentLang === "de" ? `${fp.fromFormat} in ${fp.toFormat} umwandeln` : fp.title}
                   </Link>
                 </li>
               ))}
@@ -85,7 +85,7 @@ export const Footer: React.FC = () => {
                   href="/tools/format-converter"
                   className="font-semibold text-red-600 hover:text-red-700"
                 >
-                  All 16 Converters ➔
+                  {currentLang === "de" ? "Alle 16 Konverter ➔" : "All 16 Converters ➔"}
                 </Link>
               </li>
             </ul>
@@ -125,7 +125,17 @@ export const Footer: React.FC = () => {
             </p>
             <ul className="mt-4 space-y-2.5 text-xs">
               <li>
-                <Link href="/articles" className="hover:text-red-600 transition-colors font-semibold text-red-600">
+                <a
+                  href="/downloads/VideoReduce-Setup.exe"
+                  download
+                  className="inline-flex items-center gap-1.5 font-bold text-red-600 hover:text-red-700 bg-red-50 px-2.5 py-1 rounded-lg border border-red-200 transition-all hover:bg-red-100"
+                >
+                  <Laptop className="h-3.5 w-3.5" />
+                  <span>Download Desktop App (.exe)</span>
+                </a>
+              </li>
+              <li>
+                <Link href="/articles" className="hover:text-red-600 transition-colors font-semibold text-slate-700">
                   All Knowledge Guides
                 </Link>
               </li>
@@ -157,7 +167,7 @@ export const Footer: React.FC = () => {
               <li className="pt-2">
                 <div className="flex items-center gap-1.5 text-xs text-slate-500">
                   <Cpu className="h-3.5 w-3.5 text-red-600" />
-                  <span>Powered by FFmpeg v0.12 Wasm</span>
+                  <span>Powered by FFmpeg v0.12 Wasm & Native Engine</span>
                 </div>
               </li>
             </ul>

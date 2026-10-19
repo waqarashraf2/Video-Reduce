@@ -40,10 +40,14 @@ import {
   Terminal,
   FileSpreadsheet,
   Lock,
+  Subtitles,
+  Wand2,
+  Scan,
   LucideProps,
 } from "lucide-react";
 
 const ICON_MAP: Record<string, React.FC<LucideProps>> = {
+  Scan,
   Minimize2,
   Film,
   Music,
@@ -84,6 +88,8 @@ const ICON_MAP: Record<string, React.FC<LucideProps>> = {
   Terminal,
   FileSpreadsheet,
   Lock,
+  Subtitles,
+  Wand2,
 };
 
 interface ToolIconProps extends LucideProps {

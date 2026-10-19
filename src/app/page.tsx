@@ -20,6 +20,8 @@ import {
   Smartphone,
   Server,
   Lock,
+  Laptop,
+  Download,
 } from "lucide-react";
 
 const ToolRunner = dynamic(
@@ -64,7 +66,7 @@ export default function HomePage() {
         url: "https://videoreduce.com",
         name: "VideoReduce — Free Video Size Reducer & Online Media Suite",
         description:
-          "Reduce video size online for free without losing quality. Shrink video file size, lower video size for Discord, WhatsApp, and iPhone clips with 18 free tools.",
+          "Reduce video size online for free without losing quality. Shrink video file size, lower video size for Discord, WhatsApp, and iPhone clips with 25 free tools.",
         isPartOf: { "@id": "https://videoreduce.com/#website" },
         primaryImageOfPage: {
           "@type": "ImageObject",
@@ -220,7 +222,34 @@ export default function HomePage() {
 
               <ToolRunner tool={compressorTool} />
 
-              <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+              {/* Desktop App Banner for 16GB+ Heavy Files */}
+              <div className="mt-5 rounded-2xl border border-red-200/80 bg-gradient-to-r from-red-50/90 via-white to-rose-50/90 p-3.5 sm:p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-red-600 text-white shadow-sm shadow-red-500/20">
+                    <Laptop className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-1.5">
+                      <span>Compressing 16GB, 50GB or Heavy 4K Videos?</span>
+                      <span className="rounded-full bg-red-600 px-2 py-0.2 text-[10px] font-extrabold text-white">Free PC App</span>
+                    </div>
+                    <div className="text-[11px] text-slate-600">
+                      Process unlimited video file sizes directly from disk without browser RAM limits.
+                    </div>
+                  </div>
+                </div>
+
+                <a
+                  href="/downloads/VideoReduce-Setup.exe"
+                  download
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 px-4 py-2 text-xs font-bold text-white shadow-md shadow-red-600/25 transition-all hover:scale-105 hover:shadow-lg hover:shadow-red-600/35 active:scale-95 shrink-0"
+                >
+                  <Download className="h-3.5 w-3.5" />
+                  <span>Download for Windows (.exe)</span>
+                </a>
+              </div>
+
+              <div className="mt-4 pt-3 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="h-4 w-4 text-emerald-600 shrink-0" />
                   <span>Your video never leaves this device (Processed locally via WebCodecs GPU & WebAssembly)</span>
@@ -275,7 +304,7 @@ export default function HomePage() {
               <div className="text-xs text-slate-500 font-medium mt-1">Uploaded to Server</div>
             </div>
             <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-              <div className="text-2xl sm:text-3xl font-extrabold text-red-600 font-mono">18 Tools</div>
+              <div className="text-2xl sm:text-3xl font-extrabold text-red-600 font-mono">{TOOLS.length} Tools</div>
               <div className="text-xs text-slate-500 font-medium mt-1">Video & Audio Suite</div>
             </div>
             <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
@@ -296,7 +325,7 @@ export default function HomePage() {
           <div className="text-center space-y-3 mb-10">
             <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-red-600">
               <Cpu className="h-4 w-4" />
-              <span>Full VideoReduce.com Suite (18 Utilities)</span>
+              <span>Full VideoReduce.com Suite ({TOOLS.length} Utilities)</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-950 tracking-tight">
               Powerful Tools for Video Reduction & Editing
@@ -328,6 +357,7 @@ export default function HomePage() {
               <Link
                 key={tool.id}
                 href={`/tools/${tool.slug}`}
+                prefetch={false}
                 className="group relative flex flex-col justify-between rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-red-400 hover:shadow-xl hover:shadow-red-500/10"
               >
                 <div>
@@ -342,10 +372,10 @@ export default function HomePage() {
                     )}
                   </div>
 
-                  <div className="text-sm font-bold text-slate-900 group-hover:text-red-600 transition-colors">
+                  <div suppressHydrationWarning className="text-sm font-bold text-slate-900 group-hover:text-red-600 transition-colors">
                     {tool.name}
                   </div>
-                  <p className="mt-1.5 text-xs leading-relaxed text-slate-500 line-clamp-2">
+                  <p suppressHydrationWarning className="mt-1.5 text-xs leading-relaxed text-slate-500 line-clamp-2">
                     {tool.description}
                   </p>
                 </div>

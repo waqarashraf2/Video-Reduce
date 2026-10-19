@@ -54,12 +54,31 @@ export const PwaInstallBanner: React.FC<PwaInstallBannerProps> = ({
       setDeferredPrompt(null);
     });
 
-    // Register service worker
+    // Service worker management: Unregister on localhost to avoid stale Next.js chunk caching
     if ("serviceWorker" in navigator) {
-      navigator.serviceWorker
-        .register("/sw.js")
-        .then((reg) => console.log("Service Worker registered:", reg.scope))
-        .catch((err) => console.log("Service Worker registration failed:", err));
+      const isLocalhost =
+        typeof window !== "undefined" &&
+        (window.location.hostname === "localhost" ||
+          window.location.hostname === "127.0.0.1" ||
+          window.location.hostname.endsWith(".local"));
+
+      if (isLocalhost) {
+        navigator.serviceWorker.getRegistrations().then((registrations) => {
+          for (const registration of registrations) {
+            registration.unregister();
+          }
+        });
+        if ("caches" in window) {
+          caches.keys().then((keys) => {
+            keys.forEach((key) => caches.delete(key));
+          });
+        }
+      } else {
+        navigator.serviceWorker
+          .register("/sw.js")
+          .then((reg) => console.log("Service Worker registered:", reg.scope))
+          .catch((err) => console.log("Service Worker registration failed:", err));
+      }
     }
 
     return () => {

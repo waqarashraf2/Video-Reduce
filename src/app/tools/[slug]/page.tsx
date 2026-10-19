@@ -2,29 +2,16 @@ import React from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { TOOLS, getToolBySlug } from "@/config/tools";
 import { ToolSeoContent } from "@/components/tools/ToolSeoContent";
 import { ToolIcon } from "@/components/ui/ToolIcon";
+import { ToolStudioHost } from "@/components/tools/ToolStudioHost";
 import {
   ChevronRight,
   ShieldCheck,
   Zap,
   Lock,
 } from "lucide-react";
-
-const ToolRunner = dynamic(
-  () => import("@/components/tools/ToolRunner").then((m) => m.ToolRunner),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="flex flex-col items-center justify-center p-12 space-y-4">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-red-600 border-t-transparent" />
-        <span className="text-xs text-slate-600 font-medium">Loading WebAssembly Suite...</span>
-      </div>
-    ),
-  }
-);
 
 interface ToolPageProps {
   params: {
@@ -162,9 +149,9 @@ export default function ToolPage({ params }: ToolPageProps) {
           </div>
         )}
 
-        {/* Interactive Tool Runner Applet */}
+        {/* Interactive Tool Applet */}
         <main className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xl ring-1 ring-slate-100" suppressHydrationWarning>
-          <ToolRunner tool={tool} />
+          <ToolStudioHost tool={tool} />
         </main>
 
         {/* Below-the-fold Rich SEO Content, FAQs, and Schemas */}

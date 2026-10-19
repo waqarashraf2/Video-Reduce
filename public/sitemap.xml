@@ -67,6 +67,11 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://videoreduce.com/articles/mov-in-mp4-umwandeln-kostenlos-online</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://videoreduce.com/about</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -183,6 +188,51 @@
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
+  <url>
+    <loc>https://videoreduce.com/tools/auto-subtitles</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/tools/video-background-remover</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/tools/auto-reframe</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/tools/silence-remover</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/tools/text-to-speech</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/tools/text-to-video</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/tools/vocal-remover</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/tools/eye-contact-fixer</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/tools/video-censor</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
 
   <!-- Articles -->
   <url>
@@ -224,6 +274,51 @@
     <loc>https://videoreduce.com/articles/how-to-extract-high-quality-audio-from-video</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/articles/how-to-generate-auto-subtitles-captions-online-free</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/articles/how-to-remove-video-background-without-green-screen-free</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/articles/how-to-convert-horizontal-16-9-to-vertical-9-16-shorts-ai</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/articles/how-to-remove-silence-dead-air-from-video-automatically</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/articles/how-to-generate-ai-voiceover-text-to-speech-free</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/articles/how-to-create-ai-faceless-youtube-shorts-text-to-video-free</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/articles/how-to-remove-vocals-from-video-free-ai-karaoke</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/articles/how-to-fix-eye-contact-in-video-free-ai-teleprompter</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/articles/how-to-bleep-profanity-censor-video-free</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
 
   <!-- Format Converters (EN) -->

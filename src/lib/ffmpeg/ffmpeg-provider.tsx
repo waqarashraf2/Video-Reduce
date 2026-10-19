@@ -13,6 +13,7 @@ interface FFmpegContextType {
   loadProgress: number;
   loadError: string | null;
   loadFFmpeg: () => Promise<boolean>;
+  getFFmpeg: () => Promise<FFmpeg>;
   runFFmpeg: (
     inputData: { name: string; buffer: Uint8Array },
     outputName: string,
@@ -31,6 +32,9 @@ const FFmpegContext = createContext<FFmpegContextType>({
   loadProgress: 0,
   loadError: null,
   loadFFmpeg: async () => false,
+  getFFmpeg: async () => {
+    throw new Error("FFmpeg engine not initialized");
+  },
   runFFmpeg: async () => ({ outputData: new Uint8Array(), logOutput: [] }),
   logs: [],
   clearLogs: () => {},
@@ -39,6 +43,22 @@ const FFmpegContext = createContext<FFmpegContextType>({
 const FFMPEG_CORE_VERSION = "0.12.6";
 const BASE_URL_UNPKG = `https://unpkg.com/@ffmpeg/core@${FFMPEG_CORE_VERSION}/dist/umd`;
 const BASE_URL_JSDELIVR = `https://cdn.jsdelivr.net/npm/@ffmpeg/core@${FFMPEG_CORE_VERSION}/dist/umd`;
+
+function sanitizeFfmpegLogs(logs: string[]): string {
+  const filtered = logs
+    .filter((l) => {
+      const lower = l.toLowerCase();
+      return (
+        !lower.includes("last message repeated") &&
+        !lower.includes("time=-577014") &&
+        !lower.includes("fps=0.0") &&
+        !lower.includes("bitrate= -0.0kbits/s") &&
+        l.trim().length > 0
+      );
+    })
+    .slice(-4);
+  return filtered.join(" | ");
+}
 
 export const FFmpegProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const ffmpegRef = useRef<FFmpeg | null>(null);
@@ -118,6 +138,17 @@ export const FFmpegProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       return false;
     }
   }, [isLoaded, isLoading]);
+
+  const getFFmpeg = useCallback(async (): Promise<FFmpeg> => {
+    if (ffmpegRef.current && isLoaded) {
+      return ffmpegRef.current;
+    }
+    const success = await loadFFmpeg();
+    if (!success || !ffmpegRef.current) {
+      throw new Error("WebAssembly media engine could not be initialized.");
+    }
+    return ffmpegRef.current;
+  }, [isLoaded, loadFFmpeg]);
 
   const runFFmpeg = useCallback(
     async (
@@ -287,11 +318,12 @@ export const FFmpegProvider: React.FC<{ children: React.ReactNode }> = ({ childr
           try {
             exitCode = await ffmpeg.exec(step.args);
           } catch (execErr: any) {
-            const errStr = String(execErr?.message || execErr);
+            const errStr = String(execErr?.message || execErr).toLowerCase();
             if (
-              errStr.includes("Aborted(OOM)") ||
-              errStr.includes("Cannot enlarge memory") ||
-              errStr.includes("out of memory")
+              errStr.includes("aborted(oom)") ||
+              errStr.includes("cannot enlarge memory") ||
+              errStr.includes("out of memory") ||
+              errStr.includes("failed to inject frame")
             ) {
               throw new Error(
                 "Memory limit reached (OOM). To reverse this video safely in browser memory, please select a shorter clip (5s or 8s) or choose Turbo Fast mode."
@@ -301,17 +333,18 @@ export const FFmpegProvider: React.FC<{ children: React.ReactNode }> = ({ childr
           }
 
           if (exitCode !== 0) {
-            const lastLogs = currentLogs.slice(-12).join("\n");
+            const lastLogsText = currentLogs.slice(-25).join("\n");
+            const lowerLogs = lastLogsText.toLowerCase();
 
             // Auto-recovery 1: If stream-copy was attempted but input streams have incompatible container tags (e.g. VP9 in MKV -> MP4),
             // auto-recover with universal multi-threaded ultrafast H.264 transcode so it never fails!
             if (
               step.args.includes("copy") &&
-              (lastLogs.includes("Could not find tag for codec") ||
-                lastLogs.includes("not found in MP4") ||
-                lastLogs.includes("codec not currently supported") ||
-                lastLogs.includes("muxer does not support") ||
-                lastLogs.includes("Error initializing output stream"))
+              (lowerLogs.includes("could not find tag for codec") ||
+                lowerLogs.includes("not found in mp4") ||
+                lowerLogs.includes("codec not currently supported") ||
+                lowerLogs.includes("muxer does not support") ||
+                lowerLogs.includes("error initializing output stream"))
             ) {
               console.warn(
                 "⚠️ [FFmpeg] Stream copy incompatible with stream codecs. Seamlessly auto-recovering with universal ultrafast transcode..."
@@ -344,16 +377,47 @@ export const FFmpegProvider: React.FC<{ children: React.ReactNode }> = ({ childr
               exitCode = await ffmpeg.exec(fallbackArgs);
             }
 
-            // Auto-recovery 2: If audio filter failed because input file has no audio stream,
+            // Auto-recovery 2: Video Reverse Memory Fallback (OOM recovery on dense/4K footage)
+            if (
+              exitCode !== 0 &&
+              step.args.some((a) => a.includes("reverse")) &&
+              (lowerLogs.includes("out of memory") ||
+                lowerLogs.includes("aborted(oom)") ||
+                lowerLogs.includes("cannot enlarge memory") ||
+                lowerLogs.includes("failed to inject frame") ||
+                lowerLogs.includes("error while processing the decoded data"))
+            ) {
+              console.warn(
+                "⚠️ [FFmpeg] Reverse buffer memory spike detected. Seamlessly auto-recovering with ultra-safe lightweight profile..."
+              );
+              const safeVf =
+                "scale=w='min(360,iw)':h='min(360,ih)':force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2,fps=15,reverse";
+              const safeArgs: string[] = [];
+              const originalArgs = step.args;
+              for (let a = 0; a < originalArgs.length; a++) {
+                const cur = originalArgs[a];
+                const prev = a > 0 ? originalArgs[a - 1] : "";
+                if (cur === "-vf") {
+                  safeArgs.push("-vf", safeVf);
+                  a++; // skip original vf
+                  continue;
+                }
+                if (prev === "-vf") continue;
+                safeArgs.push(cur);
+              }
+              exitCode = await ffmpeg.exec(safeArgs);
+            }
+
+            // Auto-recovery 3: If audio filter failed because input file has no audio stream,
             // retry with -an (no audio) seamlessly so processing never fails!
             if (
               exitCode !== 0 &&
-              (lastLogs.includes("unlabeled input pad 0 on filter areverse") ||
-                lastLogs.includes("Cannot find a matching stream for unlabeled input pad") ||
-                lastLogs.includes("does not contain any audio stream") ||
-                lastLogs.includes("matches no streams") ||
-                lastLogs.includes("filter atrim") ||
-                lastLogs.includes("filter areverse"))
+              (lowerLogs.includes("unlabeled input pad 0 on filter areverse") ||
+                lowerLogs.includes("cannot find a matching stream for unlabeled input pad") ||
+                lowerLogs.includes("does not contain any audio stream") ||
+                lowerLogs.includes("matches no streams") ||
+                lowerLogs.includes("filter atrim") ||
+                lowerLogs.includes("filter areverse"))
             ) {
               console.warn("⚠️ [FFmpeg] Input video has no audio stream, retrying with -an...");
               const sanitizedArgs: string[] = [];
@@ -379,17 +443,19 @@ export const FFmpegProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             }
 
             if (exitCode !== 0) {
-              const finalLogs = currentLogs.slice(-8).join("\n");
+              const cleanLog = sanitizeFfmpegLogs(currentLogs);
+              const lowerClean = cleanLog.toLowerCase();
               if (
-                finalLogs.includes("Aborted(OOM)") ||
-                finalLogs.includes("Cannot enlarge memory") ||
-                finalLogs.includes("out of memory")
+                lowerClean.includes("aborted(oom)") ||
+                lowerClean.includes("cannot enlarge memory") ||
+                lowerClean.includes("out of memory") ||
+                lowerClean.includes("failed to inject frame into filter network")
               ) {
                 throw new Error(
                   "Memory limit reached (OOM). To reverse this video safely in browser memory, please select a shorter clip (5s or 8s) or choose Turbo Fast mode."
                 );
               }
-              throw new Error(`FFmpeg error (code ${exitCode}): ${finalLogs || "Operation failed"}`);
+              throw new Error(`FFmpeg error (code ${exitCode}): ${cleanLog || "Operation failed"}`);
             }
           }
 
@@ -488,6 +554,7 @@ export const FFmpegProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         loadProgress,
         loadError,
         loadFFmpeg,
+        getFFmpeg,
         runFFmpeg,
         logs,
         clearLogs,

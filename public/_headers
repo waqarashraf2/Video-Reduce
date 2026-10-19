@@ -1,0 +1,14 @@
+/*
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: credentialless
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# Static chunks caching
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Assets caching
+/icons/*
+  Cache-Control: public, max-age=2592000

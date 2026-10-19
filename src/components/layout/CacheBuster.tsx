@@ -6,11 +6,33 @@ export function CacheBuster() {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    // 1. Proactively purge old service worker caches (e.g. privatemedia-v1)
+    const isLocalhost =
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1" ||
+      window.location.hostname.endsWith(".local");
+
+    if (isLocalhost) {
+      // On localhost, immediately purge all cached stores and unregister all service workers
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.getRegistrations().then((registrations) => {
+          for (const reg of registrations) {
+            reg.unregister();
+          }
+        });
+      }
+      if ("caches" in window) {
+        caches.keys().then((keys) => {
+          keys.forEach((key) => caches.delete(key));
+        });
+      }
+      return;
+    }
+
+    // 1. Proactively purge old service worker caches (e.g. privatemedia-v1, videoreduce-v2, videoreduce-v4)
     if ("caches" in window) {
       caches.keys().then((keys) => {
         keys.forEach((key) => {
-          if (key !== "videoreduce-v2") {
+          if (key !== "videoreduce-v5") {
             caches.delete(key).then(() => {
               console.log("[CacheBuster] Purged outdated cache store:", key);
             });
@@ -52,6 +74,12 @@ export function CacheBuster() {
             `[CacheBuster] New version detected (${serverVersion} vs ${localVersion}). Refreshing cache...`
           );
           localStorage.setItem("vr_app_build_version", serverVersion);
+
+          // Clear outdated caches on version bump
+          if ("caches" in window) {
+            const keys = await caches.keys();
+            await Promise.all(keys.map((k) => caches.delete(k)));
+          }
 
           // Update service worker registration to fetch latest in background
           if ("serviceWorker" in navigator) {
