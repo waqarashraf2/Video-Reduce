@@ -45,6 +45,12 @@ import {
   generateSynthesizedMusicBuffer,
   decodeAudioBlob,
 } from "@/lib/videoAudioMixer";
+import {
+  MULTILINGUAL_LANGUAGES,
+  MULTILINGUAL_VIRAL_PRESETS,
+  getMultilingualSearchTerm,
+  LanguageOption,
+} from "@/config/multilingual-scripts";
 
 interface AiTextToVideoStudioProps {
   tool: ToolMetadata;
@@ -355,6 +361,11 @@ export const CURATED_STOCK_MEDIA: StockMediaItem[] = [
 
 // Helper: Smart Search Intent & Subject Prioritization (With robust fallback)
 export const extractSearchQueryFromSentence = (sentence: string): string => {
+  const multilingualMatch = getMultilingualSearchTerm(sentence);
+  if (multilingualMatch) {
+    return multilingualMatch;
+  }
+
   const lower = sentence.toLowerCase();
 
   const highValueSubjects = [
@@ -515,11 +526,16 @@ export const matchStockMediaForSentence = (
   sceneIndex: number,
   usedIds: Set<string>
 ): StockMediaItem => {
+  const multilingualMatch = getMultilingualSearchTerm(sentence);
   const words = sentence
     .toLowerCase()
     .replace(/[^a-z0-9\s]/g, " ")
     .split(/\s+/)
     .filter(Boolean);
+
+  if (multilingualMatch) {
+    words.push(multilingualMatch);
+  }
 
   let bestMatch: StockMediaItem | null = null;
   let highestScore = 0;
@@ -673,7 +689,7 @@ export const SUBTITLE_STYLES: SubtitleStyle[] = [
 // Helper: Split text into scenes
 export const createScenesFromScript = (script: string): VideoScene[] => {
   const sentences = script
-    .split(/(?<=[.!?؟۔\n])\s+|\n+/)
+    .split(/(?<=[.!؟۔।?\n])\s+|\n+/)
     .map((s) => s.trim())
     .filter((s) => s.length > 0);
 
@@ -714,6 +730,23 @@ export const createScenesFromScript = (script: string): VideoScene[] => {
 };
 
 export const AiTextToVideoStudio: React.FC<AiTextToVideoStudioProps> = ({ tool }) => {
+  // Multilingual Script State
+  const [selectedScriptLanguage, setSelectedScriptLanguage] = useState<string>("en");
+
+  const currentLangConfig = useMemo(
+    () =>
+      MULTILINGUAL_LANGUAGES.find((l) => l.code === selectedScriptLanguage) ||
+      MULTILINGUAL_LANGUAGES[0],
+    [selectedScriptLanguage]
+  );
+
+  const currentPresets = useMemo(
+    () =>
+      MULTILINGUAL_VIRAL_PRESETS[selectedScriptLanguage] ||
+      MULTILINGUAL_VIRAL_PRESETS.en,
+    [selectedScriptLanguage]
+  );
+
   // Script & Presets State
   const [scriptText, setScriptText] = useState<string>(VIRAL_PRESETS[0].script);
   const [activePresetId, setActivePresetId] = useState<string>(VIRAL_PRESETS[0].id);
@@ -1194,13 +1227,37 @@ export const AiTextToVideoStudio: React.FC<AiTextToVideoStudioProps> = ({ tool }
   };
 
   // Handle Preset Selection
-  const handleSelectPreset = (preset: ViralScriptPreset) => {
+  const handleSelectPreset = (preset: { id: string; category: string; title: string; badge: string; script: string }) => {
     setActivePresetId(preset.id);
     setScriptText(preset.script);
     const newScenes = createScenesFromScript(preset.script);
     setScenes(newScenes);
     setActiveSceneIndex(0);
     stopPlayback();
+  };
+
+  // Handle Multilingual Script Language Switching
+  const handleLanguageChange = (langCode: string) => {
+    setSelectedScriptLanguage(langCode);
+    const presetsForLang = MULTILINGUAL_VIRAL_PRESETS[langCode] || MULTILINGUAL_VIRAL_PRESETS.en;
+    if (presetsForLang.length > 0) {
+      handleSelectPreset(presetsForLang[0]);
+    }
+    // Also adapt Natural Voice if available in browser
+    if (availableVoices.length > 0) {
+      const langConfig = MULTILINGUAL_LANGUAGES.find((l) => l.code === langCode);
+      const prefix = langConfig?.speechPrefix || "en";
+      const matchingVoices = availableVoices.filter((v) => v.lang.toLowerCase().startsWith(prefix));
+      if (matchingVoices.length > 0) {
+        const preferred = matchingVoices.find(
+          (v) =>
+            v.name.toLowerCase().includes("natural") ||
+            v.name.toLowerCase().includes("online") ||
+            v.name.toLowerCase().includes("google")
+        );
+        setSelectedVoiceURI((preferred || matchingVoices[0]).voiceURI);
+      }
+    }
   };
 
   // Re-generate scenes from script text & perform live web search for custom words!
@@ -1619,14 +1676,14 @@ export const AiTextToVideoStudio: React.FC<AiTextToVideoStudioProps> = ({ tool }
       const centerY = height * 0.55;
 
       let fontSize = Math.round((width / 360) * subtitleSize);
-      ctx.font = `900 ${fontSize}px system-ui, -apple-system, sans-serif, "Impact"`;
+      ctx.font = `900 ${fontSize}px "Noto Nastaliq Urdu", "Noto Sans Devanagari", "Arabic Typesetting", "Segoe UI", system-ui, -apple-system, sans-serif, "Impact"`;
 
       // Auto-fit: scale down fontSize if text exceeds 84% of canvas width (prevents overflow cut-off)
       const maxAllowedWidth = width * 0.84;
       let metrics = ctx.measureText(phraseText);
       if (metrics.width > maxAllowedWidth) {
         fontSize = Math.max(16, Math.floor(fontSize * (maxAllowedWidth / metrics.width)));
-        ctx.font = `900 ${fontSize}px system-ui, -apple-system, sans-serif, "Impact"`;
+        ctx.font = `900 ${fontSize}px "Noto Nastaliq Urdu", "Noto Sans Devanagari", "Arabic Typesetting", "Segoe UI", system-ui, -apple-system, sans-serif, "Impact"`;
         metrics = ctx.measureText(phraseText);
       }
 
@@ -2249,16 +2306,62 @@ export const AiTextToVideoStudio: React.FC<AiTextToVideoStudioProps> = ({ tool }
             ) : (
               /* Mode B: Text Script Presets & Custom Text Area */
               <>
-                {/* Presets Grid */}
-                <div className="space-y-1.5">
-                  <span className="text-[11px] font-bold text-slate-500">Pick a Viral Niche Topic:</span>
+                {/* Presets Grid & Multilingual Language Selector */}
+                <div className="space-y-2.5">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="text-[11px] font-bold text-slate-600 flex items-center gap-1.5">
+                      <Sparkles className="h-3 w-3 text-red-600" />
+                      Pick a Viral Niche Topic ({currentLangConfig.flag} {currentLangConfig.name}):
+                    </span>
+
+                    {/* Language Selector Dropdown */}
+                    <div className="flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200/80 px-2 py-1 rounded-xl border border-slate-200 transition-colors">
+                      <Globe className="h-3.5 w-3.5 text-slate-500" />
+                      <select
+                        value={selectedScriptLanguage}
+                        onChange={(e) => handleLanguageChange(e.target.value)}
+                        className="bg-transparent text-xs font-bold text-slate-800 outline-none cursor-pointer"
+                        aria-label="Select Viral Script Language"
+                      >
+                        {MULTILINGUAL_LANGUAGES.map((lang) => (
+                          <option key={lang.code} value={lang.code}>
+                            {lang.flag} {lang.nativeName} ({lang.name})
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Horizontal 1-Click Fast Language Switch Pills */}
+                  <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+                    {MULTILINGUAL_LANGUAGES.map((lang) => {
+                      const isActive = selectedScriptLanguage === lang.code;
+                      return (
+                        <button
+                          key={lang.code}
+                          type="button"
+                          onClick={() => handleLanguageChange(lang.code)}
+                          className={`flex items-center gap-1 px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all shrink-0 ${
+                            isActive
+                              ? "bg-slate-900 text-white shadow-sm ring-1 ring-slate-900"
+                              : "bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200"
+                          }`}
+                        >
+                          <span>{lang.flag}</span>
+                          <span>{lang.nativeName}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                    {VIRAL_PRESETS.map((preset) => {
+                    {currentPresets.map((preset) => {
                       const isSelected = activePresetId === preset.id;
                       return (
                         <button
                           key={preset.id}
                           onClick={() => handleSelectPreset(preset)}
+                          dir={currentLangConfig.dir}
                           className={`p-2.5 rounded-2xl border text-left transition-all ${
                             isSelected
                               ? "bg-red-50 border-red-500 text-red-950 font-bold shadow-sm"
@@ -2266,7 +2369,10 @@ export const AiTextToVideoStudio: React.FC<AiTextToVideoStudioProps> = ({ tool }
                           }`}
                         >
                           <div className="flex items-center justify-between text-[10px] text-slate-400">
-                            <span>{preset.category}</span>
+                            <span className="truncate">{preset.category}</span>
+                            <span className="text-[9px] bg-white/90 font-mono font-bold px-1.5 py-0.5 rounded-full border border-slate-100 shrink-0">
+                              {preset.badge}
+                            </span>
                           </div>
                           <p className="text-xs truncate font-bold mt-1 text-slate-900">{preset.title}</p>
                         </button>
@@ -2279,12 +2385,29 @@ export const AiTextToVideoStudio: React.FC<AiTextToVideoStudioProps> = ({ tool }
                 <div className="space-y-2.5">
                   <textarea
                     value={scriptText}
+                    dir={currentLangConfig.dir}
                     onChange={(e) => {
                       setScriptText(e.target.value);
                       setActivePresetId("");
                     }}
                     rows={4}
-                    placeholder="Write any story (mention Lamborghini, cars, village, old mysteries, lion, animals, space)... each line matches video clips or photos!"
+                    placeholder={
+                      selectedScriptLanguage === "ur"
+                        ? "یہاں کوئی بھی کہانی لکھیں (مثلاً لیمبورگینی، قدیم گاؤں، شیر، کائنات)... ہر لائن خودکار ویڈیو کلپ سے میچ ہوگی!"
+                        : selectedScriptLanguage === "hi"
+                        ? "यहाँ अपनी कहानी या स्क्रिप्ट लिखें (जैसे लैम्बोर्गिनी, पुराना गांव, शेर, अंतरिक्ष)... हर लाइन वीडियो क्लिप से मैच होगी!"
+                        : selectedScriptLanguage === "es"
+                        ? "Escribe aquí cualquier historia o guion... ¡cada línea coincidirá automáticamente con videos o fotos!"
+                        : selectedScriptLanguage === "ar"
+                        ? "اكتب قصتك أو فكرتك هنا... كل سطر سيتم مطابقته تلقائياً مع مقاطع فيديو وصور واقعية!"
+                        : selectedScriptLanguage === "fr"
+                        ? "Écrivez n'importe quelle histoire ici... chaque ligne correspondra à des clips vidéo ou photos !"
+                        : selectedScriptLanguage === "de"
+                        ? "Schreiben Sie hier eine beliebige Geschichte... jede Zeile passt zu Videoclips oder Fotos!"
+                        : selectedScriptLanguage === "pt"
+                        ? "Escreva qualquer história aqui... cada linha corresponderá a clipes de vídeo ou fotos!"
+                        : "Write any story (mention Lamborghini, cars, village, old mysteries, lion, animals, space)... each line matches video clips or photos!"
+                    }
                     className="w-full p-4 rounded-2xl border border-slate-200 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none text-slate-900 text-sm leading-relaxed transition-all resize-y font-medium"
                   />
 
@@ -2724,13 +2847,33 @@ export const AiTextToVideoStudio: React.FC<AiTextToVideoStudioProps> = ({ tool }
                       }}
                       className="w-full p-2.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-800 outline-none focus:border-red-500 bg-white"
                     >
-                      <optgroup label="🌟 Natural & Online AI Voices (Recommended)">
+                      {/* Recommended Voices for Selected Script Language */}
+                      {availableVoices.filter((v) =>
+                        v.lang.toLowerCase().startsWith(currentLangConfig.speechPrefix)
+                      ).length > 0 && (
+                        <optgroup
+                          label={`🎯 Recommended ${currentLangConfig.name} Voices (${currentLangConfig.flag})`}
+                        >
+                          {availableVoices
+                            .filter((v) =>
+                              v.lang.toLowerCase().startsWith(currentLangConfig.speechPrefix)
+                            )
+                            .map((v) => (
+                              <option key={v.voiceURI} value={v.voiceURI}>
+                                {currentLangConfig.flag} {v.name} ({v.lang})
+                              </option>
+                            ))}
+                        </optgroup>
+                      )}
+
+                      <optgroup label="🌟 Natural & Online AI Voices">
                         {availableVoices
                           .filter(
                             (v) =>
-                              v.name.toLowerCase().includes("natural") ||
-                              v.name.toLowerCase().includes("online") ||
-                              v.name.toLowerCase().includes("google")
+                              !v.lang.toLowerCase().startsWith(currentLangConfig.speechPrefix) &&
+                              (v.name.toLowerCase().includes("natural") ||
+                                v.name.toLowerCase().includes("online") ||
+                                v.name.toLowerCase().includes("google"))
                           )
                           .map((v) => (
                             <option key={v.voiceURI} value={v.voiceURI}>
@@ -2738,10 +2881,11 @@ export const AiTextToVideoStudio: React.FC<AiTextToVideoStudioProps> = ({ tool }
                             </option>
                           ))}
                       </optgroup>
-                      <optgroup label="⚙️ Standard System Voices">
+                      <optgroup label="⚙️ All System Voices">
                         {availableVoices
                           .filter(
                             (v) =>
+                              !v.lang.toLowerCase().startsWith(currentLangConfig.speechPrefix) &&
                               !v.name.toLowerCase().includes("natural") &&
                               !v.name.toLowerCase().includes("online") &&
                               !v.name.toLowerCase().includes("google")
