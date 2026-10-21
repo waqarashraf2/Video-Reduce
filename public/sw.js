@@ -1,4 +1,4 @@
-const CACHE_NAME = "videoreduce-v5";
+const CACHE_NAME = "videoreduce-v6";
 const OFFLINE_FALLBACK = "/";
 
 // Assets for offline baseline

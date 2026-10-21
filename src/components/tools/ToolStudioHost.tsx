@@ -179,40 +179,40 @@ interface ToolStudioHostProps {
 }
 
 export const ToolStudioHost: React.FC<ToolStudioHostProps> = ({ tool }) => {
-  if (tool.id === "auto-subtitles") {
+  if (tool.id === "auto-subtitles" || tool.slug === "auto-subtitles") {
     return <AiSubtitlesStudio tool={tool} />;
   }
-  if (tool.id === "video-background-remover") {
+  if (tool.id === "video-background-remover" || tool.slug === "video-background-remover") {
     return <AiBackgroundRemoverStudio tool={tool} />;
   }
-  if (tool.id === "auto-reframe") {
+  if (tool.id === "auto-reframe" || tool.slug === "auto-reframe") {
     return <AiAutoReframeStudio tool={tool} />;
   }
-  if (tool.id === "silence-remover") {
+  if (tool.id === "silence-remover" || tool.slug === "silence-remover") {
     return <AiSilenceRemoverStudio tool={tool} />;
   }
-  if (tool.id === "text-to-speech") {
+  if (tool.id === "text-to-speech" || tool.slug === "text-to-speech") {
     return <AiTextToSpeechStudio tool={tool} />;
   }
-  if (tool.id === "text-to-video") {
+  if (tool.id === "text-to-video" || tool.slug === "text-to-video") {
     return <AiTextToVideoStudio tool={tool} />;
   }
-  if (tool.id === "audio-denoiser") {
+  if (tool.id === "audio-denoiser" || tool.slug === "audio-denoiser") {
     return <AiAudioDenoiserStudio tool={tool} />;
   }
-  if (tool.id === "vocal-remover") {
+  if (tool.id === "vocal-remover" || tool.slug === "vocal-remover") {
     return <AiVocalRemoverStudio tool={tool} />;
   }
-  if (tool.id === "eye-contact-fixer") {
+  if (tool.id === "eye-contact-fixer" || tool.slug === "eye-contact-fixer") {
     return <AiEyeContactStudio tool={tool} />;
   }
-  if (tool.id === "video-censor") {
+  if (tool.id === "video-censor" || tool.slug === "video-censor") {
     return <AiVideoCensorStudio tool={tool} />;
   }
-  if (tool.id === "video-cropper") {
+  if (tool.id === "video-cropper" || tool.slug === "video-cropper") {
     return <VideoCropperStudio tool={tool} />;
   }
-  if (tool.id === "video-merger") {
+  if (tool.id === "video-merger" || tool.slug === "video-merger") {
     return <VideoMergerStudio tool={tool} />;
   }
 

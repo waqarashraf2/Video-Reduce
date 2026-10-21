@@ -84,6 +84,8 @@ function getDefaultOptions(toolId: ToolId): AnyToolOptions {
       return { noiseFloor: -25 };
     case "metadata-stripper":
       return { cleanAll: true };
+    case "video-cropper":
+      return { preset: "freeform", width: 1280, height: 720, x: 0, y: 0 };
     case "ffmpeg-terminal":
       return { customCommand: "-vcodec libx264 -preset veryfast -crf 22" };
     default:
@@ -286,6 +288,14 @@ export const ToolRunner: React.FC<ToolRunnerProps> = ({ tool, initialOptions }) 
       setOptions({
         timestampSecs: Math.min(1.0, meta.durationSecs),
         format: "png",
+      });
+    } else if (tool.id === "video-cropper" && meta.width && meta.height) {
+      setOptions({
+        preset: "freeform",
+        width: meta.width,
+        height: meta.height,
+        x: 0,
+        y: 0,
       });
     } else if (tool.id === "format-converter") {
       const ext = meta.name.split(".").pop()?.toLowerCase() || "";

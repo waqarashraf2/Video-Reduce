@@ -179,6 +179,14 @@ export interface VideoBackgroundRemoverOptions {
   blurRadius?: number;
 }
 
+export interface CropperOptions {
+  preset?: "freeform" | "1:1" | "9:16" | "16:9" | "4:5" | "watermark-br" | "watermark-tl";
+  width?: number;
+  height?: number;
+  x?: number;
+  y?: number;
+}
+
 export type AnyToolOptions =
   | CompressionOptions
   | GifOptions
@@ -200,7 +208,8 @@ export type AnyToolOptions =
   | MetadataStripperOptions
   | FFmpegTerminalOptions
   | AutoSubtitlesOptions
-  | VideoBackgroundRemoverOptions;
+  | VideoBackgroundRemoverOptions
+  | CropperOptions;
 
 export interface ToolMetadata {
   id: ToolId;

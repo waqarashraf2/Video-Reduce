@@ -17,6 +17,8 @@ import {
   VolumeOptions,
   AudioDenoiserOptions,
   MetadataStripperOptions,
+
+  CropperOptions,
   FFmpegTerminalOptions,
   AnyToolOptions,
 } from "./types";
@@ -805,7 +807,8 @@ export function buildFFmpegJob(
           // Action Movie Cold Blue / Teal
           vf = `eq=contrast=${(c * 1.25).toFixed(2)}:brightness=${(b + 0.01).toFixed(2)}:saturation=${(s * 1.3).toFixed(2)}:gamma_r=0.75:gamma_g=0.95:gamma_b=1.45`;
           break;
-        default:
+
+    default:
           vf = `eq=brightness=${b}:contrast=${c}:saturation=${s}:gamma=${g}`;
           break;
       }
@@ -951,6 +954,67 @@ export function buildFFmpegJob(
       const sanitizedArgs = parsedArgs.map((arg) => arg.replace(/^['"]|['"]$/g, ""));
 
       const args = ["-i", inputName, ...sanitizedArgs, outputName];
+
+      return {
+        inputName,
+        outputName,
+        outputMimeType: "video/mp4",
+        args,
+      };
+    }
+
+    // Video Cropper Fallback
+    case "video-cropper": {
+      const opt = options as CropperOptions;
+      const outputName = `${baseName}_cropped.mp4`;
+      let w: string | number = opt.width ? Math.max(2, 2 * Math.floor(opt.width / 2)) : "iw";
+      let h: string | number = opt.height ? Math.max(2, 2 * Math.floor(opt.height / 2)) : "ih";
+      let x: string | number = opt.x !== undefined ? Math.max(0, 2 * Math.floor(opt.x / 2)) : 0;
+      let y: string | number = opt.y !== undefined ? Math.max(0, 2 * Math.floor(opt.y / 2)) : 0;
+
+      if (opt.preset === "9:16") {
+        w = "ih*9/16";
+        h = "ih";
+        x = "(iw-ih*9/16)/2";
+        y = "0";
+      } else if (opt.preset === "1:1") {
+        w = "min(iw,ih)";
+        h = "min(iw,ih)";
+        x = "(iw-min(iw,ih))/2";
+        y = "(ih-min(iw,ih))/2";
+      } else if (opt.preset === "16:9") {
+        w = "iw";
+        h = "iw*9/16";
+        x = "0";
+        y = "(ih-iw*9/16)/2";
+      } else if (opt.preset === "4:5") {
+        w = "ih*4/5";
+        h = "ih";
+        x = "(iw-ih*4/5)/2";
+        y = "0";
+      } else if (opt.preset === "watermark-br") {
+        w = "iw*0.88";
+        h = "ih*0.88";
+        x = "0";
+        y = "0";
+      } else if (opt.preset === "watermark-tl") {
+        w = "iw*0.88";
+        h = "ih*0.88";
+        x = "iw*0.12";
+        y = "ih*0.12";
+      }
+
+      const cropFilter = `crop=${w}:${h}:${x}:${y}`;
+      const args = [
+        "-i", inputName,
+        "-vf", cropFilter,
+        "-c:v", "libx264",
+        "-preset", "ultrafast",
+        "-crf", "20",
+        "-c:a", "copy",
+        "-movflags", "+faststart",
+        outputName,
+      ];
 
       return {
         inputName,

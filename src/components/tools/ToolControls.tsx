@@ -20,7 +20,8 @@ import {
   GifToVideoOptions,
   VolumeOptions,
   AudioDenoiserOptions,
-  MetadataStripperOptions,
+  MetadataStripperOptions,
+  CropperOptions,
   FFmpegTerminalOptions,
   ResolutionOption,
   AudioFormat,
@@ -1735,6 +1736,85 @@ export const ToolControls: React.FC<ToolControlsProps> = ({
                   {r.label}
                 </button>
               ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    case "video-cropper": {
+      const opt = options as CropperOptions;
+      const setCrop = (updates: Partial<CropperOptions>) =>
+        setOptions((prev) => ({ ...(prev as CropperOptions), ...updates }));
+
+      return (
+        <div className="space-y-4">
+          <div>
+            <label className="text-xs font-semibold text-slate-700 block mb-2">
+              Aspect Ratio & Crop Presets
+            </label>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              {[
+                { id: "freeform", label: "Freeform / Custom" },
+                { id: "9:16", label: "9:16 TikTok / Reels" },
+                { id: "1:1", label: "1:1 Square (IG)" },
+                { id: "16:9", label: "16:9 YouTube" },
+                { id: "4:5", label: "4:5 Portrait" },
+                { id: "watermark-br", label: "Cut Watermark (BR)" },
+                { id: "watermark-tl", label: "Cut Watermark (TL)" },
+              ].map((p) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => setCrop({ preset: p.id as any })}
+                  className={`p-2 rounded-xl text-xs font-semibold border transition-all ${
+                    (opt.preset || "freeform") === p.id
+                      ? "bg-red-50 text-red-700 border-red-300 shadow-sm"
+                      : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
+                  }`}
+                >
+                  {p.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div>
+              <label className="text-[11px] font-semibold text-slate-600 block mb-1">Crop Width (px)</label>
+              <input
+                type="number"
+                value={opt.width || 1280}
+                onChange={(e) => setCrop({ width: parseInt(e.target.value) || 0 })}
+                className="w-full rounded-xl border border-slate-200 px-3 py-1.5 text-xs text-slate-800"
+              />
+            </div>
+            <div>
+              <label className="text-[11px] font-semibold text-slate-600 block mb-1">Crop Height (px)</label>
+              <input
+                type="number"
+                value={opt.height || 720}
+                onChange={(e) => setCrop({ height: parseInt(e.target.value) || 0 })}
+                className="w-full rounded-xl border border-slate-200 px-3 py-1.5 text-xs text-slate-800"
+              />
+            </div>
+            <div>
+              <label className="text-[11px] font-semibold text-slate-600 block mb-1">Offset X (px)</label>
+              <input
+                type="number"
+                value={opt.x || 0}
+                onChange={(e) => setCrop({ x: parseInt(e.target.value) || 0 })}
+                className="w-full rounded-xl border border-slate-200 px-3 py-1.5 text-xs text-slate-800"
+              />
+            </div>
+            <div>
+              <label className="text-[11px] font-semibold text-slate-600 block mb-1">Offset Y (px)</label>
+              <input
+                type="number"
+                value={opt.y || 0}
+                onChange={(e) => setCrop({ y: parseInt(e.target.value) || 0 })}
+                className="w-full rounded-xl border border-slate-200 px-3 py-1.5 text-xs text-slate-800"
+              />
             </div>
           </div>
         </div>
