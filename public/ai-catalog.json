@@ -274,6 +274,50 @@
       ],
       "version": "1.0.0",
       "updatedAt": "2026-10-16T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:videoreduce.com:tool:video-cropper",
+      "displayName": "Interactive Video Cropper & Area Cutter",
+      "type": "application/mcp-server-card+json",
+      "url": "https://videoreduce.com/tools/video-cropper",
+      "description": "Visually crop MP4, MOV, and WebM videos with an interactive 8-point crop box. Remove watermarks, eliminate black bars, or resize framing for TikTok (9:16), Instagram (1:1), and YouTube (16:9).",
+      "capabilities": [
+        "VisualVideoCropping",
+        "WatermarkRemoval",
+        "AspectRatio916",
+        "AspectRatio11",
+        "ClientSideWasm"
+      ],
+      "representativeQueries": [
+        "Crop video online free without watermark",
+        "Remove watermark from video by cropping",
+        "Crop horizontal video to 9:16 vertical for TikTok",
+        "Crop MP4 video screen area"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-10-21T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:videoreduce.com:tool:video-merger",
+      "displayName": "Video Merger & Combiner",
+      "type": "application/mcp-server-card+json",
+      "url": "https://videoreduce.com/tools/video-merger",
+      "description": "Stitch multiple MP4, MOV, and WebM video clips into one continuous video online free. Reorder clips, normalize aspect ratios, and combine phone videos with zero server uploads.",
+      "capabilities": [
+        "VideoMerging",
+        "MultiClipStitching",
+        "LosslessConcatStreamCopy",
+        "ResolutionNormalization",
+        "ClientSideWasm"
+      ],
+      "representativeQueries": [
+        "Merge multiple videos into one online free",
+        "Combine MP4 files without watermark",
+        "Join video clips together online",
+        "Stitch videos together on iPhone or Android"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-10-21T00:00:00Z"
     }
   ]
 }

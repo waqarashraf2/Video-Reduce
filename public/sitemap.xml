@@ -233,6 +233,16 @@
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>
+  <url>
+    <loc>https://videoreduce.com/tools/video-cropper</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/tools/video-merger</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
 
   <!-- Articles -->
   <url>
@@ -317,6 +327,16 @@
   </url>
   <url>
     <loc>https://videoreduce.com/articles/how-to-bleep-profanity-censor-video-free</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/articles/how-to-crop-video-online-without-watermark</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://videoreduce.com/articles/how-to-merge-videos-together-online-without-watermark</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
