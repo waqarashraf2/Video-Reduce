@@ -2481,6 +2481,125 @@ export const TOOLS: ToolMetadata[] = [
       },
     ],
   },
+  // 28. Interactive Video Cropper & Area Cutter
+  {
+    id: "video-cropper",
+    slug: "video-cropper",
+    name: "Interactive Video Cropper & Area Cutter",
+    shortName: "Crop Video",
+    tagline: "Crop any video online free — custom visual crop rectangle without watermarks",
+    description:
+      "Free online video cropper to visually crop MP4, MOV, and WebM videos. Drag the interactive crop box to cut out unwanted watermarks, eliminate black bars, or resize framing for TikTok (9:16), Instagram (1:1), and YouTube (16:9). 100% private in-browser WebAssembly.",
+    category: "Video",
+    iconName: "Crop",
+    badge: "Visual Crop",
+    acceptedTypes: ["video/*"],
+    acceptedExtensions: [".mp4", ".mov", ".mkv", ".webm", ".avi", ".flv"],
+    outputExtension: "mp4",
+    outputMimeType: "video/mp4",
+    estimatedSpeed: "Ultra-Fast (Wasm SIMD)",
+    seoTitle: "Crop Video Online Free — Video Cropper Without Watermark",
+    seoDescription:
+      "Crop video online for free without watermarks. Visual interactive cropper to remove watermarks, adjust aspect ratios (9:16, 1:1, 16:9), and crop MP4 video directly in your browser.",
+    seoKeywords: [
+      "crop video online",
+      "video cropper free",
+      "crop video without watermark",
+      "crop mp4 video",
+      "crop video online free",
+      "video cropper online",
+      "crop video to remove watermark",
+      "free video cropper",
+      "crop video 9:16",
+      "crop video 1:1",
+      "online video cropper without watermark",
+      "how to crop video",
+      "crop video screen",
+      "crop video clip",
+      "resize and crop video",
+      "crop mov video online",
+      "crop video iphone online",
+      "crop video mac free",
+      "crop video for tiktok",
+      "crop video for instagram",
+    ],
+    features: [
+      {
+        title: "Interactive Draggable Crop Box",
+        description: "Resize and position the crop box directly over your video with 8-point handles, rule-of-thirds grid, and live dimension readouts.",
+        icon: "Crop",
+      },
+      {
+        title: "1-Click Aspect Ratio Presets",
+        description: "Instant presets for 9:16 (TikTok/Shorts/Reels), 1:1 (Instagram), 16:9 (YouTube), 4:5 (IG Feed), and Watermark Remover.",
+        icon: "Sliders",
+      },
+      {
+        title: "Live Cropped Video Playback",
+        description: "Toggle real-time cropped preview to watch your video playing inside the exact crop coordinates before exporting.",
+        icon: "Eye",
+      },
+      {
+        title: "100% Free & Private (No Watermarks)",
+        description: "No subscription fees, no file size caps, and zero watermarks. Transcodes directly in your browser memory via WebAssembly.",
+        icon: "ShieldCheck",
+      },
+    ],
+    steps: [
+      {
+        step: 1,
+        title: "Upload Video",
+        description: "Select any MP4, MOV, MKV, or WebM video of any size (up to 5GB+) from your device.",
+      },
+      {
+        step: 2,
+        title: "Drag & Adjust Crop Box",
+        description: "Drag the handles to select the exact visual area, choose an aspect ratio preset, or cut out unwanted logos/watermarks.",
+      },
+      {
+        step: 3,
+        title: "Crop & Download MP4",
+        description: "Click 'Crop & Export MP4' and download your clean, cropped high-definition video in seconds.",
+      },
+    ],
+    faqs: [
+      {
+        question: "How to crop a video online for free without watermark?",
+        answer:
+          "Upload your video to VideoReduce's Interactive Video Cropper, drag the visual box over the area you want to keep, and click 'Crop & Export MP4'. The WebAssembly engine renders the cropped video entirely inside your browser memory with zero watermarks and no server uploads.",
+      },
+      {
+        question: "How do I crop out a watermark from a video?",
+        answer:
+          "Select the 'Cut Watermark' preset or manually drag the bottom-right or top-left edge handle inward to exclude the watermark logo from the crop box. Your exported video will only contain the clean footage without the watermark.",
+      },
+      {
+        question: "Can I crop video to 9:16 for TikTok, Reels, and YouTube Shorts?",
+        answer:
+          "Yes! Click the '9:16' preset button. The crop box automatically locks to vertical mobile dimensions (9:16). You can drag the box horizontally to frame your subject perfectly in the center.",
+      },
+      {
+        question: "Does cropping a video reduce its quality?",
+        answer:
+          "VideoReduce preserves maximum perceptual quality by using high-efficiency H.264 CRF encoding with ultra-fast SIMD processing. Audio is preserved with stream copy for zero loss in sound fidelity.",
+      },
+      {
+        question: "Can I crop video on iPhone, Android, Mac, or Windows?",
+        answer:
+          "Yes! VideoReduce runs directly in any modern mobile or desktop web browser (Safari, Chrome, Edge, Firefox). You can drag handles with your touchscreen fingers on phone or with mouse on computer without installing software.",
+      },
+      {
+        question: "What is the difference between cropping and trimming a video?",
+        answer:
+          "Trimming cuts the duration or length of a video (start and end timestamps), while cropping cuts the physical screen area (width and height dimensions) to focus on a subject or remove unwanted edges.",
+      },
+      {
+        question: "Are my private videos uploaded to your servers?",
+        answer:
+          "Never. Unlike CloudConvert, Kapwing, or Clideo that upload your videos to remote cloud servers, VideoReduce processes 100% of video decoding, cropping, and encoding inside your client browser RAM.",
+      },
+    ],
+  },
 ];
 
 export function getToolBySlug(slug: string): ToolMetadata | undefined {

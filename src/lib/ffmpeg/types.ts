@@ -26,7 +26,8 @@ export type ToolId =
   | "text-to-video"
   | "vocal-remover"
   | "eye-contact-fixer"
-  | "video-censor";
+  | "video-censor"
+  | "video-cropper";
 
 export type ResolutionOption = "original" | "1080p" | "720p" | "480p" | "360p";
 export type AudioFormat = "mp3" | "wav" | "aac";

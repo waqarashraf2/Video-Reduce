@@ -148,6 +148,19 @@ const AiVideoCensorStudio = dynamic(
   }
 );
 
+const VideoCropperStudio = dynamic(
+  () => import("@/components/tools/cropper/VideoCropperStudio").then((m) => m.VideoCropperStudio),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex flex-col items-center justify-center p-12 space-y-4">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-red-600 border-t-transparent" />
+        <span className="text-xs text-slate-600 font-medium">Loading Video Cropper Studio...</span>
+      </div>
+    ),
+  }
+);
+
 interface ToolStudioHostProps {
   tool: ToolMetadata;
 }
@@ -182,6 +195,9 @@ export const ToolStudioHost: React.FC<ToolStudioHostProps> = ({ tool }) => {
   }
   if (tool.id === "video-censor") {
     return <AiVideoCensorStudio tool={tool} />;
+  }
+  if (tool.id === "video-cropper") {
+    return <VideoCropperStudio tool={tool} />;
   }
 
   return <ToolRunner tool={tool} />;
