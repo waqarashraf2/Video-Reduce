@@ -161,6 +161,19 @@ const VideoCropperStudio = dynamic(
   }
 );
 
+const VideoMergerStudio = dynamic(
+  () => import("@/components/tools/merger/VideoMergerStudio").then((m) => m.VideoMergerStudio),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex flex-col items-center justify-center p-12 space-y-4">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-indigo-600 border-t-transparent" />
+        <span className="text-xs text-slate-600 font-medium">Loading Video Merger Studio...</span>
+      </div>
+    ),
+  }
+);
+
 interface ToolStudioHostProps {
   tool: ToolMetadata;
 }
@@ -198,6 +211,9 @@ export const ToolStudioHost: React.FC<ToolStudioHostProps> = ({ tool }) => {
   }
   if (tool.id === "video-cropper") {
     return <VideoCropperStudio tool={tool} />;
+  }
+  if (tool.id === "video-merger") {
+    return <VideoMergerStudio tool={tool} />;
   }
 
   return <ToolRunner tool={tool} />;

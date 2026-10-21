@@ -2600,6 +2600,123 @@ export const TOOLS: ToolMetadata[] = [
       },
     ],
   },
+  // 29. Video Merger & Combiner
+  {
+    id: "video-merger",
+    slug: "video-merger",
+    name: "Video Merger & Combiner",
+    shortName: "Merge Videos",
+    tagline: "Merge multiple video clips into one online free — stitch MP4s without watermarks",
+    description:
+      "Free online video merger and combiner. Stitch multiple MP4, MOV, and WebM video clips into one seamless video directly in your browser. Reorder clips, normalize aspect ratios, and combine phone videos with zero server uploads and no watermarks.",
+    category: "Video",
+    iconName: "Combine",
+    badge: "Multi-Clip",
+    acceptedTypes: ["video/*"],
+    acceptedExtensions: [".mp4", ".mov", ".mkv", ".webm", ".avi", ".flv"],
+    outputExtension: "mp4",
+    outputMimeType: "video/mp4",
+    estimatedSpeed: "Ultra-Fast (Wasm Stream Copy)",
+    seoTitle: "Merge Videos Online Free — Combine Videos Without Watermark",
+    seoDescription:
+      "Merge videos online for free without watermarks. Combine multiple MP4, MOV, and WebM clips into one seamless video. 100% private in-browser WebAssembly with unlimited file sizes.",
+    seoKeywords: [
+      "merge videos online",
+      "combine videos into one",
+      "video merger free",
+      "merge videos online free",
+      "video joiner without watermark",
+      "stitch videos together",
+      "how to merge videos",
+      "combine mp4 files",
+      "merge video clips online",
+      "video combiner free",
+      "join videos online free",
+      "merge videos for tiktok",
+      "combine videos on iphone",
+      "merge mov videos online",
+      "merge multiple videos into one without watermark",
+      "clideo video merger alternative",
+      "kapwing video merger free",
+      "fast video combiner",
+    ],
+    features: [
+      {
+        title: "Multi-Clip Reorderable Sequence",
+        description: "Upload 2, 5, or 10+ clips and rearrange the playback order effortlessly with 1-click move arrows and live duration counters.",
+        icon: "Layers",
+      },
+      {
+        title: "Smart Resolution Normalization",
+        description: "Seamlessly combine clips with different sizes (1080p, 720p, 9:16 vertical, or 1:1 square) using smart fitting or center crop.",
+        icon: "Sliders",
+      },
+      {
+        title: "Ultra-Fast Concat Stream Copy",
+        description: "Clips sharing the same format are merged losslessly in just 1 to 2 seconds without quality loss or re-encoding delays.",
+        icon: "Sparkles",
+      },
+      {
+        title: "100% Free & Private (No Watermarks)",
+        description: "Never pay for monthly subscriptions or suffer branded watermarks. All video stitching executes locally in your browser RAM.",
+        icon: "ShieldCheck",
+      },
+    ],
+    steps: [
+      {
+        step: 1,
+        title: "Upload Video Clips",
+        description: "Select 2 or more MP4, MOV, or WebM clips of any size from your device.",
+      },
+      {
+        step: 2,
+        title: "Arrange Order & Choose Settings",
+        description: "Reorder clips into your desired sequence, select output resolution (1080p, 720p, 9:16, 1:1), and configure audio.",
+      },
+      {
+        step: 3,
+        title: "Merge & Download MP4",
+        description: "Click 'Merge Clips' and download your combined continuous video in seconds.",
+      },
+    ],
+    faqs: [
+      {
+        question: "How to merge videos together online for free without watermark?",
+        answer:
+          "Upload two or more video clips to VideoReduce's Video Merger, arrange the playback order using the arrow buttons, and click 'Merge Clips into One MP4'. The WebAssembly engine stitches the videos directly in your browser with zero watermarks and no server uploads.",
+      },
+      {
+        question: "Can I combine videos with different resolutions or aspect ratios?",
+        answer:
+          "Yes! VideoReduce automatically normalizes different resolutions. You can choose 'Fit & Pad' to keep the full original view of every clip with clean black bars, or 'Fill & Crop' to ensure a uniform full-screen frame across all clips.",
+      },
+      {
+        question: "How many videos can I merge at once?",
+        answer:
+          "There is no artificial limit. You can merge 2, 5, 10, or even 20+ video clips together in a single operation. You can also add more clips at any time before merging.",
+      },
+      {
+        question: "Can I merge videos on iPhone or Android without installing an app?",
+        answer:
+          "Yes! Open Safari or Chrome on your mobile phone, visit VideoReduce.com/tools/video-merger, select clips from your camera roll, and merge them directly in your mobile browser without installing any third-party apps.",
+      },
+      {
+        question: "Does merging videos reduce video quality?",
+        answer:
+          "If all clips have matching dimensions and codecs, VideoReduce uses direct stream copy which results in zero generation loss (100% identical quality). When normalizing different resolutions, high-bitrate H.264 encoding preserves maximum visual clarity.",
+      },
+      {
+        question: "What video formats are supported for merging?",
+        answer:
+          "VideoReduce supports all popular video formats including MP4, QuickTime MOV, WebM, MKV, AVI, and FLV, outputting a universally playable H.264 MP4 file.",
+      },
+      {
+        question: "Are my personal videos uploaded to remote cloud servers?",
+        answer:
+          "No. Unlike Clideo, Kapwing, or Adobe Express that upload heavy video files to remote cloud servers, VideoReduce processes 100% of video stitching locally inside your device's browser memory.",
+      },
+    ],
+  },
 ];
 
 export function getToolBySlug(slug: string): ToolMetadata | undefined {
