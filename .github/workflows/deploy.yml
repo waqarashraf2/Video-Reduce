@@ -41,6 +41,10 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
+          if [ -z "${SSH_PRIVATE_KEY}" ]; then
+            echo "::error::SSH_PRIVATE_KEY secret is missing! Please add it in GitHub Settings -> Secrets and variables -> Actions."
+            exit 1
+          fi
           mkdir -p ~/.ssh
           printf '%s\n' "${SSH_PRIVATE_KEY}" | tr -d '\r' > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
@@ -56,6 +60,9 @@ jobs:
           FRONTEND_DIR="domains/videoreduce.com/public_html/"
           SSH_OPTS="-i ~/.ssh/id_rsa -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=15 -o ServerAliveCountMax=6 -o ConnectTimeout=30 -o TCPKeepAlive=yes"
           
+          echo "Ensuring frontend directory exists on Hostinger..."
+          ssh -p ${PORT} ${SSH_OPTS} "${SSH_USER}@${SSH_HOST}" "mkdir -p '${FRONTEND_DIR}'" || true
+
           echo "Deploying Next.js frontend strictly to ${SSH_HOST}:${FRONTEND_DIR}..."
           
           # Only sync Next.js out folder to videoreduce domain, never delete, never touch root public_html or api
@@ -77,4 +84,46 @@ jobs:
                 chmod 644 '${FRONTEND_DIR}.htaccess'
               fi
             fi
-          " || echo "Permissions command completed."
+          " || echo "Frontend permissions command completed."
+
+      - name: Deploy Backend (Laravel API) to Hostinger
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+        run: |
+          PORT="${SSH_PORT:-65002}"
+          BACKEND_DIR="domains/api.videoreduce.com/public_html/"
+          SSH_OPTS="-i ~/.ssh/id_rsa -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=15 -o ServerAliveCountMax=6 -o ConnectTimeout=30 -o TCPKeepAlive=yes"
+          
+          if [ -d "api" ]; then
+            echo "Ensuring backend directory exists on Hostinger..."
+            ssh -p ${PORT} ${SSH_OPTS} "${SSH_USER}@${SSH_HOST}" "mkdir -p '${BACKEND_DIR}'" || true
+
+            echo "Deploying Laravel API backend strictly to ${SSH_HOST}:${BACKEND_DIR}..."
+            
+            # Sync api folder to api.videoreduce.com public_html
+            rsync -avz \
+              --exclude '.env' \
+              --exclude '.env.*' \
+              --exclude 'storage/logs/*' \
+              --exclude 'storage/framework/sessions/*' \
+              --exclude 'storage/framework/cache/*' \
+              --exclude 'storage/framework/views/*' \
+              --exclude 'node_modules/' \
+              -e "ssh -p ${PORT} ${SSH_OPTS}" \
+              api/ "${SSH_USER}@${SSH_HOST}:${BACKEND_DIR}"
+
+            # Set permissions for backend (775 on storage and bootstrap/cache)
+            echo "Setting web permissions on ${BACKEND_DIR}..."
+            ssh -p ${PORT} ${SSH_OPTS} "${SSH_USER}@${SSH_HOST}" "
+              if [ -d '${BACKEND_DIR}' ]; then
+                find ${BACKEND_DIR} -type d -exec chmod 755 {} + 2>/dev/null || true
+                find ${BACKEND_DIR} -type f -exec chmod 644 {} + 2>/dev/null || true
+                chmod -R 775 ${BACKEND_DIR}storage ${BACKEND_DIR}bootstrap/cache 2>/dev/null || true
+                if [ -f '${BACKEND_DIR}.htaccess' ]; then
+                  chmod 644 '${BACKEND_DIR}.htaccess'
+                fi
+              fi
+            " || echo "Backend permissions command completed."
+          fi
