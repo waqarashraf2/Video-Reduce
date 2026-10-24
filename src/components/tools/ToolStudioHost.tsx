@@ -3,18 +3,14 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import { ToolMetadata } from "@/lib/ffmpeg/types";
+import { ToolRunnerSkeleton } from "@/components/ui/ToolRunnerSkeleton";
 
 // Dynamic imports with ssr: false inside a Client Component (100% Next.js App Router compliant)
 const ToolRunner = dynamic(
   () => import("@/components/tools/ToolRunner").then((m) => m.ToolRunner),
   {
     ssr: false,
-    loading: () => (
-      <div className="flex flex-col items-center justify-center p-12 space-y-4">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-red-600 border-t-transparent" />
-        <span className="text-xs text-slate-600 font-medium">Loading WebAssembly Suite...</span>
-      </div>
-    ),
+    loading: () => <ToolRunnerSkeleton />,
   }
 );
 

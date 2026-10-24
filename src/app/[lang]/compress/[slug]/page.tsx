@@ -27,16 +27,13 @@ import {
   Globe,
 } from "lucide-react";
 
+import { ToolRunnerSkeleton } from "@/components/ui/ToolRunnerSkeleton";
+
 const ToolRunner = dynamic(
   () => import("@/components/tools/ToolRunner").then((m) => m.ToolRunner),
   {
     ssr: false,
-    loading: () => (
-      <div className="flex flex-col items-center justify-center p-8 space-y-3">
-        <div className="h-6 w-6 animate-spin rounded-full border-2 border-red-600 border-t-transparent" />
-        <span className="text-xs text-slate-600 font-medium">Loading Compressor...</span>
-      </div>
-    ),
+    loading: () => <ToolRunnerSkeleton />,
   }
 );
 

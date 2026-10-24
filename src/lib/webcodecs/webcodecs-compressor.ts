@@ -726,6 +726,10 @@ export async function compressVideoWebCodecs(
               mp4boxfile.stream.cleanBuffers();
             } catch (_) {}
           }
+
+          // ⚡ Cooperative Event Loop Yield:
+          // Gives the browser main thread time to paint clicks, taps, and animations immediately (drops INP < 100ms)
+          await new Promise((r) => setTimeout(r, 0));
         }
       } finally {
         isPumping = false;
