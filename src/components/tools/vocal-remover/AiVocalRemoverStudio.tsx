@@ -33,6 +33,7 @@ import {
   renderVocalSplitBuffers,
   audioBufferToWavBlob,
 } from "@/lib/vocalRemoverDsp";
+import { decodeAudioWithFallback } from "@/lib/audio-decoder";
 
 interface AiVocalRemoverStudioProps {
   tool: ToolMetadata;
@@ -161,12 +162,12 @@ export const AiVocalRemoverStudio: React.FC<AiVocalRemoverStudioProps> = ({ tool
 
     try {
       const ctx = getAudioContext();
-      if (ctx.state === "suspended") {
-        await ctx.resume();
-      }
-
-      const arrayBuffer = await meta.file.arrayBuffer();
-      const decoded = await ctx.decodeAudioData(arrayBuffer.slice(0));
+      const decoded = await decodeAudioWithFallback(
+        meta.file,
+        ctx,
+        getFFmpeg,
+        (status) => setProcessStatus(status)
+      );
       setRawAudioBuffer(decoded);
       setDuration(decoded.duration);
 
@@ -177,7 +178,9 @@ export const AiVocalRemoverStudio: React.FC<AiVocalRemoverStudioProps> = ({ tool
       setIsProcessing(false);
     } catch (err: any) {
       console.error("Audio decoding error:", err);
-      setProcessError("Could not decode audio. Unsupported codec or corrupted stream.");
+      setProcessError(
+        err?.message || "Could not decode audio. Unsupported codec or corrupted stream."
+      );
       setIsProcessing(false);
     }
   };

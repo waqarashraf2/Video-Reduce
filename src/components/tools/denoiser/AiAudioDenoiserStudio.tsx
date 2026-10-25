@@ -37,6 +37,7 @@ import {
   renderCleanedAudioBuffer,
   audioBufferToWavBlob,
 } from "@/lib/audioDenoiserDsp";
+import { decodeAudioWithFallback } from "@/lib/audio-decoder";
 
 interface AiAudioDenoiserStudioProps {
   tool: ToolMetadata;
@@ -165,12 +166,12 @@ export const AiAudioDenoiserStudio: React.FC<AiAudioDenoiserStudioProps> = ({ to
 
     try {
       const ctx = getAudioContext();
-      if (ctx.state === "suspended") {
-        await ctx.resume();
-      }
-
-      const arrayBuffer = await meta.file.arrayBuffer();
-      const decoded = await ctx.decodeAudioData(arrayBuffer.slice(0));
+      const decoded = await decodeAudioWithFallback(
+        meta.file,
+        ctx,
+        getFFmpeg,
+        (status) => setProcessStatus(status)
+      );
       setRawAudioBuffer(decoded);
       setDuration(decoded.duration);
 
@@ -181,7 +182,9 @@ export const AiAudioDenoiserStudio: React.FC<AiAudioDenoiserStudioProps> = ({ to
       setIsProcessing(false);
     } catch (err: any) {
       console.error("Audio decoding error:", err);
-      setProcessError("Could not decode audio. The file might have an unsupported codec or be corrupted.");
+      setProcessError(
+        err?.message || "Could not decode audio. The file might have an unsupported codec or be corrupted."
+      );
       setIsProcessing(false);
     }
   };

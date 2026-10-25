@@ -26,6 +26,8 @@ import {
   Radio,
 } from "lucide-react";
 import { formatTime } from "@/lib/utils";
+import { useFFmpeg } from "@/lib/ffmpeg/ffmpeg-provider";
+import { decodeAudioWithFallback } from "@/lib/audio-decoder";
 
 interface AiSilenceRemoverStudioProps {
   tool: ToolMetadata;
@@ -87,6 +89,7 @@ const PRESETS: Record<Exclude<PresetKey, "custom">, PresetConfig> = {
 };
 
 export const AiSilenceRemoverStudio: React.FC<AiSilenceRemoverStudioProps> = ({ tool }) => {
+  const { getFFmpeg } = useFFmpeg();
   const [fileMeta, setFileMeta] = useState<FileMetadata | null>(null);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
 
@@ -179,14 +182,18 @@ export const AiSilenceRemoverStudio: React.FC<AiSilenceRemoverStudioProps> = ({ 
     setAnalysisError(null);
 
     try {
-      const arrayBuffer = await file.arrayBuffer();
-      setAnalysisProgress(40);
+      setAnalysisProgress(30);
 
-      // Web Audio Context decode
+      // Web Audio Context decode with FFmpeg WebAssembly fallback for video files
       const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
       const audioCtx = new AudioContextClass();
       
-      const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+      const audioBuffer = await decodeAudioWithFallback(
+        file,
+        audioCtx,
+        getFFmpeg,
+        () => setAnalysisProgress(50)
+      );
       audioBufferRef.current = audioBuffer;
       setAnalysisProgress(75);
 
