@@ -170,6 +170,19 @@ const VideoMergerStudio = dynamic(
   }
 );
 
+const AiVideoEnhancerStudio = dynamic(
+  () => import("@/components/tools/enhancer/AiVideoEnhancerStudio").then((m) => m.AiVideoEnhancerStudio),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex flex-col items-center justify-center p-12 space-y-4">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-red-600 border-t-transparent" />
+        <span className="text-xs text-slate-600 font-medium">Loading AI Video Enhancer Studio...</span>
+      </div>
+    ),
+  }
+);
+
 interface ToolStudioHostProps {
   tool: ToolMetadata;
 }
@@ -210,6 +223,9 @@ export const ToolStudioHost: React.FC<ToolStudioHostProps> = ({ tool }) => {
   }
   if (tool.id === "video-merger" || tool.slug === "video-merger") {
     return <VideoMergerStudio tool={tool} />;
+  }
+  if (tool.id === "video-enhancer" || tool.slug === "video-enhancer") {
+    return <AiVideoEnhancerStudio tool={tool} />;
   }
 
   return <ToolRunner tool={tool} />;

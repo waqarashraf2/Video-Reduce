@@ -27,7 +27,8 @@ export type ToolId =
   | "vocal-remover"
   | "eye-contact-fixer"
   | "video-censor"
-  | "video-cropper";
+  | "video-cropper"
+  | "video-enhancer";
 
 export type ResolutionOption = "original" | "1080p" | "720p" | "480p" | "360p";
 export type AudioFormat = "mp3" | "wav" | "aac";
@@ -187,6 +188,16 @@ export interface CropperOptions {
   y?: number;
 }
 
+export interface EnhancerOptions {
+  mode?: "auto" | "4k-upscale" | "portrait" | "low-light" | "anime" | "custom";
+  sharpenStrength?: number; // 0 to 100
+  denoiseStrength?: number; // 0 to 100
+  contrastBoost?: number;   // 0 to 100
+  brightnessBoost?: number; // -50 to 50
+  saturationBoost?: number; // 0 to 100
+  targetResolution?: "original" | "1080p" | "4k";
+}
+
 export type AnyToolOptions =
   | CompressionOptions
   | GifOptions
@@ -209,7 +220,8 @@ export type AnyToolOptions =
   | FFmpegTerminalOptions
   | AutoSubtitlesOptions
   | VideoBackgroundRemoverOptions
-  | CropperOptions;
+  | CropperOptions
+  | EnhancerOptions;
 
 export interface ToolMetadata {
   id: ToolId;

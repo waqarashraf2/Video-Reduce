@@ -2717,6 +2717,131 @@ export const TOOLS: ToolMetadata[] = [
       },
     ],
   },
+  // 30. AI Video Enhancer & 4K Quality Booster
+  {
+      id: "video-enhancer",
+      slug: "video-enhancer",
+      name: "AI Video Enhancer & 4K Quality Booster",
+      shortName: "Enhance Video",
+      tagline: "Enhance video quality online free — unblur, sharpen, and upscale to 4K without watermark",
+      description:
+        "Free online AI video enhancer to unblur blurry footage, remove smartphone camera noise, boost color vibrancy, and upscale low-resolution video to crisp 1080p and 4K UHD. 100% private in-browser WebAssembly with no watermarks and no file size limits.",
+      category: "Video",
+      iconName: "Sparkles",
+      badge: "AI Enhanced",
+      acceptedTypes: ["video/*"],
+      acceptedExtensions: [".mp4", ".mov", ".mkv", ".webm", ".avi", ".flv"],
+      outputExtension: "mp4",
+      outputMimeType: "video/mp4",
+      estimatedSpeed: "Ultra-Fast (Wasm SIMD)",
+      seoTitle: "AI Video Enhancer Online Free — Unblur & Upscale Video to 4K",
+      seoDescription:
+        "Enhance video quality online for free without watermark. AI unblur, edge sharpening, noise reduction, and 4K super-resolution upscaling directly in your browser.",
+      seoKeywords: [
+        "ai video enhancer",
+        "enhance video quality online free",
+        "unblur video online",
+        "video enhancer without watermark",
+        "upscale video to 4k online",
+        "improve video quality free",
+        "make blurry video clear",
+        "fix low quality video",
+        "ai video upscaler free",
+        "video quality improver online",
+        "how to enhance video quality",
+        "best free video enhancer",
+        "enhance blurry video",
+        "ai video upscaling online",
+        "restore old video quality",
+        "4k video enhancer free",
+      ],
+      features: [
+        {
+          title: "Multi-Scale Edge Sharpening",
+          description:
+            "Eliminate lens blur and camera shake with adaptive unsharp masking that recovers micro-detail in hair, text, and facial features.",
+          icon: "Sparkles",
+        },
+        {
+          title: "Lanczos Super-Resolution Upscaling",
+          description:
+            "Upscale low-resolution 360p, 480p, and 720p footage to crisp 1080p Full HD or 4K Ultra HD using high-precision 3-lobe sinc interpolation.",
+          icon: "Tv",
+        },
+        {
+          title: "Spatial & Temporal Denoising",
+          description:
+            "Clean up low-light smartphone sensor grain, compression block artifacts, and high-ISO noise without blurring fine textures.",
+          icon: "Layers",
+        },
+        {
+          title: "Interactive Split-Screen Comparison",
+          description:
+            "Inspect the enhancement in real-time with an interactive draggable Before vs After divider before exporting.",
+          icon: "Eye",
+        },
+        {
+          title: "100% Free & Private (No Watermarks)",
+          description:
+            "Zero subscription fees, no artificial file size caps, and no ugly watermarks. All video processing executes directly in your browser RAM.",
+          icon: "ShieldCheck",
+        },
+      ],
+      steps: [
+        {
+          step: 1,
+          title: "Upload Video",
+          description: "Select any blurry or low-resolution MP4, MOV, WebM, or MKV video of any file size.",
+        },
+        {
+          step: 2,
+          title: "Choose AI Tuning Model",
+          description: "Pick Smart Auto-Enhance, Super-Resolution 4K, Face Clarity, or Night Boost, and preview the split-screen slider.",
+        },
+        {
+          step: 3,
+          title: "Enhance & Download",
+          description: "Click 'Enhance & Upscale Video' and instantly download your crystal-clear, high-definition MP4.",
+        },
+      ],
+      faqs: [
+        {
+          question: "How to enhance video quality online for free without watermark?",
+          answer:
+            "Upload your video to VideoReduce's AI Video Enhancer, select the 'AI Smart Auto-Enhance' or 'Super-Resolution 4K' preset, and click 'Enhance & Upscale Video'. The WebAssembly engine unblurs, sharpens, and restores your footage directly in your browser with zero watermarks and no server uploads.",
+        },
+        {
+          question: "Can this tool unblur a blurry video?",
+          answer:
+            "Yes! The tool uses multi-pass unsharp masking and edge frequency recovery to counteract optical lens blur, motion blur, and out-of-focus camera capture, making blurry faces, text, and objects noticeably sharper.",
+        },
+        {
+          question: "Can I upscale 480p or 720p video to 4K?",
+          answer:
+            "Yes! Select the 'Super-Resolution 4K' preset or set Target Resolution to '4K Ultra HD'. VideoReduce uses advanced Lanczos 3-lobe sinc interpolation coupled with detail-adaptive sharpening to reconstruct high-resolution pixels without pixelation.",
+        },
+        {
+          question: "How do I fix noisy or grainy low-light video?",
+          answer:
+            "Choose the 'Night & Low-Light Boost' preset. It applies a 3D spatial and temporal noise reduction filter (hqdn3d) that eliminates dancing sensor noise and grain while gently elevating dark shadow exposure and dynamic range.",
+        },
+        {
+          question: "Does enhancing a video take a long time?",
+          answer:
+            "Thanks to SIMD vector instructions and multi-core WebAssembly processing, VideoReduce renders enhancements at near-native hardware speed. A typical 30-second clip finishes in just 10 to 30 seconds depending on your device CPU.",
+        },
+        {
+          question: "Is there a file size limit or daily usage cap?",
+          answer:
+            "No! Unlike cloud-based tools that limit free users to 100MB or 2 minutes, VideoReduce processes 100% locally on your computer or phone. You can enhance files of 500MB, 1GB, or more without subscription fees.",
+        },
+        {
+          question: "Are my personal videos uploaded to external cloud servers?",
+          answer:
+            "Never. VideoReduce executes 100% of video decoding, filtering, and re-encoding within your browser's private memory. Your footage never leaves your device, guaranteeing total privacy for personal, family, and confidential recordings.",
+        },
+      ],
+    },
 ];
 
 export function getToolBySlug(slug: string): ToolMetadata | undefined {

@@ -20,8 +20,10 @@ import {
   GifToVideoOptions,
   VolumeOptions,
   AudioDenoiserOptions,
-  MetadataStripperOptions,
-  CropperOptions,
+  MetadataStripperOptions,
+
+  CropperOptions,
+  EnhancerOptions,
   FFmpegTerminalOptions,
   ResolutionOption,
   AudioFormat,
@@ -1815,6 +1817,43 @@ export const ToolControls: React.FC<ToolControlsProps> = ({
                 onChange={(e) => setCrop({ y: parseInt(e.target.value) || 0 })}
                 className="w-full rounded-xl border border-slate-200 px-3 py-1.5 text-xs text-slate-800"
               />
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    case "video-enhancer": {
+      const opt = options as EnhancerOptions;
+      const setEnh = (updates: Partial<EnhancerOptions>) =>
+        setOptions((prev) => ({ ...(prev as EnhancerOptions), ...updates }));
+
+      return (
+        <div className="space-y-4">
+          <div>
+            <label className="text-xs font-semibold text-slate-700 block mb-2">
+              AI Enhancement Preset
+            </label>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              {[
+                { id: "auto", label: "Smart Auto-Enhance" },
+                { id: "4k-upscale", label: "Super-Resolution 4K" },
+                { id: "portrait", label: "Face & Portrait" },
+                { id: "low-light", label: "Night & Low-Light" },
+              ].map((p) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => setEnh({ mode: p.id as any })}
+                  className={`p-2 rounded-xl text-xs font-semibold border transition-all ${
+                    (opt.mode || "auto") === p.id
+                      ? "bg-red-50 text-red-700 border-red-300 shadow-sm"
+                      : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
+                  }`}
+                >
+                  {p.label}
+                </button>
+              ))}
             </div>
           </div>
         </div>

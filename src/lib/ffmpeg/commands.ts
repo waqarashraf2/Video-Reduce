@@ -19,6 +19,8 @@ import {
   MetadataStripperOptions,
 
   CropperOptions,
+
+  EnhancerOptions,
   FFmpegTerminalOptions,
   AnyToolOptions,
 } from "./types";
@@ -808,7 +810,7 @@ export function buildFFmpegJob(
           vf = `eq=contrast=${(c * 1.25).toFixed(2)}:brightness=${(b + 0.01).toFixed(2)}:saturation=${(s * 1.3).toFixed(2)}:gamma_r=0.75:gamma_g=0.95:gamma_b=1.45`;
           break;
 
-    default:
+        default:
           vf = `eq=brightness=${b}:contrast=${c}:saturation=${s}:gamma=${g}`;
           break;
       }
@@ -1011,6 +1013,61 @@ export function buildFFmpegJob(
         "-c:v", "libx264",
         "-preset", "ultrafast",
         "-crf", "20",
+        "-c:a", "copy",
+        "-movflags", "+faststart",
+        outputName,
+      ];
+
+      return {
+        inputName,
+        outputName,
+        outputMimeType: "video/mp4",
+        args,
+      };
+    }
+
+    // 29. AI Video Enhancer & Quality Booster
+    case "video-enhancer": {
+      const opt = options as EnhancerOptions;
+      const outputName = `${baseName}_enhanced.mp4`;
+
+      const filters: string[] = [];
+      const mode = opt.mode || "auto";
+
+      if (opt.targetResolution === "1080p") {
+        filters.push("scale=1920:1080:flags=lanczos:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2");
+      } else if (opt.targetResolution === "4k") {
+        filters.push("scale=3840:2160:flags=lanczos:force_original_aspect_ratio=decrease,pad=3840:2160:(ow-iw)/2:(oh-ih)/2");
+      } else {
+        filters.push("scale=trunc(iw/2)*2:trunc(ih/2)*2");
+      }
+
+      if (mode === "4k-upscale") {
+        filters.push("hqdn3d=1.2:1.2:2.5:2.5");
+        filters.push("unsharp=7:7:1.5:7:7:0.0");
+        filters.push("eq=contrast=1.12:brightness=0.02:saturation=1.14");
+      } else if (mode === "low-light") {
+        filters.push("hqdn3d=3.5:3.5:5:5");
+        filters.push("unsharp=5:5:1.2:5:5:0.0");
+        filters.push("eq=brightness=0.08:contrast=1.2:saturation=1.1:gamma=1.15");
+      } else if (mode === "portrait") {
+        filters.push("hqdn3d=2.0:2.0:3.5:3.5");
+        filters.push("unsharp=3:3:0.9:3:3:0.0");
+        filters.push("eq=contrast=1.08:brightness=0.03:saturation=1.12");
+      } else {
+        // Auto mode default
+        filters.push("hqdn3d=1.5:1.5:3:3");
+        filters.push("unsharp=5:5:1.2:5:5:0.0");
+        filters.push("eq=contrast=1.12:brightness=0.02:saturation=1.18");
+      }
+
+      const args = [
+        "-i", inputName,
+        "-vf", filters.join(","),
+        "-c:v", "libx264",
+        "-preset", "ultrafast",
+        "-tune", "film",
+        "-crf", "19",
         "-c:a", "copy",
         "-movflags", "+faststart",
         outputName,

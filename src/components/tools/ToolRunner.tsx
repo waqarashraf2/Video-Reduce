@@ -86,6 +86,8 @@ function getDefaultOptions(toolId: ToolId): AnyToolOptions {
       return { cleanAll: true };
     case "video-cropper":
       return { preset: "freeform", width: 1280, height: 720, x: 0, y: 0 };
+    case "video-enhancer":
+      return { mode: "auto", sharpenStrength: 65, denoiseStrength: 40, contrastBoost: 15, brightnessBoost: 4, saturationBoost: 18, targetResolution: "original" };
     case "ffmpeg-terminal":
       return { customCommand: "-vcodec libx264 -preset veryfast -crf 22" };
     default:

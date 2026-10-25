@@ -318,6 +318,29 @@
       ],
       "version": "1.0.0",
       "updatedAt": "2026-10-21T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:videoreduce.com:tool:video-enhancer",
+      "displayName": "AI Video Enhancer & 4K Quality Booster",
+      "type": "application/mcp-server-card+json",
+      "url": "https://videoreduce.com/tools/video-enhancer",
+      "description": "Unblur blurry footage, eliminate camera sensor noise, and upscale video to crisp 1080p and 4K UHD directly in your web browser with zero watermarks and no server uploads.",
+      "capabilities": [
+        "AIVideoEnhancement",
+        "EdgeSharpening",
+        "SensorNoiseReduction",
+        "SuperResolutionUpscaling",
+        "SplitScreenComparison",
+        "ClientSideWasm"
+      ],
+      "representativeQueries": [
+        "Enhance video quality online free",
+        "Unblur blurry video without watermark",
+        "Upscale video to 4k online free",
+        "Remove noise and grain from low-light video"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-10-24T00:00:00Z"
     }
   ]
 }
