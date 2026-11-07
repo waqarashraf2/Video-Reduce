@@ -11,6 +11,7 @@ VideoReduce.com provides 100% client-side video and audio processing utilities. 
 - **Format Conversion**: Transcode between MP4, MOV, WebM, MKV, and AVI.
 - **Audio Extraction**: Extract audio tracks from video files as MP3, AAC, and WAV.
 - **GIF Generation**: High-quality two-pass GIF conversion with palettegen/paletteuse.
+- **AI Media Studios**: In-browser AI models for automatic captioning, background removal, voice removal, silence deletion, auto-reframe, and intelligent video enhancement.
 - **Privacy Shield**: Strip sensitive Exif, GPS, device, and metadata from videos before sharing.
 
 ## Available Tools
@@ -32,6 +33,18 @@ VideoReduce.com provides 100% client-side video and audio processing utilities. 
 - [Audio Denoiser](https://videoreduce.com/tools/audio-denoiser): Remove background hiss and noise from audio.
 - [Metadata Stripper](https://videoreduce.com/tools/metadata-stripper): Strip GPS coordinates, device info, and creation tags.
 - [FFmpeg Web Terminal](https://videoreduce.com/tools/ffmpeg-terminal): Execute raw custom FFmpeg commands in browser.
+- [AI Auto Subtitles](https://videoreduce.com/tools/auto-subtitles): Generate animated video captions and subtitles in browser with Whisper.
+- [AI Video Background Remover](https://videoreduce.com/tools/video-background-remover): Remove video backgrounds without green screen using ML segmentation.
+- [AI Auto Reframe](https://videoreduce.com/tools/auto-reframe): Smart tracking crop from 16:9 widescreen to 9:16 vertical Shorts/TikTok.
+- [AI Silence Remover](https://videoreduce.com/tools/silence-remover): Automatically detect and cut silent pauses from podcasts and videos.
+- [AI Text to Speech](https://videoreduce.com/tools/text-to-speech): Generate realistic AI voiceovers in browser.
+- [AI Text to Video](https://videoreduce.com/tools/text-to-video): Create faceless short videos with automated scripting and scenes.
+- [AI Vocal Remover](https://videoreduce.com/tools/vocal-remover): Separate vocals and instrumentals for karaoke and acapella tracks.
+- [AI Eye Contact Corrector](https://videoreduce.com/tools/eye-contact-fixer): Center and correct eye gaze in video recordings.
+- [AI Video Censor & Bleeper](https://videoreduce.com/tools/video-censor): Automatically bleep profanity and blur mouths for YouTube compliance.
+- [Interactive Video Cropper](https://videoreduce.com/tools/video-cropper): Custom bounding box and aspect ratio video cropper.
+- [Video Merger & Combiner](https://videoreduce.com/tools/video-merger): Combine multiple video clips seamlessly in sequence.
+- [AI Video Enhancer](https://videoreduce.com/tools/video-enhancer): Upscale resolution, boost contrast, and sharpen blurry footage.
 
 ## Solution Hubs
 - [WhatsApp Video Compressor](https://videoreduce.com/compress/whatsapp-video): Compress video for WhatsApp 16MB limit.
@@ -52,3 +65,19 @@ VideoReduce.com provides 100% client-side video and audio processing utilities. 
 - [How to Extract High-Quality Audio from Video](https://videoreduce.com/articles/how-to-extract-high-quality-audio-from-video)
 - [How to Convert Video to High-Quality GIF](https://videoreduce.com/articles/how-to-convert-video-to-gif-high-quality)
 - [How to Convert GIF to MP4 Video](https://videoreduce.com/articles/how-to-convert-gif-to-mp4-video)
+- [Free Video Size Reducer with No File Limits](https://videoreduce.com/articles/free-video-size-reducer-no-file-limits)
+- [Best Free Video Reversers Online Without Watermark](https://videoreduce.com/articles/best-free-video-reversers-online-without-watermark)
+- [MOV in MP4 Umwandeln Kostenlos Online](https://videoreduce.com/articles/mov-in-mp4-umwandeln-kostenlos-online)
+- [How to Generate Auto Subtitles & Captions Online Free](https://videoreduce.com/articles/how-to-generate-auto-subtitles-captions-online-free)
+- [How to Remove Video Background Without Green Screen Free](https://videoreduce.com/articles/how-to-remove-video-background-without-green-screen-free)
+- [How to Convert Horizontal 16:9 to Vertical 9:16 Shorts with AI](https://videoreduce.com/articles/how-to-convert-horizontal-16-9-to-vertical-9-16-shorts-ai)
+- [How to Remove Silence and Dead Air from Video Automatically](https://videoreduce.com/articles/how-to-remove-silence-dead-air-from-video-automatically)
+- [How to Generate AI Voiceovers with Text to Speech Free](https://videoreduce.com/articles/how-to-generate-ai-voiceover-text-to-speech-free)
+- [How to Create AI Faceless YouTube Shorts with Text to Video Free](https://videoreduce.com/articles/how-to-create-ai-faceless-youtube-shorts-text-to-video-free)
+- [How to Remove Vocals from Video Free with AI Karaoke](https://videoreduce.com/articles/how-to-remove-vocals-from-video-free-ai-karaoke)
+- [How to Fix Eye Contact in Video Free with AI Teleprompter](https://videoreduce.com/articles/how-to-fix-eye-contact-in-video-free-ai-teleprompter)
+- [How to Bleep Profanity and Censor Video Free](https://videoreduce.com/articles/how-to-bleep-profanity-censor-video-free)
+- [How to Crop Video Online Without Watermark](https://videoreduce.com/articles/how-to-crop-video-online-without-watermark)
+- [How to Merge Videos Together Online Without Watermark](https://videoreduce.com/articles/how-to-merge-videos-together-online-without-watermark)
+- [How to Enhance Video Quality Online Without Watermark](https://videoreduce.com/articles/how-to-enhance-video-quality-online-without-watermark)
+- [Best Free AI Vocal Remover Online](https://videoreduce.com/articles/best-free-ai-vocal-remover-online)

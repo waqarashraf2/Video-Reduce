@@ -28,11 +28,11 @@ export function CacheBuster() {
       return;
     }
 
-    // 1. Proactively purge old service worker caches (e.g. privatemedia-v1, videoreduce-v2, videoreduce-v4)
+    // 1. Proactively purge old service worker caches (e.g. privatemedia-v1, videoreduce-v2, videoreduce-v4, videoreduce-v5)
     if ("caches" in window) {
       caches.keys().then((keys) => {
         keys.forEach((key) => {
-          if (key !== "videoreduce-v5") {
+          if (key !== "videoreduce-v6") {
             caches.delete(key).then(() => {
               console.log("[CacheBuster] Purged outdated cache store:", key);
             });

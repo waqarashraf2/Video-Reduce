@@ -74,10 +74,15 @@ export const VideoMergerStudio: React.FC<VideoMergerStudioProps> = ({ tool }) =>
   const addMoreInputRef = useRef<HTMLInputElement | null>(null);
 
   // Clean up object URLs on unmount
+  const clipsRef = useRef(clips);
+  clipsRef.current = clips;
+  const outputUrlRef = useRef(outputUrl);
+  outputUrlRef.current = outputUrl;
+
   useEffect(() => {
     return () => {
-      clips.forEach((c) => URL.revokeObjectURL(c.url));
-      if (outputUrl) URL.revokeObjectURL(outputUrl);
+      clipsRef.current.forEach((c) => URL.revokeObjectURL(c.url));
+      if (outputUrlRef.current) URL.revokeObjectURL(outputUrlRef.current);
     };
   }, []);
 

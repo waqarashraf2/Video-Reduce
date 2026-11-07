@@ -253,7 +253,7 @@ export const VideoCropperStudio: React.FC<VideoCropperStudioProps> = ({ tool }) 
   };
 
   // Interactive Drag & Resize
-  const getContainerScale = () => {
+  const getContainerScale = useCallback(() => {
     if (!containerRef.current || !naturalWidth || !naturalHeight) {
       return { scaleX: 1, scaleY: 1, rect: { left: 0, top: 0, width: 1, height: 1 } };
     }
@@ -263,7 +263,7 @@ export const VideoCropperStudio: React.FC<VideoCropperStudioProps> = ({ tool }) 
       scaleY: naturalHeight / rect.height,
       rect,
     };
-  };
+  }, [naturalWidth, naturalHeight]);
 
   const handlePointerDown = (handle: DragHandle, clientX: number, clientY: number) => {
     setActiveHandle(handle);
@@ -340,7 +340,7 @@ export const VideoCropperStudio: React.FC<VideoCropperStudioProps> = ({ tool }) 
         height: Math.round(Math.min(naturalHeight - newY, newH)),
       });
     },
-    [activeHandle, naturalWidth, naturalHeight, preset]
+    [activeHandle, naturalWidth, naturalHeight, preset, getContainerScale]
   );
 
   const handlePointerUp = useCallback(() => {
